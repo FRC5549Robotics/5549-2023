@@ -45,8 +45,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * This is a measure of how fast the robot should be able to drive in a straight line.
    */
   public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
-          SdsModuleConfigurations.MK3_FAST.getDriveReduction() *
-          SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI;
+          SdsModuleConfigurations.MK4_L1.getDriveReduction() *
+          SdsModuleConfigurations.MK4_L1.getWheelDiameter() * Math.PI;
   /**
    * The maximum angular velocity of the robot in radians per second.
    * <p>
@@ -66,14 +66,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
           // Back right
           new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
   );
-
-  // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
-  // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
-  // cause the angle reading to increase until it wraps back over to zero.
-  // FIXME Remove if you are using a Pigeon
-  //private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
-  // FIXME Uncomment if you are using a NavX
-  private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+  private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); 
 
   // These are our modules. We initialize them in the constructor.
   private final SwerveModule m_frontLeftModule;
@@ -124,10 +117,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withSize(2, 4)
             .withPosition(0, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L1)
-    .withDriveMotor(MotorType.NEO, Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR)
-    .withSteerMotor(MotorType.NEO, Constants.FRONT_LEFT_MODULE_STEER_MOTOR)
-    .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER)
-    .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
+    .withDriveMotor(MotorType.NEO, Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR)
+    .withSteerMotor(MotorType.NEO, Constants.FRONT_RIGHT_MODULE_STEER_MOTOR)
+    .withSteerEncoderPort(Constants.FRONT_RIGHT_MODULE_STEER_ENCODER)
+    .withSteerOffset(Constants.FRONT_RIGHT_MODULE_STEER_OFFSET)
     .build();
 
     m_backLeftModule = new MkSwerveModuleBuilder()
@@ -135,10 +128,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withSize(2, 4)
             .withPosition(0, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L1)
-    .withDriveMotor(MotorType.NEO, Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR)
-    .withSteerMotor(MotorType.NEO, Constants.FRONT_LEFT_MODULE_STEER_MOTOR)
-    .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER)
-    .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
+    .withDriveMotor(MotorType.NEO, Constants.BACK_LEFT_MODULE_DRIVE_MOTOR)
+    .withSteerMotor(MotorType.NEO, Constants.BACK_LEFT_MODULE_STEER_MOTOR)
+    .withSteerEncoderPort(Constants.BACK_LEFT_MODULE_STEER_ENCODER)
+    .withSteerOffset(Constants.BACK_LEFT_MODULE_STEER_OFFSET)
     .build();
 
     m_backRightModule = new MkSwerveModuleBuilder()
@@ -146,10 +139,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withSize(2, 4)
             .withPosition(0, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L1)
-    .withDriveMotor(MotorType.NEO, Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR)
-    .withSteerMotor(MotorType.NEO, Constants.FRONT_LEFT_MODULE_STEER_MOTOR)
-    .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER)
-    .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
+    .withDriveMotor(MotorType.NEO, Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR)
+    .withSteerMotor(MotorType.NEO, Constants.BACK_RIGHT_MODULE_STEER_MOTOR)
+    .withSteerEncoderPort(Constants.BACK_RIGHT_MODULE_STEER_ENCODER)
+    .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
     .build();
 
     m_odometry = new SwerveDriveOdometry(
