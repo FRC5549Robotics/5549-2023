@@ -26,8 +26,6 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.2413; // DONE Measure and set wheelbase
 
-    public static final int DRIVETRAIN_PIGEON_ID = 0; // DONE Set Pigeon ID
-
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 3; // DONE Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 4; // DONE Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 9; // DONE Set front left steer encoder ID
