@@ -56,7 +56,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
           Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-  private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+  public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
           // Front left
           new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
           // Front right
@@ -74,7 +74,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
 
-  private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+  public ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
   SwerveDriveOdometry m_odometry;
   public DrivetrainSubsystem() {
@@ -113,9 +113,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // We will do the same for the other modules
     m_frontRightModule = new MkSwerveModuleBuilder()
-    .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+    .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
             .withSize(2, 4)
-            .withPosition(0, 0))
+            .withPosition(2, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L1)
     .withDriveMotor(MotorType.NEO, Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, Constants.FRONT_RIGHT_MODULE_STEER_MOTOR)
@@ -124,9 +124,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     .build();
 
     m_backLeftModule = new MkSwerveModuleBuilder()
-    .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+    .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
             .withSize(2, 4)
-            .withPosition(0, 0))
+            .withPosition(4, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L1)
     .withDriveMotor(MotorType.NEO, Constants.BACK_LEFT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, Constants.BACK_LEFT_MODULE_STEER_MOTOR)
@@ -135,9 +135,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     .build();
 
     m_backRightModule = new MkSwerveModuleBuilder()
-    .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+    .withLayout(tab.getLayout(" Back Right", BuiltInLayouts.kList)
             .withSize(2, 4)
-            .withPosition(0, 0))
+            .withPosition(6, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L1)
     .withDriveMotor(MotorType.NEO, Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, Constants.BACK_RIGHT_MODULE_STEER_MOTOR)
@@ -162,8 +162,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * 'forwards' direction.
    */
   public void zeroGyroscope() {
-
-    // FIXME Uncomment if you are using a NavX
     m_navx.zeroYaw();
   }
 

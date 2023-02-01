@@ -13,8 +13,8 @@ import java.util.Objects;
 @Deprecated(since = "2023.1.2.0", forRemoval = true)
 public class Mk4ModuleConfiguration {
     private double nominalVoltage = 12.0;
-    private double driveCurrentLimit = 80.0;
-    private double steerCurrentLimit = 20.0;
+    private double driveCurrentLimit = 50.0;
+    private double steerCurrentLimit = 50.0;
 
     private double steerKP = Double.NaN;
     private double steerKI = Double.NaN;

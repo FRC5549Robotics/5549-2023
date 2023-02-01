@@ -39,7 +39,7 @@ public final class NeoDriveControllerFactoryBuilder {
         @Override
         public ControllerImplementation create(Integer id, String _canbus, MechanicalConfiguration mechConfiguration) {
             CANSparkMax motor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
-            motor.setOpenLoopRampRate(0.1);
+            // motor.setOpenLoopRampRate(0.12);
             motor.setInverted(mechConfiguration.isDriveInverted());
 
             // Setup voltage compensation
