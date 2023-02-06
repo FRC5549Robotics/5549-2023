@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.AutoAlign;
+import frc.robot.commands.AutoStable;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -21,9 +24,9 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.PIDController;
-import java.util.HashMap;
 import edu.wpi.first.math.kinematics.SwerveModuleState; 
 
+import frc.robot.subsystems.Limelight;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -33,9 +36,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final Limelight m_Limelight = new Limelight();
 
   private final XboxController m_controller = new XboxController(0);
   PathPlannerTrajectory traj = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
+  JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
+  JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -68,6 +74,9 @@ public class RobotContainer {
     new Trigger(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
+    autoAlignButton.onTrue(new AutoAlign(m_Limelight, m_drivetrainSubsystem));
+
+    autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
   }
 
   /**
@@ -87,9 +96,9 @@ public class RobotContainer {
         traj,
         m_drivetrainSubsystem::getPose,
         m_drivetrainSubsystem.m_kinematics,
-        new PIDController(2.5, 0, 0),
-        new PIDController(2.5, 0, 0),
-        new PIDController(5.0, 0, 0),
+        new PIDController(0, 0, 0),
+        new PIDController(0, 0, 0),
+        new PIDController(0, 0, 0),
         (SwerveModuleState[] states) -> {
           m_drivetrainSubsystem.m_chassisSpeeds = m_drivetrainSubsystem.m_kinematics.toChassisSpeeds(states);
   },

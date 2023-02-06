@@ -66,7 +66,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
           // Back right
           new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
   );
-  private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); 
+  public final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); 
 
   // These are our modules. We initialize them in the constructor.
   private final SwerveModule m_frontLeftModule;
@@ -99,7 +99,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // By default we will use Falcon 500s in standard configuration. But if you use a different configuration or motors
     // you MUST change it. If you do not, your code will crash on startup.
-    // FIXME Setup motor configuration
     m_frontLeftModule = new MkSwerveModuleBuilder()
     .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
             .withSize(2, 4)
@@ -196,7 +195,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void drive(ChassisSpeeds chassisSpeeds) {
     m_chassisSpeeds = chassisSpeeds;
   }
-
+  
   @Override
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
