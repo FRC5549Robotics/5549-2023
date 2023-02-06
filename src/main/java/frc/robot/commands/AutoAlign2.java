@@ -30,6 +30,7 @@ public class AutoAlign2 extends CommandBase {
 
   double heading;
   PIDController turnController;
+  PIDController controller2;
 
   public AutoAlign2(Limelight Limelight, DrivetrainSubsystem drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -49,12 +50,10 @@ public class AutoAlign2 extends CommandBase {
   @Override
   public void execute() {
     double current_heading = m_drivetrain.m_navx.getAngle();
-    double move_angle = current_heading - heading;
-    turnController = new PIDController(Constants.kP, Constants.kI, Constants.kD, m_drivetrain.m_navx, this);
-    m_drivetrain.drive(new ChassisSpeeds(0, 0, turnController.calculate((heading*Math.PI)/180, (current_heading*Math.PI)/180)));
- 
+    turnController = new PIDController(Constants.kP, Constants.kI, Constants.kD);
+    m_drivetrain.drive(new ChassisSpeeds(0, 0, turnController.calculate((current_heading*Math.PI)/180, (heading*Math.PI)/180)));
+    m_drivetrain.drive(new ChassisSpeeds(controller2.calculate(m_Limelight.getTx(), 0), 0, 0));
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

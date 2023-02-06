@@ -43,7 +43,7 @@ public class AutoStable extends InstantCommand {
   
   @Override
   public void execute() {
-    steering_adjust = Kp*angle;
+    steering_adjust = Constants.kP*angle;
     oldAngle = angle;
 
     angle = m_navx.getAngle();
