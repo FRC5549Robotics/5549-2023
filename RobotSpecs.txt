@@ -1,0 +1,15 @@
+Subsystems:
+
+Drivetrain:
+- 8 drivetrain NEO
+
+Tower/Arm:
+- two motors/NEO (ROTATION)
+- Spinning same speed/opposite directions
+- one/NEO for telescoping arm (telescoping)
+- Double solenoid for claw
+Intake:
+- one/NEO 550
+- Pneumatic or motor retracting system 
+- Color sensor for Intake
+	- Retract intake once cone or cube detected (purple or yellow)
