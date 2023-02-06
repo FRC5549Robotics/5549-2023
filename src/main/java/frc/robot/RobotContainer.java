@@ -42,6 +42,7 @@ public class RobotContainer {
   PathPlannerTrajectory traj = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
+  JoystickButton runIntake = new JoystickButton(m_controller, 3);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -77,6 +78,7 @@ public class RobotContainer {
     autoAlignButton.onTrue(new AutoAlign(m_Limelight, m_drivetrainSubsystem));
 
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
+    runIntake.onTrue(new RunIntake())
   }
 
   /**
