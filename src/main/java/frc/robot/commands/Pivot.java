@@ -5,19 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Telescope;
-import frc.robot.Constants;
+import frc.robot.subsystems.Tower;
 
-public class ExtendMedium extends CommandBase {
-  /** Creates a new ExtendFar. */
 
+public class Pivot extends CommandBase {
+  /** Creates a new Pivot. */
+  Tower m_Tower;
   double startTime;
-  Telescope m_Telescope;
-  boolean finished = false;
-  public ExtendMedium(Telescope Telescope) {
+  boolean finished;
+  public Pivot(Tower Tower) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Telescope = Telescope;
-    addRequirements(Telescope);
+    m_Tower = Tower;
+    addRequirements(Tower);
   }
 
   // Called when the command is initially scheduled.
@@ -29,16 +28,16 @@ public class ExtendMedium extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while (System.currentTimeMillis() - startTime < 4000) {
-      m_Telescope.on(Constants.armSpeed);
+    while (System.currentTimeMillis() - startTime < 5000) {
+      m_Tower.run();
     }
-    finished = true;
+    finished = false;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Telescope.off();
+    m_Tower.off();
   }
 
   // Returns true when the command should end.

@@ -46,6 +46,7 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 1; // DONE Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 8; // DONE Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(312.5); // DONE Measure and set back right steer offset
+    public static final double armSpeed = 0.1;
 
     //public PID Constants
     public static final double kP = 0.00;

@@ -4,32 +4,33 @@
 
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
 
-public class Telescope extends SubsystemBase {
-  /** Creates a new Telescope. */
+public class Tower extends SubsystemBase {
+  /** Creates a new Tower. */
   CANSparkMax motor1;
-  PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
-  public Telescope() {
-    motor1 = new CANSparkMax(68, MotorType.kBrushless);
+  CANSparkMax motor2;
+  public Tower() {
+    motor1 = new CANSparkMax(69, MotorType.kBrushless);
+    motor2 = new CANSparkMax(420, MotorType.kBrushless);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
   }
 
-  public void on(double speed) {
-    motor1.set(speed);
+  public void run() {
+    motor1.set(0.5);
+    motor2.set(-0.5);
   }
 
   public void off() {
     motor1.set(0);
+    motor2.set(0);
   }
 }
