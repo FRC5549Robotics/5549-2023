@@ -40,7 +40,7 @@ public class AutoAlign2 extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    heading = m_drivetrain.m_navx.getAngle();
+  
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,7 +48,7 @@ public class AutoAlign2 extends CommandBase {
   public void execute() {
     double current_heading = m_drivetrain.m_navx.getAngle();
     turnController = new PIDController(Constants.kP, Constants.kI, Constants.kD);
-    m_drivetrain.drive(new ChassisSpeeds(0, 0, turnController.calculate((current_heading*Math.PI)/180, (heading*Math.PI)/180)));
+    m_drivetrain.drive(new ChassisSpeeds(0, 0, turnController.calculate((current_heading*Math.PI)/180, (Constants.heading*Math.PI)/180)));
     m_drivetrain.drive(new ChassisSpeeds(controller2.calculate(m_Limelight.getTx(), 0), 0, 0));
   }
   // Called once the command ends or is interrupted.
