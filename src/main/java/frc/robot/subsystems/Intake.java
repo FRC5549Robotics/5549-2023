@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase {
 
   public void retract_intake(){
     mDoubleSolenoid1.set(DoubleSolenoid.Value.kReverse);
-    mDoubleSolenoid2.set(DoubleSolenoid.Value.)
+    mDoubleSolenoid2.set(DoubleSolenoid.Value.kReverse);
   }
   @Override
   public void periodic() {

@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.AutoAlign;
 import frc.robot.commands.AutoStable;
+import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Intake;
 
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.pathplanner.lib.PathConstraints;
@@ -37,6 +39,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final Limelight m_Limelight = new Limelight();
+  private final Intake m_Intake = new Intake();
 
   private final XboxController m_controller = new XboxController(0);
   PathPlannerTrajectory traj = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
@@ -76,9 +79,8 @@ public class RobotContainer {
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.onTrue(new AutoAlign(m_Limelight, m_drivetrainSubsystem));
-
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
-    runIntake.onTrue(new RunIntake())
+    runIntake.onTrue(new RunIntake(m_Intake));
   }
 
   /**

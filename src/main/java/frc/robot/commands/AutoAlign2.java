@@ -7,9 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -43,7 +40,7 @@ public class AutoAlign2 extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Constants.heading = m_drivetrain.m_navx.getAngle();
+  
   }
 
   // Called every time the scheduler runs while the command is scheduled.
