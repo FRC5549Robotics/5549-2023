@@ -53,4 +53,7 @@ public final class Constants {
     public static final double kP = 0.00;
     public static final double kI = 0.00;
     public static final double kD = 0.00;
+
+    //Intake
+    public static final int MOTOR_INTAKE_1 = 9;
 }
