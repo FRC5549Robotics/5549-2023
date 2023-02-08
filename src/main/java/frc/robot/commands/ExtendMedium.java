@@ -14,10 +14,10 @@ public class ExtendMedium extends CommandBase {
   double startTime;
   Telescope m_Telescope;
   boolean finished = false;
-  public ExtendMedium(Telescope Telescope) {
+  public ExtendMedium(Telescope telescope) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Telescope = Telescope;
-    addRequirements(Telescope);
+    m_Telescope = telescope;
+    addRequirements(telescope);
   }
 
   // Called when the command is initially scheduled.
@@ -29,10 +29,12 @@ public class ExtendMedium extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while (System.currentTimeMillis() - startTime < 4000) {
+    if (System.currentTimeMillis() - startTime < 4000) {
       m_Telescope.on(Constants.armSpeed);
     }
-    finished = true;
+    else{
+      finished = true;
+    }  
   }
 
   // Called once the command ends or is interrupted.
