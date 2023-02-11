@@ -25,15 +25,15 @@ public class RunAuto extends SequentialCommandGroup {
   /** Creates a new RunAuto. */
   DrivetrainSubsystem m_drivetrainSubsystem;
   Intake m_intake;
-  PathPlannerTrajectory traj1;
-  PathPlannerTrajectory traj2;
+  PathPlannerTrajectory pathTopToCone;
+  PathPlannerTrajectory pathTopBackToCone;
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
-  public RunAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory Traj1, PathPlannerTrajectory Traj2) {
+  public RunAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory TopToCone, PathPlannerTrajectory TopBackToCone) {
     m_drivetrainSubsystem = drivetrainSubsystem;
-    traj1 = Traj1;
-    traj2 = Traj2;
+    pathTopToCone = TopToCone;
+    pathTopBackToCone = TopBackToCone;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
@@ -41,17 +41,21 @@ public class RunAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(traj1.getInitialHolonomicPose());
+          m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
       }),
-      m_drivetrainSubsystem.followTrajectoryCommand(traj1),
+      new ExtendFar(m_telescope),
+      new InstantCommand(m_tower::dropItem),
+      new Retract(m_telescope),
+      m_drivetrainSubsystem.followTrajectoryCommand(pathTopToCone),
       new RunIntakeAuto(m_intake),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(traj2),
+        m_drivetrainSubsystem.followTrajectoryCommand(pathTopBackToCone),
         new ExtendFar(m_telescope),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_tower::dropItem)
+      new InstantCommand(m_tower::dropItem),
+      new Retract(m_telescope)
     );
   }
 }

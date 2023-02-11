@@ -47,8 +47,8 @@ public class RobotContainer {
   private final Tower m_tower = new Tower();
 
   private final XboxController m_controller = new XboxController(0);
-  PathPlannerTrajectory traj = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
-  PathPlannerTrajectory traj1 = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
+  PathPlannerTrajectory TopToCone = PathPlanner.loadPath("TopToCone", new PathConstraints(4, 3));
+  PathPlannerTrajectory TopBackToCone = PathPlanner.loadPath("TopBackToCone", new PathConstraints(4, 3));
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton runIntake = new JoystickButton(m_controller, 3);
@@ -96,7 +96,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new RunAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, traj, traj1);
+    return new RunAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone);
   }
 
   private static double deadband(double value, double deadband) {
