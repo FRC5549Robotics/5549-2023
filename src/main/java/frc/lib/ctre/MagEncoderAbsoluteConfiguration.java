@@ -8,6 +8,7 @@ public class MagEncoderAbsoluteConfiguration {
     private final String canbus;
     private final SensorInitializationStrategy initStrategy;
 
+
     public MagEncoderAbsoluteConfiguration(int id, double offset, String canbus, SensorInitializationStrategy initStrategy) {
         this.id = id;
         this.offset = offset;
@@ -15,11 +16,11 @@ public class MagEncoderAbsoluteConfiguration {
         this.initStrategy = initStrategy;
     }
 
-    public MagEncoderAbsoluteConfiguration(int id, double offset, String canbus){
+    public MagEncoderAbsoluteConfiguration(int id, double offset, String canbus) {
         this(id, offset, canbus, SensorInitializationStrategy.BootToAbsolutePosition);
     }
 
-    public MagEncoderAbsoluteConfiguration(int id, double offset){
+    public MagEncoderAbsoluteConfiguration(int id, double offset) {
         this(id, offset, "");
     }
 
@@ -37,8 +38,7 @@ public class MagEncoderAbsoluteConfiguration {
 
     public SensorInitializationStrategy getInitStrategy(){
         return initStrategy;
-    }
-
+    }    
     @Override
     public String toString() {
         return "MagEncoderConf{id=" + this.id + ", offset=" + this.offset + "}"; 

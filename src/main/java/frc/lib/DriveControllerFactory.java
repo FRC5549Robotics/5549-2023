@@ -9,7 +9,6 @@ public interface DriveControllerFactory<Controller extends DriveController, Driv
             Controller controller
     ) {
         container.addNumber("Current Velocity", controller::getStateVelocity);
-        
     }
 
     default Controller create(

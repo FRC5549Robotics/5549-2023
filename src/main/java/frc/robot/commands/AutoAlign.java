@@ -28,10 +28,10 @@ public class AutoAlign extends CommandBase {
   /** Creates a new AutoAlign. */
   public AutoAlign(Limelight Limelight, DrivetrainSubsystem drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Limelight = Limelight;
+    //m_Limelight = Limelight;
     m_drivetrain = drivetrain;
     addRequirements(Limelight);
-    addRequirements(drivetrain);
+    //addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.

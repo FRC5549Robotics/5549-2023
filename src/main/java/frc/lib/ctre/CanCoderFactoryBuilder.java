@@ -73,9 +73,10 @@ public class CanCoderFactoryBuilder {
             return angle;
         }
 
-        public Object getInternal() {
-            return this.encoder;
-        }
+         //@Override
+        // public Object getInternal() {
+           //  return this.encoder;
+        //}
     }
 
     public enum Direction {
