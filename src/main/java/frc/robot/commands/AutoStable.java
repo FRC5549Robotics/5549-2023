@@ -41,18 +41,12 @@ public class AutoStable extends InstantCommand {
 
     angle = m_navx.getAngle();
 
-    if(angle > 2)
+    if(angle <= oldAngle)
     {
-      if(angle <= oldAngle)
-      {
-        m_drivetrain.drive(new ChassisSpeeds(0,-0.1*steering_adjust,0));
-      }
-      else {
-        m_drivetrain.drive(new ChassisSpeeds(0,0.4 * steering_adjust,0));
-      }
+      m_drivetrain.drive(new ChassisSpeeds(0,-0.4*steering_adjust,0));
     }
     else {
-      endCommand = true;
+      m_drivetrain.drive(new ChassisSpeeds(0,0.4 * steering_adjust,0));
     }
     
   }

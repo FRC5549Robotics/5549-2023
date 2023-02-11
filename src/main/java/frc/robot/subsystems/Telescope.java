@@ -16,7 +16,7 @@ public class Telescope extends SubsystemBase {
   CANSparkMax motor1;
   PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
   public Telescope() {
-    motor1 = new CANSparkMax(68, MotorType.kBrushless);
+    motor1 = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
   }
 
   @Override

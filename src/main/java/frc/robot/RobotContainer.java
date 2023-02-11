@@ -17,9 +17,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.AutoAlign;
 import frc.robot.commands.AutoStable;
+import frc.robot.commands.RunAuto;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Telescope;
+import frc.robot.subsystems.Tower;
 
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.pathplanner.lib.PathConstraints;
@@ -40,9 +43,12 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final Limelight m_Limelight = new Limelight();
   private final Intake m_Intake = new Intake();
+  private final Telescope m_telescope = new Telescope();
+  private final Tower m_tower = new Tower();
 
   private final XboxController m_controller = new XboxController(0);
   PathPlannerTrajectory traj = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
+  PathPlannerTrajectory traj1 = PathPlanner.loadPath("Straight Test", new PathConstraints(4, 3));
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton runIntake = new JoystickButton(m_controller, 3);
@@ -90,26 +96,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new SequentialCommandGroup(
-      new InstantCommand(() -> {
-        if(true){
-          m_drivetrainSubsystem.resetOdometry(traj.getInitialHolonomicPose());
-        }
-      }),
-      new PPSwerveControllerCommand(
-        traj,
-        m_drivetrainSubsystem::getPose,
-        m_drivetrainSubsystem.m_kinematics,
-        new PIDController(0, 0, 0),
-        new PIDController(0, 0, 0),
-        new PIDController(0, 0, 0),
-        (SwerveModuleState[] states) -> {
-          m_drivetrainSubsystem.m_chassisSpeeds = m_drivetrainSubsystem.m_kinematics.toChassisSpeeds(states);
-  },
-        true,
-        m_drivetrainSubsystem
-      )
-    );
+    return new RunAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, traj, traj1);
   }
 
   private static double deadband(double value, double deadband) {
