@@ -43,14 +43,14 @@ public class RunAuto extends SequentialCommandGroup {
       new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
       }),
-      new ExtendFar(m_telescope),
+      new ExtendMedium(m_telescope),
       new InstantCommand(m_tower::dropItem),
       new Retract(m_telescope),
       m_drivetrainSubsystem.followTrajectoryCommand(pathTopToCone),
       new RunIntakeAuto(m_intake),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopBackToCone),
-        new ExtendFar(m_telescope),
+        new ExtendMedium(m_telescope),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
