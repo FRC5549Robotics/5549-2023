@@ -40,6 +40,9 @@ public class RunAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() ->{
+          m_drivetrainSubsystem.GetInitialHeading();
+      }),
       new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
       }),

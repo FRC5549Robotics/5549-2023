@@ -84,9 +84,9 @@ public class RobotContainer {
     new Trigger(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
-    //autoAlignButton.onTrue(new AutoAlign(m_Limelight, m_drivetrainSubsystem));
-    //autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
-    //runIntake.onTrue(new RunIntake(m_Intake));
+    autoAlignButton.onTrue(new AutoAlign(m_Limelight, m_drivetrainSubsystem));
+    autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
+    runIntake.onTrue(new RunIntake(m_Intake));
   }
 
   /**
@@ -96,8 +96,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-   // return new RunAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone);
-   return null;
+    return new RunAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone);
   }
 
   private static double deadband(double value, double deadband) {
