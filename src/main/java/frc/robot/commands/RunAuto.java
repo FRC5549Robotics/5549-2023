@@ -27,13 +27,18 @@ public class RunAuto extends SequentialCommandGroup {
   Intake m_intake;
   PathPlannerTrajectory pathTopToCone;
   PathPlannerTrajectory pathTopBackToCone;
+  PathPlannerTrajectory pathTopSecondConePickup;
+  PathPlannerTrajectory pathTopSecondConeBack;
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
-  public RunAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory TopToCone, PathPlannerTrajectory TopBackToCone) {
+  public RunAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory TopToCone, 
+  PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     pathTopToCone = TopToCone;
     pathTopBackToCone = TopBackToCone;
+    pathTopSecondConePickup = TopSecondConePickup;
+    pathTopSecondConeBack = TopSecondConeBack;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
@@ -58,7 +63,18 @@ public class RunAuto extends SequentialCommandGroup {
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_tower::dropItem),
-      new Retract(m_telescope)
+      new ParallelCommandGroup(
+        new Retract(m_telescope),
+        new PivotBack(m_tower),
+        m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConePickup)
+      ),
+      new ParallelCommandGroup(
+        m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConeBack),
+        new ExtendMedium(m_telescope),
+        new Pivot(m_tower)
+      ),
+      new AutoAlign2(m_limelight, m_drivetrainSubsystem),
+      new InstantCommand(m_tower::dropItem)
     );
   }
 }

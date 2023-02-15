@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Tower;
 
 
-public class Pivot extends CommandBase {
+public class PivotBack extends CommandBase {
   /** Creates a new Pivot. */
   Tower m_Tower;
   double startTime;
   boolean finished;
-  public Pivot(Tower Tower) {
+  public PivotBack(Tower Tower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Tower = Tower;
     addRequirements(Tower);
@@ -22,7 +22,6 @@ public class Pivot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Tower.Clamp();
     startTime = System.currentTimeMillis();
   }
 
@@ -30,7 +29,7 @@ public class Pivot extends CommandBase {
   @Override
   public void execute() {
     while (System.currentTimeMillis() - startTime < 5000) {
-      m_Tower.runTo();
+      m_Tower.runBack();
     }
     finished = false;
   }

@@ -35,9 +35,14 @@ public class Tower extends SubsystemBase {
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void run() {
+  public void runTo() {
     motor1.set(0.5);
     motor2.set(-0.5);
+  }
+
+  public void runBack() {
+    motor1.set(-0.5);
+    motor2.set(0.5);
   }
 
   public void off() {
