@@ -28,6 +28,8 @@ public class AutoAlign2 extends CommandBase {
   double heading;
   PIDController turnController;
   PIDController controller2;
+  boolean finished;
+  
 
   public AutoAlign2(Limelight Limelight, DrivetrainSubsystem drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,6 +37,23 @@ public class AutoAlign2 extends CommandBase {
     m_drivetrain = drivetrain;
     addRequirements(Limelight);
     addRequirements(drivetrain);
+  }
+  public double calDistance()
+  {
+  
+
+    double limelightMountAngleDegrees = 25.0;
+    double limelightLensHeightInches = 20.0;
+    double goalHeightInches = 60.0;
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + ty;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches)/Math.tan(angleToGoalRadians);
+
+
+
+    return distanceFromLimelightToGoalInches;
   }
 
   // Called when the command is initially scheduled.
@@ -50,14 +69,19 @@ public class AutoAlign2 extends CommandBase {
     turnController = new PIDController(Constants.kP, Constants.kI, Constants.kD);
     m_drivetrain.drive(new ChassisSpeeds(0, 0, turnController.calculate((current_heading*Math.PI)/180, (Constants.INITIAL_HEADING*Math.PI)/180)));
     m_drivetrain.drive(new ChassisSpeeds(controller2.calculate(m_Limelight.getTx(), 0), 0, 0));
+    m_drivetrain.drive(new ChassisSpeeds(0, ((calDistance()/12)*0.3048)-Constants.POLE_DISTANCE, 0));
+    finished = true;
   }
+  
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_drivetrain.drive(new ChassisSpeeds(0, 0, 0));
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

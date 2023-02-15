@@ -1,5 +1,6 @@
 package frc.lib;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 
 public class SwerveModuleFactory<DC, SC> {
@@ -85,12 +86,12 @@ public class SwerveModuleFactory<DC, SC> {
         }
 
         @Override
-        public Object getDriveMotor() {
+        public MotorController getDriveMotor() {
             return driveController.getDriveMotor();
         }
 
         @Override
-        public Object getSteerMotor() {
+        public MotorController getSteerMotor() {
             return steerController.getSteerMotor();
         }
 

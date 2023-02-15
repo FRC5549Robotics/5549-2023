@@ -19,14 +19,14 @@ public final class Mk4SwerveModuleHelper {
                 .build();
     }
 
-    private static SteerControllerFactory<?, SteerConfiguration<MagEncoderAbsoluteConfiguration>> getFalcon500SteerFactory(Mk4ModuleConfiguration configuration) {
+    private static SteerControllerFactory<?, SteerConfiguration<CanCoderAbsoluteConfiguration>> getFalcon500SteerFactory(Mk4ModuleConfiguration configuration) {
         return new Falcon500SteerControllerFactoryBuilder()
                 .withVoltageCompensation(configuration.getNominalVoltage())
                 .withPidConstants(configuration.getSteerKP(), configuration.getSteerKI(), configuration.getSteerKD())
                 .withMotionMagic(configuration.getSteerMMkV(), configuration.getSteerMMkA(),
                         configuration.getSteerMMkS())
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
-                .build(new MagEncoderFactoryBuilder()
+                .build(new CanCoderFactoryBuilder()
                         .withReadingUpdatePeriod(100)
                         .build());
     }
@@ -38,12 +38,12 @@ public final class Mk4SwerveModuleHelper {
                 .build();
     }
 
-    private static SteerControllerFactory<?, SteerConfiguration<MagEncoderAbsoluteConfiguration>> getNeoSteerFactory(Mk4ModuleConfiguration configuration) {
+    private static SteerControllerFactory<?, SteerConfiguration<CanCoderAbsoluteConfiguration>> getNeoSteerFactory(Mk4ModuleConfiguration configuration) {
         return new NeoSteerControllerFactoryBuilder()
                 .withVoltageCompensation(configuration.getNominalVoltage())
                 .withPidConstants(configuration.getSteerKP(), configuration.getSteerKI(), configuration.getSteerKD())
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
-                .build(new MagEncoderFactoryBuilder()
+                .build(new CanCoderFactoryBuilder()
                         .withReadingUpdatePeriod(100)
                         .build());
     }
@@ -84,7 +84,7 @@ public final class Mk4SwerveModuleHelper {
                 driveCanbus,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 ),
                 steerCanbus
         );
@@ -121,7 +121,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -208,7 +208,7 @@ public final class Mk4SwerveModuleHelper {
                 driveCanbus,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 ),
                 steerCanbus
         );
@@ -241,7 +241,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -321,7 +321,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -376,7 +376,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -435,7 +435,7 @@ public final class Mk4SwerveModuleHelper {
                 driveCanbus,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 ),
                 ""
         );
@@ -472,7 +472,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -555,7 +555,7 @@ public final class Mk4SwerveModuleHelper {
                 driveCanbus,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 ),
                 ""
         );
@@ -588,7 +588,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -669,7 +669,7 @@ public final class Mk4SwerveModuleHelper {
                 "",
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 ),
                 steerCanbus
         );
@@ -706,7 +706,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }
@@ -789,7 +789,7 @@ public final class Mk4SwerveModuleHelper {
                 "",
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 ),
                 steerCanbus
         );
@@ -822,7 +822,7 @@ public final class Mk4SwerveModuleHelper {
                 driveMotorPort,
                 new SteerConfiguration<>(
                         steerMotorPort,
-                        new MagEncoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+                        new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
                 )
         );
     }

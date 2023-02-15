@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.lib.*;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 
 import static frc.lib.ctre.CtreUtils.checkCtreError;
@@ -173,7 +174,7 @@ public final class Falcon500SteerControllerFactoryBuilder {
         }
 
         @Override
-        public Object getSteerMotor() {
+        public MotorController getSteerMotor() {
             return this.motor;
         }
 

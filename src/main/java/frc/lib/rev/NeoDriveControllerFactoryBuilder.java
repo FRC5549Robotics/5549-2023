@@ -3,6 +3,8 @@ package frc.lib.rev;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.lib.DriveController;
 import frc.lib.DriveControllerFactory;
 import frc.lib.MechanicalConfiguration;
@@ -79,7 +81,7 @@ public final class NeoDriveControllerFactoryBuilder {
         }
 
         @Override
-        public Object getDriveMotor() {
+        public MotorController getDriveMotor() {
             return this.motor;
         }
 

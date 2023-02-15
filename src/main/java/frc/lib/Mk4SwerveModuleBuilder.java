@@ -35,12 +35,12 @@ public class Mk4SwerveModuleBuilder {
                 .build();
     }
 
-    private static SteerControllerFactory<?, SteerConfiguration<MagEncoderAbsoluteConfiguration>> getFalcon500SteerFactory(Mk4ModuleConfiguration configuration) {
+    private static SteerControllerFactory<?, SteerConfiguration<CanCoderAbsoluteConfiguration>> getFalcon500SteerFactory(Mk4ModuleConfiguration configuration) {
         return new Falcon500SteerControllerFactoryBuilder()
                 .withVoltageCompensation(configuration.getNominalVoltage())
                 .withPidConstants(0.2, 0.0, 0.1)
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
-                .build(new MagEncoderFactoryBuilder()
+                .build(new CanCoderFactoryBuilder()
                         .withReadingUpdatePeriod(100)
                         .build());
     }
@@ -52,12 +52,12 @@ public class Mk4SwerveModuleBuilder {
                 .build();
     }
 
-    private static SteerControllerFactory<?, SteerConfiguration<MagEncoderAbsoluteConfiguration>> getNeoSteerFactory(Mk4ModuleConfiguration configuration) {
+    private static SteerControllerFactory<?, SteerConfiguration<CanCoderAbsoluteConfiguration>> getNeoSteerFactory(Mk4ModuleConfiguration configuration) {
         return new NeoSteerControllerFactoryBuilder()
                 .withVoltageCompensation(configuration.getNominalVoltage())
                 .withPidConstants(1.0, 0.0, 0.1)
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
-                .build(new MagEncoderFactoryBuilder()
+                .build(new CanCoderFactoryBuilder()
                         .withReadingUpdatePeriod(100)
                         .build());
     }
@@ -67,7 +67,7 @@ public class Mk4SwerveModuleBuilder {
     private GearRatio gearRatio = null;
 
     private DriveControllerFactory<?, Integer> driveFactory = null;
-    private SteerControllerFactory<?, SteerConfiguration<MagEncoderAbsoluteConfiguration>> steerFactory = null;
+    private SteerControllerFactory<?, SteerConfiguration<CanCoderAbsoluteConfiguration>> steerFactory = null;
 
     private int driveMotorPort = -1;
     private String driveCanbus = "";
@@ -178,18 +178,18 @@ public class Mk4SwerveModuleBuilder {
             throw new RuntimeException("Steer Encoder Port should be greater than 0!");
         }
 
-        SwerveModuleFactory<Integer, SteerConfiguration<MagEncoderAbsoluteConfiguration>> factory = new SwerveModuleFactory<>(
+        SwerveModuleFactory<Integer, SteerConfiguration<CanCoderAbsoluteConfiguration>> factory = new SwerveModuleFactory<>(
                 gearRatio.getConfiguration(), 
                 driveFactory, 
                 steerFactory
         );
 
-        SteerConfiguration<MagEncoderAbsoluteConfiguration> steerConfig;
+        SteerConfiguration<CanCoderAbsoluteConfiguration> steerConfig;
 
         if (steerMotorType == MotorType.FALCON) {
             steerConfig = new SteerConfiguration<>(
                     steerMotorPort, 
-                    new MagEncoderAbsoluteConfiguration(
+                    new CanCoderAbsoluteConfiguration(
                             steerEncoderPort, 
                             steerOffset,
                             steerEncoderCanbus
@@ -198,7 +198,7 @@ public class Mk4SwerveModuleBuilder {
         } else if (steerMotorType == MotorType.NEO) {
             steerConfig = new SteerConfiguration<>(
                     steerMotorPort, 
-                    new MagEncoderAbsoluteConfiguration(
+                    new CanCoderAbsoluteConfiguration(
                             steerEncoderPort, 
                             steerOffset,
                             steerEncoderCanbus

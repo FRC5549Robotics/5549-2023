@@ -3,6 +3,8 @@ package frc.lib.ctre;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.lib.DriveController;
 import frc.lib.DriveControllerFactory;
 import frc.lib.MechanicalConfiguration;
@@ -92,7 +94,7 @@ public final class Falcon500DriveControllerFactoryBuilder {
         }
 
         @Override
-        public Object getDriveMotor() {
+        public MotorController getDriveMotor() {
             return this.motor;
         }
 

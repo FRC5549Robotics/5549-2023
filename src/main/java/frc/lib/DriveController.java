@@ -1,7 +1,9 @@
 package frc.lib;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+
 public interface DriveController {
-    Object getDriveMotor();
+    MotorController getDriveMotor();
 
     void setReferenceVoltage(double voltage);
 

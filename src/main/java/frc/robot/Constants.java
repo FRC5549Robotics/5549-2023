@@ -49,6 +49,7 @@ public final class Constants {
     public static final double armSpeed = 0.1;
 
     public static double INITIAL_HEADING;
+    public static double POLE_DISTANCE = 10.0;
     //public PID Constants
     public static final double kP = 0.00;
     public static final double kI = 0.00;
