@@ -8,4 +8,8 @@ public interface AbsoluteEncoder {
      * @return The current angle in radians. Range: [0, 2pi)
      */
     double getAbsoluteAngle();
+
+    default Object getInternal(){
+        return null;
+    }
 }
