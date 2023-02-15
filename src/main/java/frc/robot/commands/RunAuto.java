@@ -33,7 +33,7 @@ public class RunAuto extends SequentialCommandGroup {
   Tower m_tower;
   Limelight m_limelight;
   public RunAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory TopToCone, 
-  PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack) {
+  PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack, boolean isThreeCone) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     pathTopToCone = TopToCone;
     pathTopBackToCone = TopBackToCone;
@@ -42,6 +42,7 @@ public class RunAuto extends SequentialCommandGroup {
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -63,6 +64,10 @@ public class RunAuto extends SequentialCommandGroup {
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_tower::dropItem),
+    );
+    if (isThreeCone)
+    {
+      addCommands(   
       new ParallelCommandGroup(
         new Retract(m_telescope),
         new PivotBack(m_tower),
@@ -70,11 +75,12 @@ public class RunAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConeBack),
-        new ExtendMedium(m_telescope),
+        new ExtendFar(m_telescope),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_tower::dropItem)
-    );
+      );
+    }
   }
 }
