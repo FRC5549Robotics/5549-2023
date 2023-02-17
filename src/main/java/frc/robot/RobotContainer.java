@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.AutoAlign;
 import frc.robot.commands.AutoStable;
-import frc.robot.commands.RunAuto;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.AutonCommands.TwoConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
@@ -42,8 +42,10 @@ public class RobotContainer {
   private final XboxController m_controller = new XboxController(0);
   PathPlannerTrajectory TopToCone = PathPlanner.loadPath("TopToCone", new PathConstraints(4, 3));
   PathPlannerTrajectory TopBackToCone = PathPlanner.loadPath("TopBackToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory TopSecondConePickup = PathPlanner.loadPath("TopSecondConePickup", new PathConstraints(4, 3));
-  PathPlannerTrajectory TopSecondConeBack = PathPlanner.loadPath("TopSecondConeBack", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidToCone = PathPlanner.loadPath("MidToCone", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidBackToCone = PathPlanner.loadPath("MidBackToCone", new PathConstraints(4, 3));
+  PathPlannerTrajectory BotToCone = PathPlanner.loadPath("BotToCone", new PathConstraints(4, 3));
+  PathPlannerTrajectory BotBackToCone = PathPlanner.loadPath("BotBackToCone", new PathConstraints(4, 3));
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton runIntake = new JoystickButton(m_controller, 3);
@@ -91,7 +93,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new RunAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone, TopSecondConePickup, TopSecondConeBack, Constants.IS_THREE_CONE);
+    return new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone, MidToCone, MidBackToCone, BotToCone, BotBackToCone, 1);
   }
 
   private static double deadband(double value, double deadband) {

@@ -52,7 +52,7 @@ public final class Constants {
     public static double POLE_DISTANCE = 10.0;
 
     //Auton
-    public static final boolean IS_THREE_CONE = true;
+    
     //public PID Constants
     public static final double kP = 0.00;
     public static final double kI = 0.00;
