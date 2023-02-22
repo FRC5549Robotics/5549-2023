@@ -17,7 +17,6 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class AutoStable extends InstantCommand {
 
   DrivetrainSubsystem m_drivetrain;
-  private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); 
   boolean endCommand = false;
   double angle, oldAngle;
   double steering_adjust;
@@ -36,10 +35,10 @@ public class AutoStable extends InstantCommand {
   
   @Override
   public void execute() {
-    steering_adjust = Constants.kP*angle;
+    steering_adjust = Constants.kP*(oldAngle-angle);
     oldAngle = angle;
 
-    angle = m_navx.getAngle();
+    angle = m_drivetrain.getCurrentHeading();
 
     if(angle <= oldAngle)
     {

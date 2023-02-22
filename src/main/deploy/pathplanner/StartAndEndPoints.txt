@@ -1,0 +1,13 @@
+Drop Off Points
+- Top: (1.94, 5.00)
+- MidT: (1.94, 3.30)
+- MidB: (1.94, 2.16)
+- Bot: (1.94, 0.49)
+Cone Positions
+- CT1: (6.5, 4.60)
+- CT2: (6.5, 3.37)
+- CB1: (6.5, 2.15)
+- CB2: (6.5, 0.93)
+Charge Station
+- CC 1: 
+- CC 2: 

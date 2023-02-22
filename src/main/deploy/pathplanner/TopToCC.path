@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 6.54,
-        "y": 4.6
+        "x": 1.0,
+        "y": 3.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.685843040730305,
-        "y": 5.27174612123832
+        "x": 2.0,
+        "y": 3.0
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -24,19 +24,19 @@
     },
     {
       "anchorPoint": {
-        "x": 4.450813580657118,
-        "y": 5.008730588074586
+        "x": 3.0,
+        "y": 5.0
       },
       "prevControl": {
-        "x": 5.285602012002883,
-        "y": 5.386100700874726
+        "x": 3.0,
+        "y": 4.0
       },
       "nextControl": {
-        "x": 3.451993974244428,
-        "y": 4.557209396134604
+        "x": 3.0,
+        "y": 4.0
       },
-      "holonomicAngle": 22.770378908762215,
-      "isReversal": false,
+      "holonomicAngle": 0,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -49,40 +49,15 @@
     },
     {
       "anchorPoint": {
-        "x": 2.243770193674481,
-        "y": 4.642795933238086
+        "x": 5.0,
+        "y": 3.0
       },
       "prevControl": {
-        "x": 2.461043894983652,
-        "y": 5.020166046038226
-      },
-      "nextControl": {
-        "x": 1.9036112663243312,
-        "y": 4.051993585735194
-      },
-      "holonomicAngle": 12.171458208587447,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 1.95,
-        "y": 3.85
-      },
-      "prevControl": {
-        "x": 2.141005780513783,
-        "y": 3.85
+        "x": 4.0,
+        "y": 3.0
       },
       "nextControl": null,
-      "holonomicAngle": 1.1580395460102184,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,

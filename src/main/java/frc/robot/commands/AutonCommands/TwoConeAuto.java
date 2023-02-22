@@ -6,6 +6,7 @@ package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import java.nio.file.Path;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
@@ -32,83 +33,41 @@ public class TwoConeAuto extends SequentialCommandGroup {
   /** Creates a new RunAuto. */
   DrivetrainSubsystem m_drivetrainSubsystem;
   Intake m_intake;
-  PathPlannerTrajectory pathTopToCone;
-  PathPlannerTrajectory pathTopBackToCone;
+  PathPlannerTrajectory Path1;
+  PathPlannerTrajectory Path2;
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
   public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory path1, 
-  PathPlannerTrajectory path2, PathPlannerTrajectory path3, 
-  PathPlannerTrajectory path4,PathPlannerTrajectory path5, 
-  PathPlannerTrajectory path6, int StartPosition) {
+  PathPlannerTrajectory path2) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    Path1 = path1;
+    Path2 = path2;
     
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() ->{
           m_drivetrainSubsystem.GetInitialHeading();
-      }
-    ));
-    if (StartPosition == 1){
-      addCommands(
+      }),
         new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
+          m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope),
       new InstantCommand(m_tower::dropItem),
       new Retract(m_telescope),
-      m_drivetrainSubsystem.followTrajectoryCommand(path1),
+      m_drivetrainSubsystem.followTrajectoryCommand(Path1),
       new RunIntakeAuto(m_intake),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(path2),
+        m_drivetrainSubsystem.followTrajectoryCommand(Path2),
         new ExtendMedium(m_telescope),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_tower::dropItem)
-      );
-    }
-    else if (StartPosition == 2){
-      addCommands(
-        new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(path3.getInitialHolonomicPose());
-      }),
-      new ExtendMedium(m_telescope),
-      new InstantCommand(m_tower::dropItem),
-      new Retract(m_telescope),
-      m_drivetrainSubsystem.followTrajectoryCommand(path3),
-      new RunIntakeAuto(m_intake),
-      new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(path4),
-        new ExtendMedium(m_telescope),
-        new Pivot(m_tower)
-      ),
-      new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_tower::dropItem)
-      );
-    }
-    else if (StartPosition == 3){
-      addCommands(
-        new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(path5.getInitialHolonomicPose());
-      }),
-      new ExtendMedium(m_telescope),
-      new InstantCommand(m_tower::dropItem),
-      new Retract(m_telescope),
-      m_drivetrainSubsystem.followTrajectoryCommand(path5),
-      new RunIntakeAuto(m_intake),
-      new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(path6),
-        new ExtendMedium(m_telescope),
-        new Pivot(m_tower)
-      ),
-      new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_tower::dropItem)
-      );
-    }
+    );
   }
 }

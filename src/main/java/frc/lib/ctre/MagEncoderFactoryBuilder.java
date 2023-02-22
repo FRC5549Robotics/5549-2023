@@ -2,7 +2,6 @@ package frc.lib.ctre;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.lib.AbsoluteEncoder;
 import frc.lib.AbsoluteEncoderFactory;
 

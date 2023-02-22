@@ -10,20 +10,30 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Constants;
+import com.revrobotics.RelativeEncoder;
 
 public class Tower extends SubsystemBase {
   /** Creates a new Tower. */
   CANSparkMax motor1;
   CANSparkMax motor2;
   DoubleSolenoid m_clawDoubleSolenoid;
+
+  // RelativeEncoder encoder1;
+  // RelativeEncoder encoder2;
+  private double MidLowPos = 40;
+  private double calculatedEncoder;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
     motor2 = new CANSparkMax(Constants.MOTOR_TOWER2, MotorType.kBrushless);
-    m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 6);
+    m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 5, 6);
+    // encoder1 = motor1.getAlternateEncoder(0);
+    // encoder2 = motor2.getAlternateEncoder(0);
+    
   }
 
   @Override
   public void periodic() {
+    // calculatedEncoder = encoder1.getPosition()/64;
     // This method will be called once per scheduler run
   }
 
@@ -34,11 +44,25 @@ public class Tower extends SubsystemBase {
   public void dropItem(){
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
+  public void runSpeed(double speed)
+  {
+    motor1.set(speed);
+    motor2.set(speed);
+  }
 
   public void runTo() {
     motor1.set(0.5);
     motor2.set(-0.5);
   }
+  // public double getEncoderAngle()
+  // {
+  //   return encoder1.getPosition();
+  // }
+  // public double getCalculatedEncoderAngle()
+  // {
+  //   return encoder1.getPosition()/64;
+  // }
+
 
   public void runBack() {
     motor1.set(-0.5);

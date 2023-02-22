@@ -13,8 +13,8 @@ import java.util.Objects;
 @Deprecated(since = "2023.1.2.0", forRemoval = true)
 public class Mk3ModuleConfiguration {
     private double nominalVoltage = 12.0;
-    private double driveCurrentLimit = 80.0;
-    private double steerCurrentLimit = 20.0;
+    private double driveCurrentLimit = 40.0;
+    private double steerCurrentLimit = 40.0;
 
     public double getNominalVoltage() {
         return nominalVoltage;

@@ -6,7 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -46,6 +48,7 @@ public class RobotContainer {
   PathPlannerTrajectory MidBackToCone = PathPlanner.loadPath("MidBackToCone", new PathConstraints(4, 3));
   PathPlannerTrajectory BotToCone = PathPlanner.loadPath("BotToCone", new PathConstraints(4, 3));
   PathPlannerTrajectory BotBackToCone = PathPlanner.loadPath("BotBackToCone", new PathConstraints(4, 3));
+  PathPlannerTrajectory GoToChargeStation = PathPlanner.loadPath("GoToChargeStation", new PathConstraints(4,3));
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton runIntake = new JoystickButton(m_controller, 3);
@@ -63,7 +66,7 @@ public class RobotContainer {
             m_drivetrainSubsystem,
             () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> -modifyAxis(m_controller.getRightX() * 0.75) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
 
     // Configure the button bindings
@@ -93,7 +96,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone, MidToCone, MidBackToCone, BotToCone, BotBackToCone, 1);
+    return new SequentialCommandGroup(
+      new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone),
+      m_drivetrainSubsystem.followTrajectoryCommand(GoToChargeStation)
+    );
+    //return new ThreeConeAuto
   }
 
   private static double deadband(double value, double deadband) {
@@ -110,7 +117,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.08);
+    value = deadband(value, 0.05);
 
     // Square the axis
     value = Math.copySign(value * value, value);

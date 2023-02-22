@@ -221,6 +221,10 @@ public void GetInitialHeading(){
         Constants.INITIAL_HEADING =  m_navx.getAngle();
 }
 
+public double getCurrentHeading(){
+        return m_navx.getAngle();
+}
+
   @Override
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
