@@ -12,7 +12,7 @@ import frc.lib.MechanicalConfiguration;
 import static frc.lib.rev.RevUtils.checkNeoError;
 
 public final class NeoDriveControllerFactoryBuilder {
-    private double nominalVoltage = Double.NaN;
+    private double nominalVoltage = 12.0;
     private double currentLimit = Double.NaN;
 
     public NeoDriveControllerFactoryBuilder withVoltageCompensation(double nominalVoltage) {

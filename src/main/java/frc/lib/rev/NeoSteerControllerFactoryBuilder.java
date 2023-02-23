@@ -16,7 +16,7 @@ public final class NeoSteerControllerFactoryBuilder {
     private double pidIntegral = Double.NaN;
     private double pidDerivative = Double.NaN;
 
-    private double nominalVoltage = Double.NaN;
+    private double nominalVoltage = 12.0;
     private double currentLimit = Double.NaN;
 
     public NeoSteerControllerFactoryBuilder withPidConstants(double proportional, double integral, double derivative) {

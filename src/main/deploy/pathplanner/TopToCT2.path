@@ -7,13 +7,13 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6897530542564647,
-        "y": 5.01143545796364
+        "x": 2.684669322555706,
+        "y": 4.911802953607975
       },
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
+      "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
@@ -24,46 +24,21 @@
     },
     {
       "anchorPoint": {
-        "x": 3.787557018765963,
-        "y": 4.91724692436546
+        "x": 4.11,
+        "y": 4.73
       },
       "prevControl": {
-        "x": 3.4545487672207793,
-        "y": 4.9515271855539345
+        "x": 3.2321400858090366,
+        "y": 4.833280171928955
       },
       "nextControl": {
-        "x": 4.565168160293524,
-        "y": 4.837198718619977
+        "x": 5.661841920221734,
+        "y": 4.547425881127323
       },
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 5.445698423493851,
-        "y": 4.414086773965274
-      },
-      "prevControl": {
-        "x": 5.0704030495884735,
-        "y": 4.668751491972496
-      },
-      "nextControl": {
-        "x": 5.765891246475787,
-        "y": 4.196813072656102
-      },
-      "holonomicAngle": 0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
+      "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
@@ -78,14 +53,14 @@
         "y": 3.37
       },
       "prevControl": {
-        "x": 6.234745022985052,
-        "y": 3.6479110904013528
+        "x": 6.274242106694384,
+        "y": 4.133613876005386
       },
       "nextControl": null,
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
+      "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
