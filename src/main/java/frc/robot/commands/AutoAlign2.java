@@ -66,12 +66,16 @@ public class AutoAlign2 extends CommandBase {
   @Override
   public void execute() {
     double current_heading = m_drivetrain.m_navx.getAngle();
+    System.out.println(current_heading);
+    System.out.println(m_Limelight.getTx());
     turnController = new PIDController(Constants.kP, Constants.kI, Constants.kD);
+    controller2 = new PIDController(Constants.kP, Constants.kI, Constants.kD);
     m_drivetrain.drive(new ChassisSpeeds(0, 0, turnController.calculate((current_heading*Math.PI)/180, (Constants.INITIAL_HEADING*Math.PI)/180)));
     m_drivetrain.drive(new ChassisSpeeds(controller2.calculate(m_Limelight.getTx(), 0), 0, 0));
     m_drivetrain.drive(new ChassisSpeeds(0, ((calDistance()/12)*0.3048)-Constants.POLE_DISTANCE, 0));
     finished = true;
   }
+
   
   // Called once the command ends or is interrupted.
   @Override

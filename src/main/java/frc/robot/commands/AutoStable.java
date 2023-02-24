@@ -38,7 +38,7 @@ public class AutoStable extends InstantCommand {
     steering_adjust = Constants.kP*(oldAngle-angle);
     oldAngle = angle;
 
-    angle = m_drivetrain.getCurrentHeading();
+    angle = m_drivetrain.m_navx.getAngle();
 
     if(angle <= oldAngle)
     {

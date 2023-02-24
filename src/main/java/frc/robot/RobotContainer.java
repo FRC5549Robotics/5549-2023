@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -14,9 +13,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.AutoAlign;
+import frc.robot.commands.AutoAlign2;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.RunIntake;
-import frc.robot.commands.AutonCommands.TwoConeAuto;
+import frc.robot.commands.TwoConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
@@ -84,7 +84,7 @@ public class RobotContainer {
     new Trigger(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
-    autoAlignButton.onTrue(new AutoAlign(m_Limelight, m_drivetrainSubsystem));
+    autoAlignButton.onTrue(new AutoAlign2(m_Limelight, m_drivetrainSubsystem));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
     runIntake.onTrue(new RunIntake(m_Intake));
   }

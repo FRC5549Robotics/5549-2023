@@ -55,10 +55,10 @@ public class Limelight extends SubsystemBase {
       double a = ((Constants.HEIGHT_TARGET - Constants.HEIGHT_CAMERA) / Math.tan(angle)) / 12;
       return a;
     } else {
-      return 0;
+      return 10;
     }
   }
-    */
+*/
 
     public static Limelight getInstance(){
       return Limelight.limelight;
@@ -70,6 +70,7 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
    
  
     ty = limelightTable.getEntry("ty").getDouble(0);
@@ -77,7 +78,9 @@ public class Limelight extends SubsystemBase {
     tx = limelightTable.getEntry("tx").getDouble(0);
     ta = limelightTable.getEntry("ta").getDouble(0);
 
+  
 
     // This method will be called once per scheduler run
   }
 }
+//shrey is a monkey
