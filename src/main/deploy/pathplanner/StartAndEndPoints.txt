@@ -10,4 +10,4 @@ Cone Positions
 - CB2: (6.5, 0.93)
 Charge Station
 - CC 1: (3.88, 3.29)
-- CC 2: (3.88, )
+- CC 2: (3.88, 2.15)
