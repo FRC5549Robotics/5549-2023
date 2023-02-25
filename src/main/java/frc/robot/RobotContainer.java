@@ -12,10 +12,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.FiveConeAuto;
+import frc.robot.commands.FourConeAuto;
 import frc.robot.commands.AutoAlign;
 import frc.robot.commands.AutoAlign2;
+import frc.robot.commands.AutoAlign2X;
+import frc.robot.commands.AutoAlign2Y;
+import frc.robot.commands.AutoAlign2Z;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.ThreeConeAuto;
 import frc.robot.commands.TwoConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
@@ -42,13 +48,33 @@ public class RobotContainer {
   private final Tower m_tower = new Tower();
 
   private final XboxController m_controller = new XboxController(0);
-  PathPlannerTrajectory TopToCone = PathPlanner.loadPath("TopToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory TopBackToCone = PathPlanner.loadPath("TopBackToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidToCone = PathPlanner.loadPath("MidToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidBackToCone = PathPlanner.loadPath("MidBackToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory BotToCone = PathPlanner.loadPath("BotToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory BotBackToCone = PathPlanner.loadPath("BotBackToCone", new PathConstraints(4, 3));
-  PathPlannerTrajectory GoToChargeStation = PathPlanner.loadPath("GoToChargeStation", new PathConstraints(4,3));
+  
+  //All the Paths
+  PathPlannerTrajectory BotToCC = PathPlanner.loadPath("BotToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory BotToCT3 = PathPlanner.loadPath("BotToCT3", new PathConstraints(4, 3));
+  PathPlannerTrajectory BotToCT4 = PathPlanner.loadPath("BotToCT4", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT1ToCC = PathPlanner.loadPath("CT1ToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT1ToMidT = PathPlanner.loadPath("CT1ToMidT", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT1ToTop = PathPlanner.loadPath("CT1ToTop", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT2ToCC = PathPlanner.loadPath("CT2ToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT2ToMidT = PathPlanner.loadPath("CT2ToMidT", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT2ToTop = PathPlanner.loadPath("CT2ToTop", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT3ToCC = PathPlanner.loadPath("CT3ToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT3ToMidB = PathPlanner.loadPath("CT3ToMidB", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT3ToBot = PathPlanner.loadPath("CT3ToBot", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT4ToCC = PathPlanner.loadPath("CT4ToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT4ToMidB = PathPlanner.loadPath("CT4ToMidB", new PathConstraints(4, 3));
+  PathPlannerTrajectory CT4ToBot = PathPlanner.loadPath("CT4ToBot", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidBToCC = PathPlanner.loadPath("MidBToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidBToCT3 = PathPlanner.loadPath("MidBToCT3", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidBToCT4 = PathPlanner.loadPath("MidBToCT4", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidTToCC = PathPlanner.loadPath("MidTToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidTToCT1 = PathPlanner.loadPath("MidTToCT1", new PathConstraints(4, 3));
+  PathPlannerTrajectory MidTToCT2 = PathPlanner.loadPath("MidTToCT2", new PathConstraints(4, 3));
+  PathPlannerTrajectory TopToCC = PathPlanner.loadPath("TopToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory TopToCT1 = PathPlanner.loadPath("TopToCT1", new PathConstraints(4, 3));
+  PathPlannerTrajectory TopToCT2 = PathPlanner.loadPath("TopToCT2", new PathConstraints(4, 3));
+  
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton runIntake = new JoystickButton(m_controller, 3);
@@ -84,7 +110,10 @@ public class RobotContainer {
     new Trigger(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
-    autoAlignButton.onTrue(new AutoAlign2(m_Limelight, m_drivetrainSubsystem));
+    autoAlignButton.onTrue(new SequentialCommandGroup(
+      new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem),
+      new AutoAlign2X(m_Limelight, m_drivetrainSubsystem),
+      new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller)));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
     runIntake.onTrue(new RunIntake(m_Intake));
   }
@@ -97,8 +126,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new SequentialCommandGroup(
-      new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, TopToCone, TopBackToCone),
-      m_drivetrainSubsystem.followTrajectoryCommand(GoToChargeStation)
+      new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCT1, CT1ToMidT),
+      //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
+      //new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
+      //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
+      m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
     );
     //return new ThreeConeAuto
   }

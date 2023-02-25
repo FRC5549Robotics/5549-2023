@@ -10,6 +10,7 @@ import java.nio.file.Path;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AutoAlign2;
@@ -38,12 +39,14 @@ public class TwoConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
-  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory path1, 
+  XboxController rumController;
+  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory path1, 
   PathPlannerTrajectory path2) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    rumController = RumController;
     Path1 = path1;
     Path2 = path2;
     
@@ -56,14 +59,14 @@ public class TwoConeAuto extends SequentialCommandGroup {
         new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
-      new ExtendMedium(m_telescope),
+      new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_tower::dropItem),
       new Retract(m_telescope),
       m_drivetrainSubsystem.followTrajectoryCommand(Path1),
       new RunIntakeAuto(m_intake),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(Path2),
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

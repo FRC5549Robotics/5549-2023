@@ -11,6 +11,7 @@ import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -33,6 +34,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
+  XboxController rumController;
   PathPlannerTrajectory Path1;
   PathPlannerTrajectory Path2;
   PathPlannerTrajectory Path3;
@@ -41,7 +43,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
   PathPlannerTrajectory Path6;
   PathPlannerTrajectory Path7;
   PathPlannerTrajectory Path8;
-  public FiveConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory TopToCone, 
+  public FiveConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory TopToCone,
   PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack, PathPlannerTrajectory TopThirdConePickup,
   PathPlannerTrajectory TopThirdConeBack, PathPlannerTrajectory TopFourthConePickup, PathPlannerTrajectory TopFourthConeBack) {
     // Add your commands in the addCommands() call, e.g.
@@ -51,6 +53,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    rumController = RumController;
     Path1 = TopToCone;
     Path2 = TopBackToCone;
     Path3 = TopSecondConePickup;
@@ -66,7 +69,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
       new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
-      new ExtendMedium(m_telescope),
+      new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_tower::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
@@ -75,7 +78,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(Path2),
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
@@ -87,7 +90,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(Path4),
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
@@ -98,7 +101,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         m_drivetrainSubsystem.followTrajectoryCommand(Path6),
         new Pivot(m_tower)
       ),
@@ -110,7 +113,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         m_drivetrainSubsystem.followTrajectoryCommand(Path8),
         new Pivot(m_tower)
       ),

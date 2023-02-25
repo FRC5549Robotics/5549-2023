@@ -48,6 +48,22 @@ public class Limelight extends SubsystemBase {
     return ta;
   }
 
+  public double calDistance()
+  {
+  
+
+    double limelightMountAngleDegrees = 25.0;
+    double limelightLensHeightInches = 20.0;
+    double goalHeightInches = 60.0;
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + ty;
+    double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
+
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches)/Math.tan(angleToGoalRadians);
+
+    return distanceFromLimelightToGoalInches;
+  }
+
   /* 
   public double getDistance() {
     if (tv != 0) {
@@ -83,4 +99,4 @@ public class Limelight extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
-//shrey is a monkey
+

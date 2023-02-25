@@ -48,7 +48,7 @@ public final class Constants {
     public static final double armSpeed = 0.1;
 
     public static double INITIAL_HEADING;
-    public static double POLE_DISTANCE = 10.0;
+    public static double POLE_DISTANCE = 39.75;
 
     //Auton
     

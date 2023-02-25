@@ -11,6 +11,7 @@ import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -33,11 +34,12 @@ public class ThreeConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
+  XboxController rumController;
   PathPlannerTrajectory pathTopToCone;
   PathPlannerTrajectory pathTopBackToCone;
   PathPlannerTrajectory pathTopSecondConePickup;
   PathPlannerTrajectory pathTopSecondConeBack;
-  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, PathPlannerTrajectory TopToCone, 
+  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory TopToCone, 
   PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -46,6 +48,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    rumController = RumController;
     pathTopToCone = TopToCone;
     pathTopBackToCone = TopBackToCone;
     pathTopSecondConePickup = TopSecondConePickup;
@@ -57,7 +60,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
       }),
-      new ExtendMedium(m_telescope),
+      new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_tower::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
@@ -66,7 +69,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopBackToCone),
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
@@ -78,7 +81,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConeBack),
-        new ExtendMedium(m_telescope),
+        new ExtendMedium(m_telescope, rumController),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

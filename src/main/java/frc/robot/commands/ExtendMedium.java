@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Telescope;
 import frc.robot.Constants;
@@ -14,9 +16,11 @@ public class ExtendMedium extends CommandBase {
   double startTime;
   Telescope m_Telescope;
   boolean finished = false;
-  public ExtendMedium(Telescope telescope) {
+  XboxController rumController;
+  public ExtendMedium(Telescope telescope, XboxController RumController) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Telescope = telescope;
+    rumController = RumController;
     addRequirements(telescope);
   }
 
@@ -24,6 +28,7 @@ public class ExtendMedium extends CommandBase {
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
+    rumController.setRumble(RumbleType.kBothRumble, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
