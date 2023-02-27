@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -125,13 +126,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new SequentialCommandGroup(
-      new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCT1, CT1ToMidT),
-      //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
-      //new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
-      //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
-      m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
-    );
+    return new SequentialCommandGroup(new InstantCommand(() -> {
+      m_drivetrainSubsystem.resetOdometry(TopToCT1.getInitialHolonomicPose());
+  }),
+    m_drivetrainSubsystem.followTrajectoryCommand(TopToCT1));
+    // return new SequentialCommandGroup(
+    //   new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCT1, CT1ToMidT),
+    //   //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
+    //   //new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
+    //   //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
+    //   m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
+    // );
     //return new ThreeConeAuto
   }
 
