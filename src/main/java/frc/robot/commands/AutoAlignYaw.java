@@ -39,10 +39,10 @@ public class AutoAlignYaw extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnAngle = m_Limelight.getYaw();
+    double turnAngle = m_Limelight.getTx();
     if (turnAngle > 2|| turnAngle < -2){
       System.out.println("Try to run");
-      m_drivetrain.drive(new ChassisSpeeds(0, 0, pcontroller.calculate(0, turnAngle)));
+      m_drivetrain.drive(new ChassisSpeeds(0, 0, pcontroller.calculate(turnAngle, 0)));
 
   } else{
     System.out.println("Done");
