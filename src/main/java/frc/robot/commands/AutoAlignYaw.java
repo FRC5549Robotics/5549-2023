@@ -18,7 +18,7 @@ public class AutoAlignYaw extends CommandBase {
   Limelight m_Limelight;
   DrivetrainSubsystem m_drivetrain;
   boolean finished = false;
-  PIDController controller;
+  PIDController pcontroller = new PIDController(0.05,0,0);
   double kP = 0.1;
   XboxController xbox;
 
@@ -40,14 +40,12 @@ public class AutoAlignYaw extends CommandBase {
   @Override
   public void execute() {
     double turnAngle = m_Limelight.getYaw();
-    if (turnAngle > (2*Math.PI)/180 || turnAngle < -(2*Math.PI)/180){
-      if (turnAngle > 0) {
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, (Math.toRadians(turnAngle))));
-      }
-      else {
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, -(Math.toRadians(turnAngle))));
-      }
+    if (turnAngle > 2|| turnAngle < -2){
+      System.out.println("Try to run");
+      m_drivetrain.drive(new ChassisSpeeds(0, 0, pcontroller.calculate(0, turnAngle)));
+
   } else{
+    System.out.println("Done");
     finished = true;
   }
 }

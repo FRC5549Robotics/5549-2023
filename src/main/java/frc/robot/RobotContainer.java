@@ -113,7 +113,7 @@ public class RobotContainer {
     new Trigger(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
-    autoAlignButton.onTrue(new SequentialCommandGroup(
+    autoAlignButton.whileTrue(new SequentialCommandGroup(
       new AutoAlignYaw(m_Limelight, m_drivetrainSubsystem, m_controller)//,
       //new AutoAlign2X(m_Limelight, m_drivetrainSubsystem),
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
