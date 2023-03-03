@@ -14,7 +14,7 @@ public class Limelight extends SubsystemBase {
 
   double Kp = 1/27;
   NetworkTable limelightTable;
-  double ty, tv, tx, angle, distance, ta;
+  double ty, tv, tx, angle, distance, yaw, ta;
   double min_command = 0.05;
   //XboxController xbox1;
   double steering_adjust = 0.0;
@@ -40,12 +40,16 @@ public class Limelight extends SubsystemBase {
     return tx;
   }
 
+  public double getTa(){
+    return ta;
+  }
+
   public double getTy(){
     return ty;
   }
 
-  public double getTa(){
-    return ta;
+  public double getYaw(){
+    return yaw;
   }
 
   public double calDistance()
@@ -93,7 +97,12 @@ public class Limelight extends SubsystemBase {
     tv = limelightTable.getEntry("tv").getDouble(0);
     tx = limelightTable.getEntry("tx").getDouble(0);
     ta = limelightTable.getEntry("ta").getDouble(0);
+    yaw = limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double[6])[4];
 
+    SmartDashboard.putNumber("ty", ty);
+    SmartDashboard.putNumber("tv", tv);
+    SmartDashboard.putNumber("tx", tx);
+    SmartDashboard.putNumber("yaw", yaw);
   
 
     // This method will be called once per scheduler run

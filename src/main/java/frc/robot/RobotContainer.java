@@ -20,6 +20,7 @@ import frc.robot.commands.AutoAlign2;
 import frc.robot.commands.AutoAlign2X;
 import frc.robot.commands.AutoAlign2Y;
 import frc.robot.commands.AutoAlign2Z;
+import frc.robot.commands.AutoAlignYaw;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.ThreeConeAuto;
@@ -28,6 +29,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -112,9 +114,15 @@ public class RobotContainer {
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.onTrue(new SequentialCommandGroup(
-      new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem),
-      new AutoAlign2X(m_Limelight, m_drivetrainSubsystem),
-      new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller)));
+      new AutoAlignYaw(m_Limelight, m_drivetrainSubsystem, m_controller)//,
+      //new AutoAlign2X(m_Limelight, m_drivetrainSubsystem),
+      //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
+    ));
+
+    // autoAlignButton.onFalse(
+    //   new InstantCommand(() ->{
+    //     m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+    // }));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
     runIntake.onTrue(new RunIntake(m_Intake));
   }
