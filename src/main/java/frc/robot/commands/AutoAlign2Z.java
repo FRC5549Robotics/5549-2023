@@ -11,6 +11,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 
 public class AutoAlign2Z extends CommandBase {
@@ -24,11 +25,11 @@ public class AutoAlign2Z extends CommandBase {
   boolean finished;
   
 
-  public AutoAlign2Z(Limelight Limelight, DrivetrainSubsystem drivetrain) {
+  public AutoAlign2Z(Limelight Limelight, DrivetrainSubsystem drivetrain, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Limelight = Limelight;
     m_drivetrain = drivetrain;
-    controller2.enableContinuousInput(-180, 180);
+    xbox1 = controller;
     addRequirements(Limelight);
     addRequirements(drivetrain);
   }
@@ -49,9 +50,9 @@ public class AutoAlign2Z extends CommandBase {
     if(current_heading - Constants.INITIAL_HEADING > 3 || current_heading - Constants.INITIAL_HEADING < -3){
       if (current_heading < 0){
         System.out.println("Yo its trying to run");
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, Math.toRadians(-controller2.calculate(current_heading, Constants.INITIAL_HEADING))));
       } else {
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, Math.toRadians(controller2.calculate(current_heading, Constants.INITIAL_HEADING))));
       }
     }
     else{
@@ -63,6 +64,7 @@ public class AutoAlign2Z extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    xbox1.setRumble(RumbleType.kBothRumble, 1);
     m_drivetrain.drive(new ChassisSpeeds(0, 0, 0));
   }
 
