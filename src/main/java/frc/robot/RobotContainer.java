@@ -148,6 +148,10 @@ public class RobotContainer {
     //return new ThreeConeAuto
   }
 
+  public Command getInitialHeading(){
+    return new InstantCommand(m_drivetrainSubsystem::GetInitialHeading);
+  }
+
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
       if (value > 0.0) {
