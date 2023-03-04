@@ -20,7 +20,7 @@ public class AutoAlign2Z extends CommandBase {
   DrivetrainSubsystem m_drivetrain;
 
   double heading;
-  PIDController controller2;
+  PIDController controller2 = new PIDController(Constants.kP, Constants.kI, Constants.kD);
   boolean finished;
   
 
@@ -28,6 +28,7 @@ public class AutoAlign2Z extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Limelight = Limelight;
     m_drivetrain = drivetrain;
+    controller2.enableContinuousInput(-180, 180);
     addRequirements(Limelight);
     addRequirements(drivetrain);
   }
@@ -42,10 +43,16 @@ public class AutoAlign2Z extends CommandBase {
   @Override
   public void execute() {
     double current_heading = m_drivetrain.m_navx.getAngle();
+    System.out.println(Constants.INITIAL_HEADING);
     System.out.println(current_heading);
-    controller2 = new PIDController(Constants.kP, Constants.kI, Constants.kD);
+    System.out.println(current_heading - Constants.INITIAL_HEADING);
     if(current_heading - Constants.INITIAL_HEADING > 3 || current_heading - Constants.INITIAL_HEADING < -3){
-      m_drivetrain.drive(new ChassisSpeeds(0, 0, controller2.calculate((current_heading*Math.PI)/180, (Constants.INITIAL_HEADING*Math.PI)/180)));
+      if (current_heading < 0){
+        System.out.println("Yo its trying to run");
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
+      } else {
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
+      }
     }
     else{
       finished = true;
