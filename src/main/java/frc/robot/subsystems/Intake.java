@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
@@ -71,5 +72,3 @@ public class Intake extends SubsystemBase {
     detectedColor = m_colorSensor.getColor();
   }
 }
-
-// Shaunussy gets no pussy

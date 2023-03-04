@@ -145,7 +145,6 @@ public class RobotContainer {
     //   //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
     //   m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
     // );
-    //return new ThreeConeAuto
   }
 
   public Command getInitialHeading(){
