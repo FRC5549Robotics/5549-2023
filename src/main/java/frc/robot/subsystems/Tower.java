@@ -58,6 +58,10 @@ public class Tower extends SubsystemBase {
     motor1.set(0.5);
     motor2.set(-0.5);
   }
+  public double GetEncoderValue()
+  {
+    return throughBoreEncoder.getPosition();
+  }
   // public double getEncoderAngle()
   // {
   //   return encoder1.getPosition();

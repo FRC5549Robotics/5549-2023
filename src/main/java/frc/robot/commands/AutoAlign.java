@@ -16,9 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class AutoAlign extends CommandBase {
   
   double Kp = 1/27;
-  NetworkTable limelightTable;
   double ty, tv, tx, angle, distance, ta, oldta;
-  double min_command = 0.05;
   XboxController xbox1;
   double steering_adjust = 0.0;
   Limelight m_Limelight;
