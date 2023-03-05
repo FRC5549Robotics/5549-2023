@@ -33,11 +33,11 @@ public class AutoAlign2Z extends CommandBase {
     m_Limelight = Limelight;
     m_drivetrain = drivetrain;
     xbox1 = controller;
-    controller2.enableContinuousInput(-Math.PI, Math.PI);
+    controller2.enableContinuousInput(-360, 360);
     addRequirements(Limelight, drivetrain);
   }
 
-  // Called when the command is initially scheduled.
+  // Called when the command is initially schedule
   @Override
   public void initialize() {
   
@@ -46,11 +46,11 @@ public class AutoAlign2Z extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double current_heading = Math.toRadians(m_drivetrain.m_navx.getAngle());
+    double current_heading = m_drivetrain.m_navx.getAngle()%360;
     System.out.println(Constants.INITIAL_HEADING);
     System.out.println(current_heading);
     System.out.println(current_heading - Constants.INITIAL_HEADING);
-    if(current_heading - Constants.INITIAL_HEADING > Math.toRadians(3) || current_heading - Constants.INITIAL_HEADING < Math.toRadians(-3)){
+    if(current_heading - Constants.INITIAL_HEADING > 3 || current_heading - Constants.INITIAL_HEADING < -3){
       if (current_heading < 0){
         System.out.println("Yo its trying to run and angle is negative");
         System.out.println("Error its trying to use:" + controller2.calculate(heading, Constants.INITIAL_HEADING));
@@ -58,7 +58,7 @@ public class AutoAlign2Z extends CommandBase {
       } else {
         System.out.println("Yo its trying to run and angle is positive");
         System.out.println("Error its trying to use:" + controller2.calculate(heading, Constants.INITIAL_HEADING));
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       }
     }else{
       finished = true;

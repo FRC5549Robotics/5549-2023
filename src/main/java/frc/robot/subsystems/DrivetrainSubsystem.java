@@ -218,8 +218,8 @@ public Command followTrajectoryCommand(PathPlannerTrajectory traj) {
                  this // Requires this drive subsystem
              );
      }
-public void GetInitialHeading(){
-        Constants.INITIAL_HEADING =  m_navx.getAngle();
+public double GetInitialHeading(){
+        return m_navx.getAngle();
 }
 
 public double getCurrentHeading(){

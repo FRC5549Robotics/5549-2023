@@ -32,9 +32,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     Compressor REV_Compressor = new Compressor(PneumaticsModuleType.REVPH);
     m_robotContainer = new RobotContainer();
-
-    m_initialCommand = m_robotContainer.getInitialHeading();
-    m_initialCommand.schedule();
+    //Constants.INITIAL_HEADING = m_drivetrainSubsystem.getInitialHeading()
+    // m_initialCommand = m_robotContainer.getInitialHeading();
+    // m_initialCommand.schedule();
   }
 
   /**
