@@ -9,6 +9,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Limelight;
+
+import java.lang.constant.DirectMethodHandleDesc;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -30,8 +33,8 @@ public class AutoAlign2Z extends CommandBase {
     m_Limelight = Limelight;
     m_drivetrain = drivetrain;
     xbox1 = controller;
-    addRequirements(Limelight);
-    addRequirements(drivetrain);
+    controller2.enableContinuousInput(-Math.PI, Math.PI);
+    addRequirements(Limelight, drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -43,19 +46,21 @@ public class AutoAlign2Z extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double current_heading = m_drivetrain.m_navx.getAngle();
+    double current_heading = Math.toRadians(m_drivetrain.m_navx.getAngle());
     System.out.println(Constants.INITIAL_HEADING);
     System.out.println(current_heading);
     System.out.println(current_heading - Constants.INITIAL_HEADING);
-    if(current_heading - Constants.INITIAL_HEADING > 3 || current_heading - Constants.INITIAL_HEADING < -3){
+    if(current_heading - Constants.INITIAL_HEADING > Math.toRadians(3) || current_heading - Constants.INITIAL_HEADING < Math.toRadians(-3)){
       if (current_heading < 0){
-        System.out.println("Yo its trying to run");
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, Math.toRadians(-controller2.calculate(current_heading, Constants.INITIAL_HEADING))));
+        System.out.println("Yo its trying to run and angle is negative");
+        System.out.println("Error its trying to use:" + controller2.calculate(heading, Constants.INITIAL_HEADING));
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       } else {
-        m_drivetrain.drive(new ChassisSpeeds(0, 0, Math.toRadians(controller2.calculate(current_heading, Constants.INITIAL_HEADING))));
+        System.out.println("Yo its trying to run and angle is positive");
+        System.out.println("Error its trying to use:" + controller2.calculate(heading, Constants.INITIAL_HEADING));
+        m_drivetrain.drive(new ChassisSpeeds(0, 0, controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       }
-    }
-    else{
+    }else{
       finished = true;
     }
   }
