@@ -47,6 +47,10 @@ public class Intake extends SubsystemBase {
     motor_intake_1.set(0.5);
   }
 
+  public void stop_intake(){
+    motor_intake_1.set(0);
+  }
+
   public void intake_out(){
     mDoubleSolenoid1.set(DoubleSolenoid.Value.kForward);
     mDoubleSolenoid2.set(DoubleSolenoid.Value.kForward);
@@ -62,10 +66,10 @@ public class Intake extends SubsystemBase {
   }
   public boolean color_check(){
     match = m_colorMatcher.matchClosestColor(detectedColor);
-    if (match.color == kYellowTarget || match.color == kPurpleTarget){
-      return true;
-    } else {
+    if (match.color == kAir){
       return false;
+    } else {
+      return true;
     }
   }
   @Override
@@ -75,16 +79,5 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
-
-    match = m_colorMatcher.matchClosestColor(detectedColor);
-    if (match.color == kAir){
-      SmartDashboard.putString("Color:", "Air");
-    }
-    else if (match.color == kPurpleTarget){
-      SmartDashboard.putString("Color:", "Cube");
-    }
-    else if (match.color == kYellowTarget){
-      SmartDashboard.putString("Color:", "Cone");
-    }
   }
 }

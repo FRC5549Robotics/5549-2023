@@ -101,6 +101,7 @@ public class RobotContainer {
             () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
+    m_tower.setDefaultCommand(new PositionTower(m_tower, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -130,7 +131,6 @@ public class RobotContainer {
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
     runIntake.onTrue(new RunIntake(m_Intake));
 
-    m_tower.setDefaultCommand(new PositionTower(m_tower, m_controller2));
 
   }
 

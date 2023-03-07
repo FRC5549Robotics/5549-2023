@@ -33,6 +33,7 @@ public class RunIntakeAuto extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intake.retract_intake();
+    m_intake.stop_intake();
   }
 
   // Returns true when the command should end.

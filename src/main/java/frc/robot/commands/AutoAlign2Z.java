@@ -31,7 +31,6 @@ public class AutoAlign2Z extends CommandBase {
     m_Limelight = Limelight;
     m_drivetrain = drivetrain;
     xbox1 = controller;
-    // controller2.enableContinuousInput(-180, 180);
     addRequirements(Limelight, drivetrain);
   }
 
@@ -46,17 +45,10 @@ public class AutoAlign2Z extends CommandBase {
   public void execute() {
     finished = false;
     double current_heading = m_drivetrain.m_navx.getYaw();
-    System.out.println(Constants.INITIAL_HEADING);
-    System.out.println(current_heading);
-    System.out.println(current_heading - Constants.INITIAL_HEADING);
     if(current_heading - Constants.INITIAL_HEADING > 3 || current_heading - Constants.INITIAL_HEADING < -3){
       if (current_heading < 0){
-        System.out.println("Yo its trying to run and angle is negative");
-        System.out.println("Error its trying to use:" + controller2.calculate(current_heading, Constants.INITIAL_HEADING));
         m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       } else {
-        System.out.println("Yo its trying to run and angle is positive");
-        System.out.println("Error its trying to use:" + controller2.calculate(current_heading, Constants.INITIAL_HEADING));
         m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       }
     }else{
