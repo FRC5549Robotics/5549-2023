@@ -10,8 +10,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Limelight;
 
-import java.lang.constant.DirectMethodHandleDesc;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -23,7 +21,7 @@ public class AutoAlign2Z extends CommandBase {
   Limelight m_Limelight;
   DrivetrainSubsystem m_drivetrain;
 
-  double heading;
+
   PIDController controller2 = new PIDController(Constants.kP, Constants.kI, Constants.kD);
   boolean finished;
   
@@ -33,7 +31,7 @@ public class AutoAlign2Z extends CommandBase {
     m_Limelight = Limelight;
     m_drivetrain = drivetrain;
     xbox1 = controller;
-    controller2.enableContinuousInput(-360, 360);
+    // controller2.enableContinuousInput(-180, 180);
     addRequirements(Limelight, drivetrain);
   }
 
@@ -46,22 +44,29 @@ public class AutoAlign2Z extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double current_heading = m_drivetrain.m_navx.getAngle()%360;
+    finished = false;
+    System.out.println("BEING CALLED");
+    double current_heading = m_drivetrain.m_navx.getYaw();
     System.out.println(Constants.INITIAL_HEADING);
     System.out.println(current_heading);
     System.out.println(current_heading - Constants.INITIAL_HEADING);
     if(current_heading - Constants.INITIAL_HEADING > 3 || current_heading - Constants.INITIAL_HEADING < -3){
       if (current_heading < 0){
         System.out.println("Yo its trying to run and angle is negative");
-        System.out.println("Error its trying to use:" + controller2.calculate(heading, Constants.INITIAL_HEADING));
+        System.out.println("Error its trying to use:" + controller2.calculate(current_heading, Constants.INITIAL_HEADING));
         m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       } else {
         System.out.println("Yo its trying to run and angle is positive");
-        System.out.println("Error its trying to use:" + controller2.calculate(heading, Constants.INITIAL_HEADING));
+        System.out.println("Error its trying to use:" + controller2.calculate(current_heading, Constants.INITIAL_HEADING));
         m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       }
     }else{
+      System.out.println("IT SHOULD BE OVER");
       finished = true;
+    }
+
+    if (finished == true){
+      System.out.println("Bismallahi");
     }
   }
 
@@ -69,6 +74,7 @@ public class AutoAlign2Z extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("ENDING");
     xbox1.setRumble(RumbleType.kBothRumble, 1);
     m_drivetrain.drive(new ChassisSpeeds(0, 0, 0));
   }

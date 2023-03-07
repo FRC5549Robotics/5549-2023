@@ -219,7 +219,7 @@ public Command followTrajectoryCommand(PathPlannerTrajectory traj) {
              );
      }
 public double GetInitialHeading(){
-        return m_navx.getAngle();
+        return m_navx.getYaw();
 }
 
 public double getCurrentHeading(){
@@ -231,7 +231,7 @@ public double getCurrentHeading(){
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
-    SmartDashboard.putNumber("Navx Heading", m_navx.getAngle());
+    SmartDashboard.putNumber("Navx Yaw", m_navx.getYaw());
     m_odometry.update(
         getGyroscopeRotation(),
         new SwerveModulePosition[]{

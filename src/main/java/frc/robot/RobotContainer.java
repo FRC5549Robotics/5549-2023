@@ -101,7 +101,7 @@ public class RobotContainer {
             () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
-    SmartDashboard.putNumber("Initial Heading", Constants.INITIAL_HEADING);
+    SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
     configureButtonBindings();
   }
