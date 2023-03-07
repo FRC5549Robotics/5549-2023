@@ -26,8 +26,9 @@ public class Intake extends SubsystemBase {
   ColorSensorV3 m_colorSensor;
   I2C.Port i2cPort;
   ColorMatch m_colorMatcher;
-  Color kYellowTarget = new Color(0.361, 0.524, 0.113);
-  Color kPurpleTarget = new Color(0,0,0);
+  Color kYellowTarget = new Color(0.281982, 0.501465, 0.216064);
+  Color kPurpleTarget = new Color(0.230957,0.379883,0.395996);
+  Color kAir = new Color(0.254639, 0.487549, 0.258057);
   Color detectedColor;
   ColorMatchResult match;
   public Intake() {
@@ -39,6 +40,7 @@ public class Intake extends SubsystemBase {
     m_colorMatcher = new ColorMatch();
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.addColorMatch(kPurpleTarget);
+    m_colorMatcher.addColorMatch(kAir);
   }
 
   public void run_intake(){
@@ -70,5 +72,19 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     detectedColor = m_colorSensor.getColor();
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+
+    match = m_colorMatcher.matchClosestColor(detectedColor);
+    if (match.color == kAir){
+      SmartDashboard.putString("Color:", "Air");
+    }
+    else if (match.color == kPurpleTarget){
+      SmartDashboard.putString("Color:", "Cube");
+    }
+    else if (match.color == kYellowTarget){
+      SmartDashboard.putString("Color:", "Cone");
+    }
   }
 }
