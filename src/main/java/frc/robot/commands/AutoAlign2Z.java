@@ -45,7 +45,6 @@ public class AutoAlign2Z extends CommandBase {
   @Override
   public void execute() {
     finished = false;
-    System.out.println("BEING CALLED");
     double current_heading = m_drivetrain.m_navx.getYaw();
     System.out.println(Constants.INITIAL_HEADING);
     System.out.println(current_heading);
@@ -61,12 +60,7 @@ public class AutoAlign2Z extends CommandBase {
         m_drivetrain.drive(new ChassisSpeeds(0, 0, -controller2.calculate(current_heading, Constants.INITIAL_HEADING)));
       }
     }else{
-      System.out.println("IT SHOULD BE OVER");
       finished = true;
-    }
-
-    if (finished == true){
-      System.out.println("Bismallahi");
     }
   }
 
@@ -74,7 +68,6 @@ public class AutoAlign2Z extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("ENDING");
     xbox1.setRumble(RumbleType.kBothRumble, 1);
     m_drivetrain.drive(new ChassisSpeeds(0, 0, 0));
   }
