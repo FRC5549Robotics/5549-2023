@@ -22,7 +22,6 @@ import frc.robot.commands.AutoAlign2;
 import frc.robot.commands.AutoAlign2X;
 import frc.robot.commands.AutoAlign2Y;
 import frc.robot.commands.AutoAlign2Z;
-import frc.robot.commands.AutoAlignYaw;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.ThreeConeAuto;
