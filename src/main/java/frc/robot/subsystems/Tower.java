@@ -51,7 +51,7 @@ public class Tower extends SubsystemBase {
   public void runSpeed(double speed)
   {
     motor1.set(speed);
-    motor2.set(speed);
+    motor2.set(-speed);
   }
 
   public void runTo() {

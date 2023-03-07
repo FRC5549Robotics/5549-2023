@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private Command m_initialCommand;
 
   private RobotContainer m_robotContainer;
 

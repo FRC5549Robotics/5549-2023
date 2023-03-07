@@ -28,6 +28,11 @@ public class Telescope extends SubsystemBase {
 
   }
 
+  public double getEncoder()
+  {
+    return motor1.getEncoder().getPosition();
+  }
+
   public void on(double speed) {
     motor1.set(speed);
   }

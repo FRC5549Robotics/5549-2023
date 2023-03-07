@@ -13,18 +13,25 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 
 public class PositionTower extends CommandBase {
   /** Creates a new TowerTop. */
   Tower m_Tower;
-  private final double TowerTopMeasure = 0.4;
+  private final double TowerTopMeasure = 0.6;
+  private final double TowerGrabMeause = 0.22;
+  private final double TowerLowerMeasure = 0.3;
+  private final double TowerMidMeasure = 0.28;
+  private String m_Location;
   double kP, kI, kD;
   PIDController pid = new PIDController(kP, kI, kD);
+  XboxController m_joy;
 
-
-  public PositionTower(Tower Top) {
+  public PositionTower(Tower Top, XboxController joy) {
     m_Tower = Top;
+    m_joy = joy;
     addRequirements(m_Tower);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -36,7 +43,27 @@ public class PositionTower extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), TowerTopMeasure));
+
+    if(Math.abs(m_joy.getRawAxis(1)) > 0.1)
+    {
+      m_Tower.runSpeed(m_joy.getRawAxis(1));
+    }
+    else if(m_joy.getBButton())
+    {
+      m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), TowerTopMeasure));
+    }
+    else if(m_joy.getYButton())
+    {
+      m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), TowerMidMeasure));
+    }
+    else if(m_joy.getXButton())
+    {
+      m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), TowerLowerMeasure));
+    }
+    else if(m_joy.getAButton())
+    {
+      m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), TowerGrabMeause));
+    }
   }
 
   // Called once the command ends or is interrupted.

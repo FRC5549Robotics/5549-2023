@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.FiveConeAuto;
 import frc.robot.commands.FourConeAuto;
+import frc.robot.commands.PositionTower;
 import frc.robot.commands.AutoAlign;
 import frc.robot.commands.AutoAlign2;
 import frc.robot.commands.AutoAlign2X;
@@ -54,6 +55,7 @@ public class RobotContainer {
   
 
   private final XboxController m_controller = new XboxController(0);
+  private final XboxController m_controller2 = new XboxController(1);
   
   //All the Paths
   PathPlannerTrajectory BotToCC = PathPlanner.loadPath("BotToCC", new PathConstraints(4, 3));
@@ -128,6 +130,9 @@ public class RobotContainer {
     //  }));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
     runIntake.onTrue(new RunIntake(m_Intake));
+
+    m_tower.setDefaultCommand(new PositionTower(m_tower, m_controller2));
+
   }
 
   /**
