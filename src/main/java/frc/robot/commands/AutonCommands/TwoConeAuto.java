@@ -67,7 +67,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_tower::dropItem)
+      new InstantCommand(m_telescope::dropItem)
     );
   }
 }

@@ -12,14 +12,17 @@ import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
 import com.revrobotics.RelativeEncoder;
 
+
 public class Telescope extends SubsystemBase {
   /** Creates a new Telescope. */
-  CANSparkMax motor1;
+  CANSparkMax TelescopeMotor;
+  CANSparkMax ClawMotor;
   PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
     
 
   public Telescope() {
-    motor1 = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
+    TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
+    ClawMotor = new CANSparkMax(Constants.MOTOR_CLAW_1, MotorType.kBrushless);
   }
 
   @Override
@@ -30,14 +33,18 @@ public class Telescope extends SubsystemBase {
 
   public double getEncoder()
   {
-    return motor1.getEncoder().getPosition();
+    return TelescopeMotor.getEncoder().getPosition();
   }
 
   public void on(double speed) {
-    motor1.set(speed);
+    TelescopeMotor.set(speed);
+  }
+
+  public void dropItem(){
+    ClawMotor.set(-0.5);
   }
 
   public void off() {
-    motor1.set(0);
+    TelescopeMotor.set(0);
   }
 }

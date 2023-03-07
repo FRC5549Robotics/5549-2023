@@ -66,4 +66,7 @@ public final class Constants {
 
     //Telescope
     public static final int MOTOR_TELESCOPE_1 = 16;
+
+    //Claw
+    public static final int MOTOR_CLAW_1 = 17;
 }

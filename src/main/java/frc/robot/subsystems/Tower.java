@@ -18,7 +18,7 @@ public class Tower extends SubsystemBase {
   /** Creates a new Tower. */
   CANSparkMax motor1;
   CANSparkMax motor2;
-  DoubleSolenoid m_clawDoubleSolenoid;
+  public DoubleSolenoid m_clawDoubleSolenoid;
 
   // RelativeEncoder encoder1;
   // RelativeEncoder encoder2;

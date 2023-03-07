@@ -58,7 +58,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
           m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
-      new InstantCommand(m_tower::dropItem),
+      new InstantCommand(m_telescope::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopToCone),
@@ -70,7 +70,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_tower::dropItem),
+      new InstantCommand(m_telescope::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConePickup),
@@ -82,7 +82,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_tower::dropItem)
+      new InstantCommand(m_telescope::dropItem)
     );
   }
 }

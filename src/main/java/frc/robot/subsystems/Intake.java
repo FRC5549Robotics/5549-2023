@@ -25,10 +25,10 @@ public class Intake extends SubsystemBase {
   DoubleSolenoid mDoubleSolenoid2;
   ColorSensorV3 m_colorSensor;
   I2C.Port i2cPort;
-  ColorMatch m_colorMatcher;
-  Color kYellowTarget = new Color(0.281982, 0.501465, 0.216064);
-  Color kPurpleTarget = new Color(0.230957,0.379883,0.395996);
-  Color kAir = new Color(0.254639, 0.487549, 0.258057);
+  public ColorMatch m_colorMatcher;
+  public Color kYellowTarget = new Color(0.281982, 0.501465, 0.216064);
+  public Color kPurpleTarget = new Color(0.230957,0.379883,0.395996);
+  public Color kAir = new Color(0.254639, 0.487549, 0.258057);
   Color detectedColor;
   ColorMatchResult match;
   public Intake() {
