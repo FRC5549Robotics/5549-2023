@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 
-public class PositionTower extends CommandBase {
+public class DefaultTowerCommand extends CommandBase {
   /** Creates a new TowerTop. */
   Tower m_Tower;
   private final double TowerTopMeasure = 0.6;
@@ -29,7 +29,7 @@ public class PositionTower extends CommandBase {
   PIDController pid = new PIDController(kP, kI, kD);
   XboxController m_joy;
 
-  public PositionTower(Tower Top, XboxController joy) {
+  public DefaultTowerCommand(Tower Top, XboxController joy) {
     m_Tower = Top;
     m_joy = joy;
     addRequirements(m_Tower);

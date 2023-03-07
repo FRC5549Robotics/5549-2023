@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCommands;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunIntakeAuto;
-import frc.robot.commands.AutoAlign2;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.Pivot;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -54,9 +54,6 @@ public class ThreeConeAuto extends SequentialCommandGroup {
     pathTopSecondConePickup = TopSecondConePickup;
     pathTopSecondConeBack = TopSecondConeBack;
     addCommands(
-      new InstantCommand(() ->{
-          m_drivetrainSubsystem.GetInitialHeading();
-      }),
       new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
       }),

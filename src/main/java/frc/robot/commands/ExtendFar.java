@@ -28,7 +28,7 @@ public class ExtendFar extends CommandBase {
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
-    rumController.setRumble(RumbleType.kBothRumble, 0);;
+    rumController.setRumble(RumbleType.kBothRumble, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

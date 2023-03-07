@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -13,13 +13,13 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.AutoAlign2;
 import frc.robot.commands.ExtendFar;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.Pivot;
 import frc.robot.commands.PivotBack;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunIntakeAuto;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Tower;
@@ -53,9 +53,6 @@ public class TwoConeAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() ->{
-          m_drivetrainSubsystem.GetInitialHeading();
-      }),
         new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),

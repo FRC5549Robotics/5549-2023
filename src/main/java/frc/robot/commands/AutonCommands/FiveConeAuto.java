@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCommands;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunIntakeAuto;
-import frc.robot.commands.AutoAlign2;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.Pivot;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -27,7 +27,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FourConeAuto extends SequentialCommandGroup {
+public class FiveConeAuto extends SequentialCommandGroup {
   /** Creates a new ThreeConeAuto. */
   DrivetrainSubsystem m_drivetrainSubsystem;
   Intake m_intake;
@@ -41,9 +41,11 @@ public class FourConeAuto extends SequentialCommandGroup {
   PathPlannerTrajectory Path4;
   PathPlannerTrajectory Path5;
   PathPlannerTrajectory Path6;
-  public FourConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory TopToCone,
+  PathPlannerTrajectory Path7;
+  PathPlannerTrajectory Path8;
+  public FiveConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory TopToCone,
   PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack, PathPlannerTrajectory TopThirdConePickup,
-  PathPlannerTrajectory TopThirdConeBack) {
+  PathPlannerTrajectory TopThirdConeBack, PathPlannerTrajectory TopFourthConePickup, PathPlannerTrajectory TopFourthConeBack) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_drivetrainSubsystem = drivetrainSubsystem;
@@ -58,10 +60,9 @@ public class FourConeAuto extends SequentialCommandGroup {
     Path4 = TopSecondConeBack;
     Path5 = TopThirdConePickup;
     Path6 = TopThirdConeBack;
+    Path7 = TopFourthConePickup;
+    Path8 = TopFourthConeBack;
     addCommands(
-      new InstantCommand(() ->{
-          m_drivetrainSubsystem.GetInitialHeading();
-      }),
       new InstantCommand(() -> {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
@@ -99,6 +100,18 @@ public class FourConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
         m_drivetrainSubsystem.followTrajectoryCommand(Path6),
+        new Pivot(m_tower)
+      ),
+      new AutoAlign2(m_limelight, m_drivetrainSubsystem),
+      new InstantCommand(m_tower::dropItem),
+      new ParallelCommandGroup(
+        new Retract(m_telescope),
+        m_drivetrainSubsystem.followTrajectoryCommand(Path7),
+        new RunIntakeAuto(m_intake)
+      ),
+      new ParallelCommandGroup(
+        new ExtendMedium(m_telescope, rumController),
+        m_drivetrainSubsystem.followTrajectoryCommand(Path8),
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

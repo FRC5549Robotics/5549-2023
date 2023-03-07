@@ -14,18 +14,18 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.FiveConeAuto;
-import frc.robot.commands.FourConeAuto;
-import frc.robot.commands.PositionTower;
-import frc.robot.commands.AutoAlign;
-import frc.robot.commands.AutoAlign2;
-import frc.robot.commands.AutoAlign2X;
-import frc.robot.commands.AutoAlign2Y;
-import frc.robot.commands.AutoAlign2Z;
+import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.RunIntake;
-import frc.robot.commands.ThreeConeAuto;
-import frc.robot.commands.TwoConeAuto;
+import frc.robot.commands.AutoAlignCommands.AutoAlign;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2Y;
+import frc.robot.commands.AutoAlignCommands.AutoAlign2Z;
+import frc.robot.commands.AutonCommands.FiveConeAuto;
+import frc.robot.commands.AutonCommands.FourConeAuto;
+import frc.robot.commands.AutonCommands.ThreeConeAuto;
+import frc.robot.commands.AutonCommands.TwoConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
@@ -101,7 +101,7 @@ public class RobotContainer {
             () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
-    m_tower.setDefaultCommand(new PositionTower(m_tower, m_controller2));
+    m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
