@@ -4,16 +4,9 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.MotorCommutation;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
-import frc.robot.subsystems.Limelight;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 
@@ -24,7 +17,6 @@ public class DefaultTowerCommand extends CommandBase {
   private final double TowerGrabMeause = 0.22;
   private final double TowerLowerMeasure = 0.3;
   private final double TowerMidMeasure = 0.28;
-  private String m_Location;
   double kP, kI, kD;
   PIDController pid = new PIDController(kP, kI, kD);
   XboxController m_joy;

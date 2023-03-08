@@ -32,7 +32,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.Constants;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -155,11 +154,6 @@ public class RobotContainer {
     //   m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
     // );
   }
-
-  public Command getInitialHeading(){
-    return new InstantCommand(m_drivetrainSubsystem::GetInitialHeading);
-  }
-
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
       if (value > 0.0) {

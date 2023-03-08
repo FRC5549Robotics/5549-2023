@@ -21,8 +21,8 @@ import com.revrobotics.ColorMatchResult;
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   CANSparkMax motor_intake_1;
-  DoubleSolenoid mDoubleSolenoid1;
-  DoubleSolenoid mDoubleSolenoid2;
+  DoubleSolenoid mDoubleSolenoidIntakeRight;
+  DoubleSolenoid mDoubleSolenoidIntakeLeft;
   ColorSensorV3 m_colorSensor;
   I2C.Port i2cPort;
   public ColorMatch m_colorMatcher;
@@ -33,8 +33,8 @@ public class Intake extends SubsystemBase {
   ColorMatchResult match;
   public Intake() {
     motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushed);
-    mDoubleSolenoid1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
-    mDoubleSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
+    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
+    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     i2cPort = I2C.Port.kOnboard;
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
@@ -52,13 +52,13 @@ public class Intake extends SubsystemBase {
   }
 
   public void intake_out(){
-    mDoubleSolenoid1.set(DoubleSolenoid.Value.kForward);
-    mDoubleSolenoid2.set(DoubleSolenoid.Value.kForward);
+    mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kForward);
+    mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retract_intake(){
-    mDoubleSolenoid1.set(DoubleSolenoid.Value.kReverse);
-    mDoubleSolenoid2.set(DoubleSolenoid.Value.kReverse);
+    mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kReverse);
+    mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kReverse);
   }
 
   public Color getColor(){
