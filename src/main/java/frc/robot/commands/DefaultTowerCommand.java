@@ -63,6 +63,8 @@ public class DefaultTowerCommand extends CommandBase {
     else if(m_joy.getAButton())
     {
       m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), TowerGrabMeause));
+    } else{
+      m_Tower.off();
     }
   }
 

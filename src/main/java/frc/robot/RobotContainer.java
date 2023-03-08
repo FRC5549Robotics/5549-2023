@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.RunIntake;
@@ -102,6 +103,7 @@ public class RobotContainer {
             () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
+    m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings

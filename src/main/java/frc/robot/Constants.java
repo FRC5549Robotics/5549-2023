@@ -61,11 +61,11 @@ public final class Constants {
     public static final int MOTOR_INTAKE_1 = 13;
 
     //Tower
-    public static final int MOTOR_TOWER1 = 14;
+    public static final int MOTOR_TOWER1 = 16;
     public static final int MOTOR_TOWER2 = 15;
 
     //Telescope
-    public static final int MOTOR_TELESCOPE_1 = 16;
+    public static final int MOTOR_TELESCOPE_1 = 14;
 
     //Claw
     public static final int MOTOR_CLAW_1 = 17;

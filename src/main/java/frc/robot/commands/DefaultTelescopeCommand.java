@@ -17,11 +17,11 @@ import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TelescopeCommand extends CommandBase {
+public class DefaultTelescopeCommand extends CommandBase {
   /** Creates a new TelescopeCommand. */
   private Telescope m_tele;
   private XboxController m_joy2;
-  public TelescopeCommand(Telescope tele, XboxController joy2) {
+  public DefaultTelescopeCommand(Telescope tele, XboxController joy2) {
     m_tele = tele;
     m_joy2 = joy2;
     addRequirements(tele);
