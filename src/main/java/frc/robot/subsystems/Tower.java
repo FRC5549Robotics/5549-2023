@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Constants;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.AlternateEncoderType;
+import com.revrobotics.CANEncoder;
 
 public class Tower extends SubsystemBase {
   /** Creates a new Tower. */
@@ -25,11 +27,11 @@ public class Tower extends SubsystemBase {
   // RelativeEncoder encoder2;
   private double MidLowPos = 40;
   private double calculatedEncoder;
-  private AbsoluteEncoder throughBoreEncoder;
+  private RelativeEncoder throughBoreEncoder;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
     motor2 = new CANSparkMax(Constants.MOTOR_TOWER2, MotorType.kBrushless);
-    AbsoluteEncoder throughBoreEncoder = motor2.getAbsoluteEncoder(Type.kDutyCycle);
+    throughBoreEncoder = motor2.getAlternateEncoder(8192);
     m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
     // encoder1 = motor1.getAlternateEncoder(0);
     // encoder2 = motor2.getAlternateEncoder(0);
