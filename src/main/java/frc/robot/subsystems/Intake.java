@@ -38,15 +38,15 @@ public class Intake extends SubsystemBase {
   Compressor REV_Compressor;
   public Intake() {
     motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushed);
-    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
-    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
+    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
+    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
     i2cPort = I2C.Port.kOnboard;
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.addColorMatch(kPurpleTarget);
     m_colorMatcher.addColorMatch(kAir);
-    REV_Compressor = new Compressor(PneumaticsModuleType.REVPH);
+    REV_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
   }
 
   public void run_intake(){
@@ -91,5 +91,7 @@ public class Intake extends SubsystemBase {
     } else {
       SmartDashboard.putString("Color Sensor Target:", "Air");
     }
+
+    REV_Compressor.enableDigital();
   }
 }
