@@ -121,8 +121,8 @@ public class RobotContainer {
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.whileTrue(new SequentialCommandGroup(
-      new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
-      //new AutoAlign2X(m_Limelight, m_drivetrainSubsystem),
+      //new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
+      new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     ));
     // autoAlignButton.onFalse(
@@ -131,6 +131,7 @@ public class RobotContainer {
     //  }));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
     runIntake.onTrue(new RunIntake(m_Intake));
+
 
 
   }
