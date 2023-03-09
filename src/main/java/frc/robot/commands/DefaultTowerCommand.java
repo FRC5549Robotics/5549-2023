@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Tower;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class DefaultTowerCommand extends CommandBase {
@@ -20,6 +21,7 @@ public class DefaultTowerCommand extends CommandBase {
   double kP, kI, kD;
   PIDController pid = new PIDController(kP, kI, kD);
   XboxController m_joy;
+  
 
   public DefaultTowerCommand(Tower Top, XboxController joy) {
     m_Tower = Top;
@@ -36,7 +38,8 @@ public class DefaultTowerCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(Math.abs(m_joy.getRawAxis(1)) > 0.1)
+    SmartDashboard.putNumber("Tower Encoder", m_Tower.GetEncoderValue());
+    if(Math.abs(m_joy.getRawAxis(1)) > 0.2)
     {
       m_Tower.runSpeed(m_joy.getRawAxis(1));
     }
