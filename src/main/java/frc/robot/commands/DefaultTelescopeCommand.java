@@ -37,9 +37,9 @@ public class DefaultTelescopeCommand extends CommandBase {
   public void execute() {
 
 
-    if(Math.abs(m_joy2.getRawAxis(3)) > 0.1)
+    if(Math.abs(m_joy2.getRawAxis(5)) > 0.1)
     {
-      m_tele.on(m_joy2.getRawAxis(3));
+      m_tele.on(m_joy2.getRawAxis(5));
     }
     else
     {

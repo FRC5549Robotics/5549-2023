@@ -49,7 +49,7 @@ public class AutoAlign2X extends CommandBase {
     if(m_Limelight.getTx() > 3 || m_Limelight.getTx()<-3){
       System.out.println("trying to drive");
       System.out.println("Error:" + controller2.calculate(m_Limelight.getTx(), 0));
-      m_drivetrain.drive(new ChassisSpeeds(controller2.calculate(m_Limelight.getTx(), 0), 0, 0));
+      m_drivetrain.drive(new ChassisSpeeds(0, controller2.calculate(m_Limelight.getTx(), 9.5), 0));
     }
     else{
       finished = true;

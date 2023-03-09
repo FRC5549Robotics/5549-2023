@@ -35,7 +35,6 @@ public class Intake extends SubsystemBase {
   Color detectedColor;
   ColorMatchResult match;
   ColorMatchResult match1;
-  Compressor REV_Compressor;
   public Intake() {
     motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushed);
     mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
@@ -46,7 +45,6 @@ public class Intake extends SubsystemBase {
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.addColorMatch(kPurpleTarget);
     m_colorMatcher.addColorMatch(kAir);
-    REV_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
   }
 
   public void run_intake(){
@@ -91,7 +89,5 @@ public class Intake extends SubsystemBase {
     } else {
       SmartDashboard.putString("Color Sensor Target:", "Air");
     }
-
-    REV_Compressor.enableDigital();
   }
 }

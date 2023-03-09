@@ -61,6 +61,13 @@ public class DefaultTowerCommand extends CommandBase {
     } else{
       m_Tower.off();
     }
+
+    // if(m_joy.getRawButton(5))
+    // {
+    //   double temp;
+    //   temp = m_Tower.GetEncoderValue();
+    //   m_Tower.runSpeed(pid.calculate(m_Tower.GetEncoderValue(), temp));
+    // }
   }
 
   // Called once the command ends or is interrupted.
