@@ -84,7 +84,7 @@ public class RobotContainer {
   
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
-  JoystickButton runIntake = new JoystickButton(m_controller, 3);
+  JoystickButton runIntake = new JoystickButton(m_controller2, 3);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
