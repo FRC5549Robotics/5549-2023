@@ -57,7 +57,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
-      new InstantCommand(m_tower::dropItem),
+      new InstantCommand(m_tower::CubeGrab),
       new Retract(m_telescope),
       m_drivetrainSubsystem.followTrajectoryCommand(Path1),
       new RunIntakeAuto(m_intake),

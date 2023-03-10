@@ -15,11 +15,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DropItem;
+import frc.robot.commands.PickItem;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.AutoStable;
-import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunIntakeCube;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -86,15 +89,16 @@ public class RobotContainer {
   
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
-  JoystickButton runIntake = new JoystickButton(m_controller2, 3);
 
-  Compressor c;
+
+
+
+  JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    c = new Compressor(PneumaticsModuleType.CTREPCM);
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
@@ -108,6 +112,7 @@ public class RobotContainer {
     ));
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
+    m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -135,9 +140,18 @@ public class RobotContainer {
     //     m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
     //  }));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
-    runIntake.onTrue(new RunIntake(m_Intake));
+
+    //Intake Command
+    intakePistonToggle.whileTrue(new InstantCommand(m_Intake::intake_toggle));
+
+    //Claw Command
 
 
+    //Claw-Telescope Command
+
+    
+
+    
 
   }
 

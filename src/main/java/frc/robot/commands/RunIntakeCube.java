@@ -7,11 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class RunIntakeAuto extends CommandBase {
-  /** Creates a new RunIntakeAuto. */
+public class RunIntakeCube extends CommandBase {
+  /** Creates a new RunIntake. */
   Intake m_intake;
-  boolean finished = false;
-  public RunIntakeAuto(Intake intake) {
+  public RunIntakeCube(Intake intake) {
     m_intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
@@ -20,7 +19,7 @@ public class RunIntakeAuto extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.intake_out();
+    //m_intake.intake_out();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,13 +31,13 @@ public class RunIntakeAuto extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.retract_intake();
+    //m_intake.retract_intake();
     m_intake.stop_intake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_intake.color_check();
+    return false;
   }
 }

@@ -5,37 +5,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Tower;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatchResult;
 
 public class DefaultClawCommand extends CommandBase {
   /** Creates a new DefaultClawCommand. */
-  Intake m_intake;
-  Tower m_tower;
-  Color detectedColor;
-  ColorMatchResult match;
+  Claw m_claw;
+  XboxController joy2;
 
-  public DefaultClawCommand(Intake intake, Tower tower) {
+  public DefaultClawCommand(Claw claw, XboxController xbox) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_intake = intake;
-    m_tower = tower;
+    joy2 = xbox;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    detectedColor = m_intake.getColor();
-    match = m_intake.m_colorMatcher.matchClosestColor(detectedColor);
-    if (match.color == m_intake.kPurpleTarget){
-      m_tower.Clamp();
-    } else if (match.color == m_intake.kYellowTarget){
-      m_tower.dropItem();
+    if(joy2.getRawAxis(2) > 0.2)
+    {
+        m_claw.setClawSpeed(0.75);
+    }
+    else if (joy2.getRawAxis(3) > 0.2)
+    {
+      m_claw.setClawSpeed(-0.75);
+    }
+    if(joy2.getRawButton(5))
+    {
+      m_claw.m_clawDoubleSolenoid.toggle();
     }
   }
 

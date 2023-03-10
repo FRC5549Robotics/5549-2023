@@ -22,7 +22,7 @@ public class Pivot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Tower.Clamp();
+    m_Tower.CubeGrab();
     startTime = System.currentTimeMillis();
   }
 

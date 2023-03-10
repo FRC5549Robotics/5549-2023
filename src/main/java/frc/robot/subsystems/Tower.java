@@ -32,7 +32,6 @@ public class Tower extends SubsystemBase {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
     motor2 = new CANSparkMax(Constants.MOTOR_TOWER2, MotorType.kBrushless);
     throughBoreEncoder = motor2.getAlternateEncoder(8192);
-    m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
     // encoder1 = motor1.getAlternateEncoder(0);
     // encoder2 = motor2.getAlternateEncoder(0);
     
@@ -44,13 +43,7 @@ public class Tower extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void Clamp(){
-    m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kForward);
-  }
-
-  public void dropItem(){
-    m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-  }
+  
   public void runSpeed(double speed)
   {
     motor1.set(speed);

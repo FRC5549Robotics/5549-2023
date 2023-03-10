@@ -45,6 +45,14 @@ public class DefaultTelescopeCommand extends CommandBase {
     {
       m_tele.off();
     }
+    if(m_joy2.getRawAxis(2) > 0.2)
+    {
+      m_tele.pickItem();
+    }
+    if(m_joy2.getRawAxis(3) > 0.2)
+    {
+      m_tele.dropItem();
+    }
   }
 
   // Called once the command ends or is interrupted.

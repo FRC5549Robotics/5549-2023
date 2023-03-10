@@ -5,40 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Telescope;
 
-public class RunIntakeAuto extends CommandBase {
-  /** Creates a new RunIntakeAuto. */
-  Intake m_intake;
-  boolean finished = false;
-  public RunIntakeAuto(Intake intake) {
-    m_intake = intake;
+public class DropItem extends CommandBase {
+  /** Creates a new DropItem. */
+  Telescope telescope;
+  public DropItem(Telescope telescope) {
+    this.telescope = telescope;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    addRequirements(telescope);
   }
+
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_intake.intake_out();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.run_intake_cube();
+    telescope.pickItem();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.retract_intake();
-    m_intake.stop_intake();
+    telescope.stopClaw();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_intake.color_check();
+    return false;
   }
 }

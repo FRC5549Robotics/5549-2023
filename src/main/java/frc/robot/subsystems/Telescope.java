@@ -41,7 +41,15 @@ public class Telescope extends SubsystemBase {
   }
 
   public void dropItem(){
-    ClawMotor.set(-0.5);
+    ClawMotor.set(0.75);
+  }
+
+  public void pickItem(){
+    ClawMotor.set(-0.75);
+  }
+
+  public void stopClaw(){
+    ClawMotor.set(0);
   }
 
   public void off() {

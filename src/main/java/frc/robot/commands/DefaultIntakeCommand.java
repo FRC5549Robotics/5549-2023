@@ -6,12 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj.XboxController;
 
-public class RunIntake extends CommandBase {
+public class DefaultIntakeCommand extends CommandBase {
   /** Creates a new RunIntake. */
   Intake m_intake;
-  public RunIntake(Intake intake) {
+  XboxController m_joy;
+  public DefaultIntakeCommand(Intake intake, XboxController joy) {
     m_intake = intake;
+    m_joy = joy;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
   }
@@ -19,19 +23,36 @@ public class RunIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.intake_out();
+    //m_intake.intake_out();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.run_intake();
+    
+    //cone
+    if(m_joy.getRawAxis(3) > 0.2)
+    {
+      m_intake.run_intake_speed(1);
+    }
+    
+    //cube
+    else if(m_joy.getRawAxis(3) > 0.2)
+    {
+      m_intake.run_intake_speed(0.25);
+    }
+    else
+    {
+      m_intake.stop_intake();
+    }
+   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.retract_intake();
+    //m_intake.retract_intake();
+    m_intake.stop_intake();
   }
 
   // Returns true when the command should end.

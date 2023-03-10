@@ -35,21 +35,32 @@ public class Intake extends SubsystemBase {
   Color detectedColor;
   ColorMatchResult match;
   ColorMatchResult match1;
+  Compressor REV_Compressor;
   public Intake() {
-    motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushed);
-    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
-    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
+    motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushless);
+    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
+    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     i2cPort = I2C.Port.kOnboard;
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.addColorMatch(kPurpleTarget);
     m_colorMatcher.addColorMatch(kAir);
+    REV_Compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   }
 
-  public void run_intake(){
-    motor_intake_1.set(0.5);
+  public void run_intake_cone(){
+    motor_intake_1.set(-1);
   }
+  public void run_intake_speed(double num)
+  {
+    motor_intake_1.set(num);
+  }
+  public void run_intake_cube()
+  {
+    motor_intake_1.set(-0.5);
+  }
+
 
   public void stop_intake(){
     motor_intake_1.set(0);
@@ -63,6 +74,11 @@ public class Intake extends SubsystemBase {
   public void retract_intake(){
     mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kReverse);
     mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kReverse);
+  }
+  public void intake_toggle()
+  {
+    mDoubleSolenoidIntakeLeft.toggle();
+    mDoubleSolenoidIntakeRight.toggle();
   }
 
   public Color getColor(){
@@ -89,5 +105,7 @@ public class Intake extends SubsystemBase {
     } else {
       SmartDashboard.putString("Color Sensor Target:", "Air");
     }
+
+    REV_Compressor.enableDigital();
   }
 }
