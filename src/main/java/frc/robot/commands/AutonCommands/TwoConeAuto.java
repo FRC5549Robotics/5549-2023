@@ -6,8 +6,6 @@ package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import java.nio.file.Path;
-
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,6 +23,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Claw;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -34,18 +33,20 @@ public class TwoConeAuto extends SequentialCommandGroup {
   /** Creates a new RunAuto. */
   DrivetrainSubsystem m_drivetrainSubsystem;
   Intake m_intake;
+  Claw m_claw;
   PathPlannerTrajectory Path1;
   PathPlannerTrajectory Path2;
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
   XboxController rumController;
-  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory path1, 
+  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, PathPlannerTrajectory path1, 
   PathPlannerTrajectory path2) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    m_claw = claw;
     rumController = RumController;
     Path1 = path1;
     Path2 = path2;
@@ -57,7 +58,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
-      new InstantCommand(m_tower::CubeGrab),
+      new InstantCommand(m_claw::dropItem),
       new Retract(m_telescope),
       m_drivetrainSubsystem.followTrajectoryCommand(Path1),
       new RunIntakeAuto(m_intake),
@@ -67,7 +68,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
         new Pivot(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_telescope::dropItem)
+      new InstantCommand(m_claw::dropItem)
     );
   }
 }

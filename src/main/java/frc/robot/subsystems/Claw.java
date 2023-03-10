@@ -5,18 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.math.controller.PIDController;
-import frc.robot.Constants;
-import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Constants;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.CANEncoder;
 
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
@@ -26,14 +19,20 @@ public class Claw extends SubsystemBase {
 
   public Claw() {
 
-
+  ClawMotor = new CANSparkMax(17, MotorType.kBrushless);
+  m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
 
   }
-  public void setClawSpeed(double speed)
+  public void pickItem()
   {
-    ClawMotor.set(speed);
+    ClawMotor.set(Constants.CLAW_MOTOR_SPEED);
   }
+
+  public void dropItem(){
+    ClawMotor.set(Constants.CLAW_MOTOR_SPEED);
+  }
+
   public void setConeMode()
   {
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kForward);

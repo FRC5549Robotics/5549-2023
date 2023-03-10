@@ -4,18 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
-import frc.robot.subsystems.Tower;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Limelight;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DefaultTelescopeCommand extends CommandBase {
   /** Creates a new TelescopeCommand. */
@@ -44,14 +36,6 @@ public class DefaultTelescopeCommand extends CommandBase {
     else
     {
       m_tele.off();
-    }
-    if(m_joy2.getRawAxis(2) > 0.2)
-    {
-      m_tele.pickItem();
-    }
-    if(m_joy2.getRawAxis(3) > 0.2)
-    {
-      m_tele.dropItem();
     }
   }
 

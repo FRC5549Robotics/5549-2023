@@ -19,7 +19,9 @@ public class DefaultClawCommand extends CommandBase {
 
   public DefaultClawCommand(Claw claw, XboxController xbox) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_claw = claw;
     joy2 = xbox;
+    addRequirements(claw);
   }
 
   // Called when the command is initially scheduled.
@@ -32,11 +34,13 @@ public class DefaultClawCommand extends CommandBase {
   public void execute() {
     if(joy2.getRawAxis(2) > 0.2)
     {
-        m_claw.setClawSpeed(0.75);
+        m_claw.pickItem();
     }
     else if (joy2.getRawAxis(3) > 0.2)
     {
-      m_claw.setClawSpeed(-0.75);
+      m_claw.dropItem();
+    } else {
+      m_claw.setClawSpeed(0);
     }
     if(joy2.getRawButton(5))
     {
@@ -46,7 +50,9 @@ public class DefaultClawCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_claw.setClawSpeed((0));
+  }
 
   // Returns true when the command should end.
   @Override
