@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -17,12 +18,13 @@ public class Tower extends SubsystemBase {
   CANSparkMax motor1;
   CANSparkMax motor2;
 
-  private RelativeEncoder throughBoreEncoder;
+  public RelativeEncoder throughBoreEncoder;
+  public RelativeEncoder Encoder1;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
     motor2 = new CANSparkMax(Constants.MOTOR_TOWER2, MotorType.kBrushless);
     throughBoreEncoder = motor2.getAlternateEncoder(8192);
-    // encoder1 = motor1.getAlternateEncoder(0);
+    Encoder1 = motor1.getEncoder();
     // encoder2 = motor2.getAlternateEncoder(0);
     
   }
@@ -31,6 +33,8 @@ public class Tower extends SubsystemBase {
   public void periodic() {
     // calculatedEncoder = encoder1.getPosition()/64;
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Through Bore Encoder Value:", throughBoreEncoder.getPosition());
+    SmartDashboard.putNumber("Motor 1 Encoder Values:", Encoder1.getPosition());
   }
 
   

@@ -68,11 +68,13 @@ public class Intake extends SubsystemBase {
   public void intake_out(){
     mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kForward);
     mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kForward);
+    System.out.println("Intake out");
   }
 
   public void retract_intake(){
     mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kReverse);
     mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kReverse);
+    System.out.println("Intake In");
   }
   public void intake_toggle()
   {

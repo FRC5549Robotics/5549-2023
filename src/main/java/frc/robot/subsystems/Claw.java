@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -20,6 +21,7 @@ public class Claw extends SubsystemBase {
   public Claw() {
 
   ClawMotor = new CANSparkMax(17, MotorType.kBrushless);
+  ClawMotor.setIdleMode(IdleMode.kBrake);
   m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
 
@@ -30,7 +32,7 @@ public class Claw extends SubsystemBase {
   }
 
   public void dropItem(){
-    ClawMotor.set(-0.75);
+    ClawMotor.set(-0.15);
   }
   public void setClawSpeed(Double speed)
   {

@@ -15,10 +15,14 @@ import com.revrobotics.ColorMatchResult;
 public class DefaultClawCommand extends CommandBase {
   /** Creates a new DefaultClawCommand. */
   Claw m_claw;
+  Intake intake;
   XboxController joy2;
+  Color detectedColor;
+  ColorMatchResult match;
 
-  public DefaultClawCommand(Claw claw, XboxController xbox) {
+  public DefaultClawCommand(Claw claw, Intake intake, XboxController xbox) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.intake = intake;
     m_claw = claw;
     joy2 = xbox;
     addRequirements(claw);
@@ -32,24 +36,30 @@ public class DefaultClawCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    detectedColor = intake.getColor();
+    match = intake.m_colorMatcher.matchClosestColor(detectedColor);
+
     if(joy2.getRawAxis(2) > 0.2)
     {
-        m_claw.setClawSpeed(joy2.getRawAxis(2)*0.75);
+        m_claw.setClawSpeed(joy2.getRawAxis(2)*0.25);
     }
     else if (joy2.getRawAxis(3) > 0.2)
     {
-      m_claw.setClawSpeed(-joy2.getRawAxis(3)*0.75);
+      m_claw.setClawSpeed(-joy2.getRawAxis(3)*0.5);
     } else {
       m_claw.stopClaw();
     }
-    if(joy2.getRawButton(5))
+
+    if(joy2.getRawButton(5) || match.color == intake.kPurpleTarget)
     {
       m_claw.setCubeMode();
     }
-    if(joy2.getRawButton(6))
+    if(joy2.getRawButton(6) || match.color == intake.kYellowTarget)
     {
       m_claw.setConeMode();
     }
+
+
   }
 
   // Called once the command ends or is interrupted.

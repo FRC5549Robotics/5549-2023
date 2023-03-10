@@ -20,7 +20,7 @@ import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunIntakeAuto;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
-import frc.robot.commands.Pivot;
+import frc.robot.commands.PivotMid;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
@@ -70,7 +70,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopBackToCone),
         new ExtendMedium(m_telescope, rumController),
-        new Pivot(m_tower)
+        new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem),
@@ -82,7 +82,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConeBack),
         new ExtendMedium(m_telescope, rumController),
-        new Pivot(m_tower)
+        new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem)

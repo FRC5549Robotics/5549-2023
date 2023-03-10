@@ -17,6 +17,8 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
+import frc.robot.commands.PivotMid;
+import frc.robot.commands.PivotHigh;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.RunIntakeCube;
@@ -90,8 +92,8 @@ public class RobotContainer {
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
 
 
-
-
+  JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
+  JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
   /**
@@ -112,7 +114,7 @@ public class RobotContainer {
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
-    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_controller2));
+    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -142,9 +144,9 @@ public class RobotContainer {
     //Claw Command
 
 
-    //Claw-Telescope Command
-
-    
+    //Tower-Position Command
+    towerMidPosition.whileTrue(new PivotMid(m_tower));
+    towerHighPosition.whileTrue(new PivotHigh(m_tower));
 
     
 

@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ExtendFar;
 import frc.robot.commands.ExtendMedium;
-import frc.robot.commands.Pivot;
-import frc.robot.commands.PivotBack;
+import frc.robot.commands.PivotMid;
+import frc.robot.commands.PivotHigh;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunIntakeAuto;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
@@ -65,7 +65,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(Path2),
         new ExtendMedium(m_telescope, rumController),
-        new Pivot(m_tower)
+        new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem)
