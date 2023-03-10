@@ -8,25 +8,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 import frc.robot.Constants;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.CANEncoder;
 
 public class Tower extends SubsystemBase {
   /** Creates a new Tower. */
   CANSparkMax motor1;
   CANSparkMax motor2;
-  public DoubleSolenoid m_clawDoubleSolenoid;
 
-  // RelativeEncoder encoder1;
-  // RelativeEncoder encoder2;
-  private double MidLowPos = 40;
-  private double calculatedEncoder;
   private RelativeEncoder throughBoreEncoder;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);

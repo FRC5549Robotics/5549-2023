@@ -30,7 +30,7 @@ public class Claw extends SubsystemBase {
   }
 
   public void dropItem(){
-    ClawMotor.set(Constants.CLAW_MOTOR_SPEED);
+    ClawMotor.set(-Constants.CLAW_MOTOR_SPEED);
   }
 
   public void setConeMode()
@@ -40,6 +40,10 @@ public class Claw extends SubsystemBase {
   public void setCubeMode()
   {
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void stopClaw(){
+    ClawMotor.set(0);
   }
 
   @Override

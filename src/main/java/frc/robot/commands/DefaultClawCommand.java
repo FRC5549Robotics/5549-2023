@@ -40,7 +40,7 @@ public class DefaultClawCommand extends CommandBase {
     {
       m_claw.dropItem();
     } else {
-      m_claw.setClawSpeed(0);
+      m_claw.stopClaw();
     }
     if(joy2.getRawButton(5))
     {
@@ -51,7 +51,7 @@ public class DefaultClawCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_claw.setClawSpeed((0));
+    m_claw.stopClaw();
   }
 
   // Returns true when the command should end.
