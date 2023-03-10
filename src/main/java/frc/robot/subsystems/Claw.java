@@ -26,12 +26,17 @@ public class Claw extends SubsystemBase {
   }
   public void pickItem()
   {
-    ClawMotor.set(Constants.CLAW_MOTOR_SPEED);
+    ClawMotor.set(0.75);
   }
 
   public void dropItem(){
-    ClawMotor.set(-Constants.CLAW_MOTOR_SPEED);
+    ClawMotor.set(-0.75);
   }
+  public void setClawSpeed(Double speed)
+  {
+    ClawMotor.set(speed);
+  }
+  
 
   public void setConeMode()
   {

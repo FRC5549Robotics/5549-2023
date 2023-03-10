@@ -34,17 +34,21 @@ public class DefaultClawCommand extends CommandBase {
   public void execute() {
     if(joy2.getRawAxis(2) > 0.2)
     {
-        m_claw.pickItem();
+        m_claw.setClawSpeed(joy2.getRawAxis(2)*0.75);
     }
     else if (joy2.getRawAxis(3) > 0.2)
     {
-      m_claw.dropItem();
+      m_claw.setClawSpeed(-joy2.getRawAxis(3)*0.75);
     } else {
       m_claw.stopClaw();
     }
     if(joy2.getRawButton(5))
     {
-      m_claw.m_clawDoubleSolenoid.toggle();
+      m_claw.setCubeMode();
+    }
+    if(joy2.getRawButton(6))
+    {
+      m_claw.setConeMode();
     }
   }
 

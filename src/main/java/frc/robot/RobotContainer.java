@@ -138,7 +138,6 @@ public class RobotContainer {
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
 
     //Intake Command
-    intakePistonToggle.whileTrue(new InstantCommand(m_Intake::intake_toggle));
 
     //Claw Command
 

@@ -33,17 +33,25 @@ public class DefaultIntakeCommand extends CommandBase {
     //cone
     if(m_joy.getRawAxis(3) > 0.2)
     {
-      m_intake.run_intake_speed(1);
+      m_intake.run_intake_speed(-1);
     }
     
     //cube
-    else if(m_joy.getRawAxis(3) > 0.2)
+    else if(m_joy.getRawAxis(2) > 0.2)
     {
-      m_intake.run_intake_speed(0.25);
+      m_intake.run_intake_speed(-0.75);
     }
     else
     {
       m_intake.stop_intake();
+    }
+    if(m_joy.getRawButton(5))
+    {
+      m_intake.retract_intake();
+    }
+    if(m_joy.getRawButton(6))
+    {
+      m_intake.intake_out();
     }
    
   }
