@@ -48,8 +48,8 @@ public class OneConeAuto extends SequentialCommandGroup {
       new ExtendFar(m_telescope, m_XboxController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
-        new Retract(m_telescope),
-        m_DrivetrainSubsystem.followTrajectoryCommand(path1)
+        new Retract(m_telescope)
+        //m_DrivetrainSubsystem.followTrajectoryCommand(path1)
       )
     );
   }

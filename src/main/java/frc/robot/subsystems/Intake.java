@@ -37,8 +37,8 @@ public class Intake extends SubsystemBase {
   Compressor REV_Compressor;
   public Intake() {
     motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushless);
-    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
-    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
+    mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 7);
+    mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 5);
     i2cPort = I2C.Port.kOnboard;
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
