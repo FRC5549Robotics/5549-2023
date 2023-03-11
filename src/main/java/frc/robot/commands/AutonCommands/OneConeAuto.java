@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.PivotTimed;
 import frc.robot.commands.Retract;
 import frc.robot.commands.ExtendFar;
+import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
@@ -45,7 +46,7 @@ public class OneConeAuto extends SequentialCommandGroup {
         m_DrivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
       }),
       new PivotTimed(m_tower),
-      new ExtendFar(m_telescope, m_XboxController),
+      new ExtendMedium(m_telescope, m_XboxController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),

@@ -164,9 +164,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new SequentialCommandGroup(new InstantCommand(() -> {
-      m_drivetrainSubsystem.resetOdometry(TopToCT1.getInitialHolonomicPose());
+      m_drivetrainSubsystem.resetOdometry(MidBToCC.getInitialHolonomicPose());
   }),
-    m_drivetrainSubsystem.followTrajectoryCommand(TopToCT1));
+    m_drivetrainSubsystem.followTrajectoryCommand(MidBToCC));
     // return new SequentialCommandGroup(
     //   new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCT1, CT1ToMidT),
     //   //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
@@ -174,7 +174,7 @@ public class RobotContainer {
     //   //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
     //   m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
     // );
-    //return new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, BotToCC, m_controller);
+    //return new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, MidBToCC, m_controller);
   }
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
