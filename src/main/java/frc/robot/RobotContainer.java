@@ -99,7 +99,6 @@ public class RobotContainer {
   JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
   JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
-  JoystickButton zeroNavXButton = new JoystickButton(m_controller, 4);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -134,8 +133,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
+    new Trigger(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
-    zeroNavXButton.onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
+            .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.whileTrue(new SequentialCommandGroup(
       //new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
       new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
