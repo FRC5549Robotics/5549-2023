@@ -22,7 +22,7 @@ public class Claw extends SubsystemBase {
 
   ClawMotor = new CANSparkMax(17, MotorType.kBrushless);
   ClawMotor.setIdleMode(IdleMode.kBrake);
-  m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
+  m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
 
 
   }
