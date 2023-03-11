@@ -90,7 +90,7 @@ public class RobotContainer {
   PathPlannerTrajectory TopToCT2 = PathPlanner.loadPath("TopToCT2", new PathConstraints(4, 3));
   PathPlannerTrajectory SmallTest = PathPlanner.loadPath("SmallTest", new PathConstraints(0.5, 0.5));
   PathPlannerTrajectory MidCToCC = PathPlanner.loadPath("MidCToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory BotCToCC = PathPlanner.loadPath("BotCToCC", new PathConstraints(4, 3));
+  PathPlannerTrajectory BotCtoCC = PathPlanner.loadPath("BotCtoCC", new PathConstraints(4, 3));
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
@@ -174,7 +174,7 @@ public class RobotContainer {
     //   //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
     //   m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
     // );
-    //return new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, MidBToCC, m_controller);
+    //return new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, BotToCC, m_controller);
   }
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {

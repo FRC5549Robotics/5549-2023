@@ -31,7 +31,7 @@ public class PivotTimed extends CommandBase {
   public void execute() {
     m_time = (System.currentTimeMillis() - startTime) / 1000;
     if ((m_time >= 0.0) && (m_time < 5)){
-      m_tower.runSpeed(0.5);
+      m_tower.runSpeed(-0.5);
     }
     if (m_time >= 5){
       myAutoFinished = true;
