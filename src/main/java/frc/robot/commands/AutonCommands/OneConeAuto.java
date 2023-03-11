@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.PivotHigh;
+import frc.robot.commands.PivotTimed;
 import frc.robot.commands.Retract;
 import frc.robot.commands.ExtendFar;
 import frc.robot.subsystems.Claw;
@@ -44,7 +44,7 @@ public class OneConeAuto extends SequentialCommandGroup {
       new InstantCommand(() -> {
         m_DrivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
       }),
-      new PivotHigh(m_tower),
+      new PivotTimed(m_tower),
       new ExtendFar(m_telescope, m_XboxController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
