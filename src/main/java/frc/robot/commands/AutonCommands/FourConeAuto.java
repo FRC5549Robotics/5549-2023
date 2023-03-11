@@ -9,6 +9,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Claw;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.XboxController;
@@ -19,7 +20,7 @@ import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunIntakeAuto;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
-import frc.robot.commands.Pivot;
+import frc.robot.commands.PivotMid;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
@@ -34,6 +35,7 @@ public class FourConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
+  Claw m_claw;
   XboxController rumController;
   PathPlannerTrajectory Path1;
   PathPlannerTrajectory Path2;
@@ -41,7 +43,7 @@ public class FourConeAuto extends SequentialCommandGroup {
   PathPlannerTrajectory Path4;
   PathPlannerTrajectory Path5;
   PathPlannerTrajectory Path6;
-  public FourConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, XboxController RumController, PathPlannerTrajectory TopToCone,
+  public FourConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, PathPlannerTrajectory TopToCone,
   PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack, PathPlannerTrajectory TopThirdConePickup,
   PathPlannerTrajectory TopThirdConeBack) {
     // Add your commands in the addCommands() call, e.g.
@@ -51,6 +53,7 @@ public class FourConeAuto extends SequentialCommandGroup {
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
+    m_claw = claw;
     rumController = RumController;
     Path1 = TopToCone;
     Path2 = TopBackToCone;
@@ -63,7 +66,7 @@ public class FourConeAuto extends SequentialCommandGroup {
           m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
-      new InstantCommand(m_telescope::dropItem),
+      new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(Path1),
@@ -72,10 +75,10 @@ public class FourConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(Path2),
         new ExtendMedium(m_telescope, rumController),
-        new Pivot(m_tower)
+        new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_telescope::dropItem),
+      new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(Path3),
@@ -84,10 +87,10 @@ public class FourConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(Path4),
         new ExtendMedium(m_telescope, rumController),
-        new Pivot(m_tower)
+        new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_telescope::dropItem),
+      new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(Path5),
@@ -96,10 +99,10 @@ public class FourConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
         m_drivetrainSubsystem.followTrajectoryCommand(Path6),
-        new Pivot(m_tower)
+        new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
-      new InstantCommand(m_telescope::dropItem)
+      new InstantCommand(m_claw::dropItem)
     );
   }
 }

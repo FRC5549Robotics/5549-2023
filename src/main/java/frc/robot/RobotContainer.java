@@ -14,10 +14,14 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
+import frc.robot.commands.PivotMid;
+import frc.robot.commands.PivotHigh;
 import frc.robot.commands.AutoStable;
-import frc.robot.commands.RunIntake;
+import frc.robot.commands.DefaultClawCommand;
+import frc.robot.commands.RunIntakeCube;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -31,6 +35,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
+import frc.robot.subsystems.Claw;
 import frc.robot.Constants;
 
 import com.pathplanner.lib.PathConstraints;
@@ -51,6 +56,7 @@ public class RobotContainer {
   private final Intake m_Intake = new Intake();
   private final Telescope m_telescope = new Telescope();
   private final Tower m_tower = new Tower();
+  private final Claw m_claw = new Claw();
   
 
   private final XboxController m_controller = new XboxController(0);
@@ -85,7 +91,11 @@ public class RobotContainer {
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
-  JoystickButton runIntake = new JoystickButton(m_controller2, 3);
+
+
+  JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
+  JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
+  JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -104,6 +114,8 @@ public class RobotContainer {
     ));
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
+    m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
+    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -122,17 +134,22 @@ public class RobotContainer {
             // No requirements because we don't need to interrupt anything
             .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.whileTrue(new SequentialCommandGroup(
-      new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
-      //new AutoAlign2X(m_Limelight, m_drivetrainSubsystem),
+      //new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
+      new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     ));
-    // autoAlignButton.onFalse(
-    //    new InstantCommand(() ->{
-    //     m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
-    //  }));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
-    runIntake.onTrue(new RunIntake(m_Intake));
 
+    //Intake Command
+
+    //Claw Command
+
+
+    //Tower-Position Command
+    towerMidPosition.whileTrue(new PivotMid(m_tower));
+    towerHighPosition.whileTrue(new PivotHigh(m_tower));
+
+    
 
   }
 
@@ -148,10 +165,10 @@ public class RobotContainer {
   }),
     m_drivetrainSubsystem.followTrajectoryCommand(TopToCT1));
     // return new SequentialCommandGroup(
-    //   new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCT1, CT1ToMidT),
-    //   //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
-    //   //new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
-    //   //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
+    //   new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCT1, CT1ToMidT),
+    //   //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
+    //   //new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
+    //   //new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, CT2ToCC, CT1ToTop, CT1ToMidT, CT1ToCC, BotToCT4, BotToCT3, BotToCC),
     //   m_drivetrainSubsystem.followTrajectoryCommand(CT1ToCC)
     // );
   }

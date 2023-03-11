@@ -43,10 +43,13 @@ public class AutoAlign2X extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    finished = false;
     System.out.println(m_Limelight.getTx());
     controller2 = new PIDController(Constants.kP, Constants.kI, Constants.kD);
     if(m_Limelight.getTx() > 3 || m_Limelight.getTx()<-3){
-      m_drivetrain.drive(new ChassisSpeeds(controller2.calculate(m_Limelight.getTx(), 0), 0, 0));
+      System.out.println("trying to drive");
+      System.out.println("Error:" + controller2.calculate(m_Limelight.getTx(), 0));
+      m_drivetrain.drive(new ChassisSpeeds(0, controller2.calculate(m_Limelight.getTx(), 9.5), 0));
     }
     else{
       finished = true;

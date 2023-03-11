@@ -4,41 +4,44 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Tower;
 
-public class RunIntakeAuto extends CommandBase {
-  /** Creates a new RunIntakeAuto. */
-  Intake m_intake;
-  boolean finished = false;
-  public RunIntakeAuto(Intake intake) {
-    m_intake = intake;
+
+public class PivotMid extends CommandBase {
+  /** Creates a new Pivot. */
+  Tower m_Tower;
+  boolean finished;
+  PIDController controller = new PIDController(0.5,0,0);
+  public PivotMid(Tower Tower) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    m_Tower = Tower;
+    addRequirements(Tower);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.intake_out();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.run_intake_cube();
+    finished = false;
+    double currentAngle = m_Tower.GetEncoderValue();
+    m_Tower.runSpeed(controller.calculate(currentAngle, 0.610962));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.retract_intake();
-    m_intake.stop_intake();
+    m_Tower.off();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_intake.color_check();
+    return finished;
   }
 }

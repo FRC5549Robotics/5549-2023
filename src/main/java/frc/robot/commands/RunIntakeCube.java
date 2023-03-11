@@ -5,45 +5,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Tower;
+import frc.robot.subsystems.Intake;
 
-
-public class Pivot extends CommandBase {
-  /** Creates a new Pivot. */
-  Tower m_Tower;
-  double startTime;
-  boolean finished;
-  public Pivot(Tower Tower) {
+public class RunIntakeCube extends CommandBase {
+  /** Creates a new RunIntake. */
+  Intake m_intake;
+  public RunIntakeCube(Intake intake) {
+    m_intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Tower = Tower;
-    addRequirements(Tower);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Tower.Clamp();
-    startTime = System.currentTimeMillis();
+    //m_intake.intake_out();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while (System.currentTimeMillis() - startTime < 5000) {
-      m_Tower.runTo();
-    }
-    finished = false;
+    m_intake.run_intake_cube();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Tower.off();
+    //m_intake.retract_intake();
+    m_intake.stop_intake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return false;
   }
 }

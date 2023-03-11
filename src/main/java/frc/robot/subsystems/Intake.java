@@ -18,7 +18,6 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 
 public class Intake extends SubsystemBase {
@@ -37,7 +36,7 @@ public class Intake extends SubsystemBase {
   ColorMatchResult match1;
   Compressor REV_Compressor;
   public Intake() {
-    motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushed);
+    motor_intake_1 = new CANSparkMax(Constants.MOTOR_INTAKE_1, MotorType.kBrushless);
     mDoubleSolenoidIntakeRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
     mDoubleSolenoidIntakeLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     i2cPort = I2C.Port.kOnboard;
@@ -46,12 +45,21 @@ public class Intake extends SubsystemBase {
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.addColorMatch(kPurpleTarget);
     m_colorMatcher.addColorMatch(kAir);
-    REV_Compressor = new Compressor(PneumaticsModuleType.REVPH);
+    REV_Compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   }
 
-  public void run_intake(){
-    motor_intake_1.set(0.5);
+  public void run_intake_cone(){
+    motor_intake_1.set(-1);
   }
+  public void run_intake_speed(double num)
+  {
+    motor_intake_1.set(num);
+  }
+  public void run_intake_cube()
+  {
+    motor_intake_1.set(-0.5);
+  }
+
 
   public void stop_intake(){
     motor_intake_1.set(0);
@@ -60,11 +68,18 @@ public class Intake extends SubsystemBase {
   public void intake_out(){
     mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kForward);
     mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kForward);
+    System.out.println("Intake out");
   }
 
   public void retract_intake(){
     mDoubleSolenoidIntakeLeft.set(DoubleSolenoid.Value.kReverse);
     mDoubleSolenoidIntakeRight.set(DoubleSolenoid.Value.kReverse);
+    System.out.println("Intake In");
+  }
+  public void intake_toggle()
+  {
+    mDoubleSolenoidIntakeLeft.toggle();
+    mDoubleSolenoidIntakeRight.toggle();
   }
 
   public Color getColor(){
@@ -91,5 +106,7 @@ public class Intake extends SubsystemBase {
     } else {
       SmartDashboard.putString("Color Sensor Target:", "Air");
     }
+
+    REV_Compressor.enableDigital();
   }
 }

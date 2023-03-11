@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
-import com.revrobotics.RelativeEncoder;
 
 
 public class Telescope extends SubsystemBase {
@@ -22,7 +21,6 @@ public class Telescope extends SubsystemBase {
 
   public Telescope() {
     TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
-    ClawMotor = new CANSparkMax(Constants.MOTOR_CLAW_1, MotorType.kBrushless);
   }
 
   @Override
@@ -39,11 +37,6 @@ public class Telescope extends SubsystemBase {
   public void on(double speed) {
     TelescopeMotor.set(speed);
   }
-
-  public void dropItem(){
-    ClawMotor.set(-0.5);
-  }
-
   public void off() {
     TelescopeMotor.set(0);
   }
