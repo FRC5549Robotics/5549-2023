@@ -50,7 +50,8 @@ public class OneConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_DrivetrainSubsystem.followTrajectoryCommand(path1)
+        new InstantCommand(m_claw::stopClaw)
+        //m_DrivetrainSubsystem.followTrajectoryCommand(path1)
       )
     );
   }
