@@ -4,6 +4,8 @@
 
 package frc.robot.commands.AutonCommands;
 
+import frc.robot.RobotContainer;
+
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
@@ -22,8 +24,6 @@ import frc.robot.commands.RunIntakeAuto;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.PivotMid;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -37,12 +37,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
   Limelight m_limelight;
   Claw m_claw;
   XboxController rumController;
-  PathPlannerTrajectory pathTopToCone;
-  PathPlannerTrajectory pathTopBackToCone;
-  PathPlannerTrajectory pathTopSecondConePickup;
-  PathPlannerTrajectory pathTopSecondConeBack;
-  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, PathPlannerTrajectory TopToCone, 
-  PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack) {
+  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_drivetrainSubsystem = drivetrainSubsystem;
@@ -52,23 +47,19 @@ public class ThreeConeAuto extends SequentialCommandGroup {
     m_limelight = limelight;
     m_claw = claw;
     rumController = RumController;
-    pathTopToCone = TopToCone;
-    pathTopBackToCone = TopBackToCone;
-    pathTopSecondConePickup = TopSecondConePickup;
-    pathTopSecondConeBack = TopSecondConeBack;
     addCommands(
       new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(pathTopToCone.getInitialHolonomicPose());
+          m_drivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(pathTopToCone),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(pathTopBackToCone),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser2.getSelected()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),
@@ -76,11 +67,11 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConePickup),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser2.getSelected()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(pathTopSecondConeBack),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser2.getSelected()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),
