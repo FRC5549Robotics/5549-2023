@@ -6,8 +6,6 @@ package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -24,6 +22,7 @@ import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Claw;
+import frc.robot.RobotContainer;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -34,36 +33,31 @@ public class TwoConeAuto extends SequentialCommandGroup {
   DrivetrainSubsystem m_drivetrainSubsystem;
   Intake m_intake;
   Claw m_claw;
-  PathPlannerTrajectory Path1;
-  PathPlannerTrajectory Path2;
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
   XboxController rumController;
-  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, PathPlannerTrajectory path1, 
-  PathPlannerTrajectory path2) {
+  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
     m_claw = claw;
     rumController = RumController;
-    Path1 = path1;
-    Path2 = path2;
     
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
+          m_drivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem),
       new Retract(m_telescope),
-      m_drivetrainSubsystem.followTrajectoryCommand(Path1),
+      m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
       new RunIntakeAuto(m_intake),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(Path2),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser2.getSelected()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),

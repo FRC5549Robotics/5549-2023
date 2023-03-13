@@ -7,6 +7,7 @@ package frc.robot.commands.AutonCommands;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -19,6 +20,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
+import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,8 +33,7 @@ public class OneConeAuto extends SequentialCommandGroup {
   Claw m_claw;
   XboxController m_XboxController;
   PathPlannerTrajectory path1;
-  public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw,
-  PathPlannerTrajectory path, XboxController xbox) {
+  public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_DrivetrainSubsystem = Drivetrain;
@@ -40,17 +41,17 @@ public class OneConeAuto extends SequentialCommandGroup {
     m_telescope = telescope;
     m_claw = claw;
     m_XboxController = xbox;
-    path1 = path;
     addCommands(
       new InstantCommand(() -> {
-        m_DrivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
+        m_DrivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
       }),
       new PivotTimed(m_tower),
       new ExtendMedium(m_telescope, m_XboxController),
-      new InstantCommand(m_claw::dropItem),
+      new InstantCommand(m_claw::dropItem).withTimeout(1),
       new ParallelCommandGroup(
+        new InstantCommand(m_claw::stopClaw),
         new Retract(m_telescope),
-        m_DrivetrainSubsystem.followTrajectoryCommand(path1)
+        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected())
       )
     );
   }
