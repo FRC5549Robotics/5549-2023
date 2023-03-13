@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -32,6 +33,7 @@ import frc.robot.commands.AutonCommands.FourConeAuto;
 import frc.robot.commands.AutonCommands.OneConeAuto;
 import frc.robot.commands.AutonCommands.ThreeConeAuto;
 import frc.robot.commands.AutonCommands.TwoConeAuto;
+import frc.robot.commands.AutonCommands.ZeroConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
@@ -100,6 +102,18 @@ public class RobotContainer {
   JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
+  //AutoCommands
+  Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
+  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller);
+  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_FourConeAuto = new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_FiveConeAuto = new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+
+  SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+  public static SendableChooser<PathPlannerTrajectory> m_pathpChooser = new SendableChooser<>();
+  public static SendableChooser<PathPlannerTrajectory> m_pathpChooser2 = new SendableChooser<>();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -123,6 +137,75 @@ public class RobotContainer {
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
     configureButtonBindings();
+
+    //Adding Commands to autonomous command chooser
+    m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
+    m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
+    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
+    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+    m_autoChooser.addOption("Four Cone Auto", m_FourConeAuto);
+    m_autoChooser.addOption("Five Cone Auto", m_FiveConeAuto);
+
+    //Adding paths to path planner command chooser
+    m_pathpChooser.setDefaultOption("Nothing", null);
+    m_pathpChooser.addOption("Top to Cone 1", TopToCT1);
+    m_pathpChooser.addOption("Top to Cone 2", TopToCT2);
+    m_pathpChooser.addOption("Bottom to Charge Station", BotToCC);
+    m_pathpChooser.addOption("Bottom to Cone 3", BotToCT3);
+    m_pathpChooser.addOption("Bottom to Cone 4", BotToCT4);
+    m_pathpChooser.addOption("Cone 1 to Charge Station", CT1ToCC);
+    m_pathpChooser.addOption("Cone 1 to Mid Cone Node", CT1ToMidT);
+    m_pathpChooser.addOption("Cone 1 to Top Cone Node", CT1ToTop);
+    m_pathpChooser.addOption("Cone 2 to Charge Station", CT2ToCC);
+    m_pathpChooser.addOption("Cone 2 to Mid Cone Node", CT2ToMidT);
+    m_pathpChooser.addOption("Cone 2 to Top Cone Node", CT2ToTop);
+    m_pathpChooser.addOption("Cone 3 to Bottom Cone Node", CT3ToBot);
+    m_pathpChooser.addOption("Cone 3 to Charge Station", CT3ToCC);
+    m_pathpChooser.addOption("Cone 3 to Mid Bottom Cone Node", CT3ToBot);
+    m_pathpChooser.addOption("Cone 4 to Bottom Cone Node", CT4ToBot);
+    m_pathpChooser.addOption("Cone 4 to Charge Station", CT4ToCC);
+    m_pathpChooser.addOption("Cone 4 to Mid Bottom Cone Node", CT4ToMidB);
+    m_pathpChooser.addOption("Mid Cube to Charge Station", MidBToCC);
+    m_pathpChooser.addOption("Mid Bottom Cone to Cone 3", MidBToCT3);
+    m_pathpChooser.addOption("Mid Bottom Cone to Cone 4", MidBToCT4);
+    m_pathpChooser.addOption("Mid Cone Node to Charge Station", MidTToCC);
+    m_pathpChooser.addOption("Mid Cone Node to Cone 1", MidTToCT1);
+    m_pathpChooser.addOption("Mid Cone Node to Cone 2", MidTToCT2);
+    m_pathpChooser.addOption("Top Cone Node to Charge Station", TopToCC);
+    m_pathpChooser.addOption("Top Cube Node to Charge Station", TopToCC);
+    m_pathpChooser.addOption("Bottom Cube Node to Charge Station", BotCtoCC);
+
+    m_pathpChooser2.setDefaultOption("Nothing", null);
+    m_pathpChooser2.addOption("Top to Cone 1", TopToCT1);
+    m_pathpChooser2.addOption("Top to Cone 2", TopToCT2);
+    m_pathpChooser2.addOption("Bottom to Charge Station", BotToCC);
+    m_pathpChooser2.addOption("Bottom to Cone 3", BotToCT3);
+    m_pathpChooser2.addOption("Bottom to Cone 4", BotToCT4);
+    m_pathpChooser2.addOption("Cone 1 to Charge Station", CT1ToCC);
+    m_pathpChooser2.addOption("Cone 1 to Mid Cone Node", CT1ToMidT);
+    m_pathpChooser2.addOption("Cone 1 to Top Cone Node", CT1ToTop);
+    m_pathpChooser2.addOption("Cone 2 to Charge Station", CT2ToCC);
+    m_pathpChooser2.addOption("Cone 2 to Mid Cone Node", CT2ToMidT);
+    m_pathpChooser2.addOption("Cone 2 to Top Cone Node", CT2ToTop);
+    m_pathpChooser2.addOption("Cone 3 to Bottom Cone Node", CT3ToBot);
+    m_pathpChooser2.addOption("Cone 3 to Charge Station", CT3ToCC);
+    m_pathpChooser2.addOption("Cone 3 to Mid Bottom Cone Node", CT3ToBot);
+    m_pathpChooser2.addOption("Cone 4 to Bottom Cone Node", CT4ToBot);
+    m_pathpChooser2.addOption("Cone 4 to Charge Station", CT4ToCC);
+    m_pathpChooser2.addOption("Cone 4 to Mid Bottom Cone Node", CT4ToMidB);
+    m_pathpChooser2.addOption("Mid Cube to Charge Station", MidBToCC);
+    m_pathpChooser2.addOption("Mid Bottom Cone to Cone 3", MidBToCT3);
+    m_pathpChooser2.addOption("Mid Bottom Cone to Cone 4", MidBToCT4);
+    m_pathpChooser2.addOption("Mid Cone Node to Charge Station", MidTToCC);
+    m_pathpChooser2.addOption("Mid Cone Node to Cone 1", MidTToCT1);
+    m_pathpChooser2.addOption("Mid Cone Node to Cone 2", MidTToCT2);
+    m_pathpChooser2.addOption("Top Cone Node to Charge Station", TopToCC);
+    m_pathpChooser2.addOption("Top Cube Node to Charge Station", TopToCC);
+    m_pathpChooser2.addOption("Bottom Cube Node to Charge Station", BotCtoCC);
+
+    SmartDashboard.putData("Autonomous Command", m_autoChooser);
+    SmartDashboard.putData("Path1 Choser", m_pathpChooser);
+    SmartDashboard.putData("Path2 Chooser", m_pathpChooser2);
   }
 
   /**
@@ -163,10 +246,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
+<<<<<<< HEAD
     return new SequentialCommandGroup(new InstantCommand(() -> {
       m_drivetrainSubsystem.resetOdometry(BotToCT4.getInitialHolonomicPose());
   }),
     m_drivetrainSubsystem.followTrajectoryCommand(BotToCT4));
+=======
+  //   return new SequentialCommandGroup(new InstantCommand(() -> {
+  //     m_drivetrainSubsystem.resetOdometry(BotToCT4.getInitialHolonomicPose());
+  // }),
+  //   m_drivetrainSubsystem.followTrajectoryCommand(BotToCT4));
+>>>>>>> fa326a850a742af6173da7035ecb5581aac0f2dc
     // return new SequentialCommandGroup(
     //   new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCT1, CT1ToMidT),
     //   //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
@@ -176,7 +266,9 @@ public class RobotContainer {
     // );
     //return new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, BotToCC, m_controller);
     //return null;
+    return m_autoChooser.getSelected();
   }
+  
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
       if (value > 0.0) {

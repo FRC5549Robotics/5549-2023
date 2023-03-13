@@ -34,7 +34,7 @@ public class ExtendMedium extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (System.currentTimeMillis() - startTime < 4000) {
+    if (System.currentTimeMillis() - startTime < 2000) {
       m_Telescope.on(Constants.armSpeed);
     }
     else{

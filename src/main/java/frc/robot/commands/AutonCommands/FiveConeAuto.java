@@ -4,6 +4,8 @@
 
 package frc.robot.commands.AutonCommands;
 
+import frc.robot.RobotContainer;
+
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
@@ -22,8 +24,6 @@ import frc.robot.commands.RunIntakeAuto;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.PivotMid;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -37,17 +37,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
   Limelight m_limelight;
   Claw m_claw;
   XboxController rumController;
-  PathPlannerTrajectory Path1;
-  PathPlannerTrajectory Path2;
-  PathPlannerTrajectory Path3;
-  PathPlannerTrajectory Path4;
-  PathPlannerTrajectory Path5;
-  PathPlannerTrajectory Path6;
-  PathPlannerTrajectory Path7;
-  PathPlannerTrajectory Path8;
-  public FiveConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, PathPlannerTrajectory TopToCone,
-  PathPlannerTrajectory TopBackToCone, PathPlannerTrajectory TopSecondConePickup, PathPlannerTrajectory TopSecondConeBack, PathPlannerTrajectory TopThirdConePickup,
-  PathPlannerTrajectory TopThirdConeBack, PathPlannerTrajectory TopFourthConePickup, PathPlannerTrajectory TopFourthConeBack) {
+  public FiveConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_drivetrainSubsystem = drivetrainSubsystem;
@@ -57,27 +47,19 @@ public class FiveConeAuto extends SequentialCommandGroup {
     m_limelight = limelight;
     m_claw = claw;
     rumController = RumController;
-    Path1 = TopToCone;
-    Path2 = TopBackToCone;
-    Path3 = TopSecondConePickup;
-    Path4 = TopSecondConeBack;
-    Path5 = TopThirdConePickup;
-    Path6 = TopThirdConeBack;
-    Path7 = TopFourthConePickup;
-    Path8 = TopFourthConeBack;
     addCommands(
       new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(Path1.getInitialHolonomicPose());
+          m_drivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(Path1),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(Path2),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),
@@ -85,11 +67,11 @@ public class FiveConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(Path3),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(Path4),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),
@@ -97,24 +79,24 @@ public class FiveConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(Path5),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
-        m_drivetrainSubsystem.followTrajectoryCommand(Path6),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(Path7),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
-        m_drivetrainSubsystem.followTrajectoryCommand(Path8),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
