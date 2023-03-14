@@ -142,7 +142,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Adding Commands to autonomous command chooser
-    //m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
+    m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
+    m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
+    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
+    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+    m_autoChooser.addOption("Four Cone Auto", m_FourConeAuto);
     
 
     //Adding paths to path planner command chooser

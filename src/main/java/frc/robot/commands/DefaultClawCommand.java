@@ -17,7 +17,7 @@ import com.revrobotics.ColorMatchResult;
 public class DefaultClawCommand extends CommandBase {
   /** Creates a new DefaultClawCommand. */
   Claw m_claw;
-  Intake intake;
+  Intake m_intake;
   XboxController joy2;
   Color detectedColor;
   ColorMatchResult match;
@@ -29,7 +29,7 @@ public class DefaultClawCommand extends CommandBase {
 
   public DefaultClawCommand(Claw claw, Intake intake, XboxController xbox, AddressableLED led) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intake = intake;
+    m_intake = intake;
     m_claw = claw;
     joy2 = xbox;
     LED = led;
@@ -50,8 +50,8 @@ public class DefaultClawCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    detectedColor = intake.getColor();
-    match = intake.m_colorMatcher.matchClosestColor(detectedColor);
+    detectedColor = m_intake.getColor();
+    match = m_intake.m_colorMatcher.matchClosestColor(detectedColor);
 
     if(joy2.getRawAxis(2) > 0.2)
     {
@@ -64,17 +64,17 @@ public class DefaultClawCommand extends CommandBase {
       m_claw.stopClaw();
     }
 
-    if(joy2.getRawButton(5) || match.color == intake.kPurpleTarget)
+    if(joy2.getRawButton(5) || match.color == m_intake.kPurpleTarget)
     {
       m_claw.setCubeMode();
     }
-    if(joy2.getRawButton(6) || match.color == intake.kYellowTarget)
+    if(joy2.getRawButton(6) || match.color == m_intake.kYellowTarget)
     {
       m_claw.setConeMode();
     }
     if(joy2.getRawButton(4))
     {
-      if(ledBuffer.getLED(0) == Color.kGreen || ledBuffer.getLED(0) == Color.kYellow)
+      if(ledBuffer.getLED(0) == kGreen || ledBuffer.getLED(0) == kYellow)
       {
         for(int i = 0; i<ledBuffer.getLength();i++)
         {
@@ -82,7 +82,7 @@ public class DefaultClawCommand extends CommandBase {
         }
         LED.setData(ledBuffer);
       }
-      if(ledBuffer.getLED(0) == Color.kPurple)
+      if(ledBuffer.getLED(0) == kPurple)
       {
         for(int i = 0; i<ledBuffer.getLength();i++)
         {

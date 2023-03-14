@@ -96,7 +96,7 @@ public class FiveConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.BotCtoCC),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT2ToCC),
         new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

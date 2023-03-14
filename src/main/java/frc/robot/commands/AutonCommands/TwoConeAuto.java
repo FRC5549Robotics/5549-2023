@@ -43,6 +43,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
     m_tower = tower;
     m_limelight = limelight;
     m_claw = claw;
+    m_intake = intake;
     rumController = RumController;
     
     // Add your commands in the addCommands() call, e.g.

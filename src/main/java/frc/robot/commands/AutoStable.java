@@ -22,6 +22,7 @@ public class AutoStable extends InstantCommand {
 
 
   public AutoStable(DrivetrainSubsystem drivetrain) {
+    m_drivetrain = drivetrain;
     addRequirements(drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
