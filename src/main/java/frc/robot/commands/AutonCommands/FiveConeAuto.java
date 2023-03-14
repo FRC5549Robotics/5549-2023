@@ -49,17 +49,17 @@ public class FiveConeAuto extends SequentialCommandGroup {
     rumController = RumController;
     addCommands(
       new InstantCommand(() -> {
-          m_drivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
+          m_drivetrainSubsystem.resetOdometry(RobotContainer.getTraj().getInitialHolonomicPose());
       }),
       new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),
@@ -67,11 +67,11 @@ public class FiveConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new ExtendMedium(m_telescope, rumController),
         new PivotMid(m_tower)
       ),
@@ -79,24 +79,24 @@ public class FiveConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new RunIntakeAuto(m_intake)
       ),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new PivotMid(m_tower)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

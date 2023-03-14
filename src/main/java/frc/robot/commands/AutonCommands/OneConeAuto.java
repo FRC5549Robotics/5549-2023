@@ -32,7 +32,6 @@ public class OneConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Claw m_claw;
   XboxController m_XboxController;
-  PathPlannerTrajectory path1;
   public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -43,16 +42,15 @@ public class OneConeAuto extends SequentialCommandGroup {
     m_XboxController = xbox;
     addCommands(
       new InstantCommand(() -> {
-        m_DrivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
+        m_DrivetrainSubsystem.resetOdometry(RobotContainer.getTraj().getInitialHolonomicPose());
       }),
       new PivotTimed(m_tower),
       new ExtendMedium(m_telescope, m_XboxController),
       new InstantCommand(m_claw::dropItem).withTimeout(1),
       new ParallelCommandGroup(
-        new InstantCommand(m_claw::stopClaw),
+        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.getTraj()),
         new Retract(m_telescope),
         new InstantCommand(m_claw::stopClaw)
-        //m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected())
       )
     );
   }

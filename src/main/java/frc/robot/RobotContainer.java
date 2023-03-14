@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -101,18 +102,18 @@ public class RobotContainer {
   JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
   JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
+  JoystickButton lEDToggleButton = new JoystickButton(m_controller2, 4);
+  AddressableLED LED = new AddressableLED(0);
 
   //AutoCommands
-  Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller);
-  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_FourConeAuto = new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_FiveConeAuto = new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  //Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
+
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   public static SendableChooser<PathPlannerTrajectory> m_pathpChooser = new SendableChooser<>();
   public static SendableChooser<PathPlannerTrajectory> m_pathpChooser2 = new SendableChooser<>();
+
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -132,23 +133,19 @@ public class RobotContainer {
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
-    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2));
+    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2, LED));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
     configureButtonBindings();
 
     //Adding Commands to autonomous command chooser
-    m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
-    m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
-    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
-    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
-    m_autoChooser.addOption("Four Cone Auto", m_FourConeAuto);
-    m_autoChooser.addOption("Five Cone Auto", m_FiveConeAuto);
+    //m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
+    
 
     //Adding paths to path planner command chooser
-    m_pathpChooser.setDefaultOption("Nothing", null);
-    m_pathpChooser.addOption("Top to Cone 1", TopToCT1);
+    m_pathpChooser.addOption("Nothing", null);
+    m_pathpChooser.setDefaultOption("Top to Cone 1", TopToCT1);
     m_pathpChooser.addOption("Top to Cone 2", TopToCT2);
     m_pathpChooser.addOption("Bottom to Charge Station", BotToCC);
     m_pathpChooser.addOption("Bottom to Cone 3", BotToCT3);
@@ -175,8 +172,8 @@ public class RobotContainer {
     m_pathpChooser.addOption("Top Cube Node to Charge Station", TopToCC);
     m_pathpChooser.addOption("Bottom Cube Node to Charge Station", BotCtoCC);
 
-    m_pathpChooser2.setDefaultOption("Nothing", null);
-    m_pathpChooser2.addOption("Top to Cone 1", TopToCT1);
+    m_pathpChooser2.addOption("Nothing", null);
+    m_pathpChooser2.setDefaultOption("Top to Cone 1", TopToCT1);
     m_pathpChooser2.addOption("Top to Cone 2", TopToCT2);
     m_pathpChooser2.addOption("Bottom to Charge Station", BotToCC);
     m_pathpChooser2.addOption("Bottom to Cone 3", BotToCT3);
@@ -203,9 +200,22 @@ public class RobotContainer {
     m_pathpChooser2.addOption("Top Cube Node to Charge Station", TopToCC);
     m_pathpChooser2.addOption("Bottom Cube Node to Charge Station", BotCtoCC);
 
-    SmartDashboard.putData("Autonomous Command", m_autoChooser);
     SmartDashboard.putData("Path1 Choser", m_pathpChooser);
     SmartDashboard.putData("Path2 Chooser", m_pathpChooser2);
+    Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller);
+  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_FourConeAuto = new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_FiveConeAuto = new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+
+  m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
+    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
+    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+    m_autoChooser.addOption("Four Cone Auto", m_FourConeAuto);
+    m_autoChooser.addOption("Five Cone Auto", m_FiveConeAuto);
+
+    SmartDashboard.putData("Autonomous Command", m_autoChooser);
+   
   }
 
   /**
@@ -229,7 +239,7 @@ public class RobotContainer {
     //Intake Command
 
     //Claw Command
-
+  
 
     //Tower-Position Command
     towerMidPosition.whileTrue(new PivotMid(m_tower));
@@ -272,6 +282,14 @@ public class RobotContainer {
     } else {
       return 0.0;
     }
+  }
+
+  public static PathPlannerTrajectory getTraj() {
+    return m_pathpChooser.getSelected();
+  }
+
+  public static PathPlannerTrajectory getSecondTraj(){
+    return m_pathpChooser2.getSelected();
   }
 
   private static double modifyAxis(double value) {
