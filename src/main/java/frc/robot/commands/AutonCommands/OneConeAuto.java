@@ -32,7 +32,6 @@ public class OneConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Claw m_claw;
   XboxController m_XboxController;
-  PathPlannerTrajectory path1;
   public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
