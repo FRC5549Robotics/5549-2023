@@ -43,7 +43,7 @@ public class OneConeAuto extends SequentialCommandGroup {
     m_XboxController = xbox;
     addCommands(
       new InstantCommand(() -> {
-        m_DrivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
+        m_DrivetrainSubsystem.resetOdometry(RobotContainer.TopToCT1.getInitialHolonomicPose());
       }),
       new PivotTimed(m_tower),
       new ExtendMedium(m_telescope, m_XboxController),
@@ -51,8 +51,7 @@ public class OneConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new InstantCommand(m_claw::stopClaw),
         new Retract(m_telescope),
-        new InstantCommand(m_claw::stopClaw)
-        //m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected())
+        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.TopToCT1)
       )
     );
   }

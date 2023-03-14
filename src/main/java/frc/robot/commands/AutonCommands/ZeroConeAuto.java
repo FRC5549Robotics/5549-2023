@@ -21,9 +21,9 @@ public class ZeroConeAuto extends SequentialCommandGroup {
     m_drivetrainSubsystem = drivetrainSubsystem;
     addCommands(
       new InstantCommand(() -> {
-            m_drivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
+            m_drivetrainSubsystem.resetOdometry(RobotContainer.TopToCT1.getInitialHolonomicPose());
          }),
-           m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected())
+           m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.TopToCT1)
     );
   }
 }
