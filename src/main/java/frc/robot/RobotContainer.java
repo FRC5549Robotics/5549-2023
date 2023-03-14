@@ -256,10 +256,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
+<<<<<<< HEAD
+    return new SequentialCommandGroup(new InstantCommand(() -> {
+      m_drivetrainSubsystem.resetOdometry(BotToCT4.getInitialHolonomicPose());
+  }),
+    m_drivetrainSubsystem.followTrajectoryCommand(BotToCT4));
+=======
   //   return new SequentialCommandGroup(new InstantCommand(() -> {
   //     m_drivetrainSubsystem.resetOdometry(BotToCT4.getInitialHolonomicPose());
   // }),
   //   m_drivetrainSubsystem.followTrajectoryCommand(BotToCT4));
+>>>>>>> fa326a850a742af6173da7035ecb5581aac0f2dc
     // return new SequentialCommandGroup(
     //   new TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCT1, CT1ToMidT),
     //   //new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, TopToCC, BotToCT4, BotToCT3, BotToCC),
