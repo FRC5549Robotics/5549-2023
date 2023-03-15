@@ -226,6 +226,20 @@ public double getCurrentHeading(){
         return m_navx.getAngle();
 }
 
+public void lockModules() {
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    states[0] = new SwerveModuleState(0,Rotation2d.fromDegrees(315));
+    states[1] = new SwerveModuleState(0,Rotation2d.fromDegrees(45));
+    states[2] = new SwerveModuleState(0,Rotation2d.fromDegrees(225));
+    states[3] = new SwerveModuleState(0,Rotation2d.fromDegrees(135));
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+    //Speed will just be 0
+    m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
+    m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
+    m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
+    m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());    
+}
+
   @Override
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
