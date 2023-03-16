@@ -22,6 +22,7 @@ import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.PivotMid;
 import frc.robot.commands.PivotHigh;
 import frc.robot.commands.AutoStable;
+import frc.robot.commands.ChargeStationWheelLocking;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.RunIntakeCube;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
@@ -98,7 +99,7 @@ public class RobotContainer {
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
 
-
+  JoystickButton wheelLockButton = new JoystickButton(m_controller, 3);
   JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
   JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
@@ -179,9 +180,7 @@ public class RobotContainer {
     //Tower-Position Command
     towerMidPosition.whileTrue(new PivotMid(m_tower));
     towerHighPosition.whileTrue(new PivotHigh(m_tower));
-
-    
-
+    wheelLockButton.whileTrue(new ChargeStationWheelLocking(m_drivetrainSubsystem));
   }
 
   /**
