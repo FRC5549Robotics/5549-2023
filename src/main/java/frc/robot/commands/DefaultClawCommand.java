@@ -21,24 +21,18 @@ public class DefaultClawCommand extends CommandBase {
   XboxController joy2;
   Color detectedColor;
   ColorMatchResult match;
+  boolean yellow = true;
   AddressableLED LED;
-  AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(17);
-  Color kGreen = new Color(0,255, 0);
-  Color kPurple = new Color(255,19,180);
-  Color kYellow = new Color(255, 255, 0);
+  AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(60);
+  Color kGreen1 = new Color(0,255, 0);
+  Color kPurple1 = new Color(255,19,180);
+  Color kYellow1 = new Color(255, 255, 0);
 
   public DefaultClawCommand(Claw claw, Intake intake, XboxController xbox, AddressableLED led) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intake = intake;
     m_claw = claw;
     joy2 = xbox;
-    LED = led;
-    LED.setLength(ledBuffer.getLength());
-    LED.setData(ledBuffer);
-    LED.start();
-    for(int i = 0; i < ledBuffer.getLength(); i++){
-      ledBuffer.setRGB(i, 0, 255, 0);
-    }
     addRequirements(claw);
   }
 
@@ -72,25 +66,7 @@ public class DefaultClawCommand extends CommandBase {
     {
       m_claw.setConeMode();
     }
-    if(joy2.getRawButton(4))
-    {
-      if(ledBuffer.getLED(0) == kGreen || ledBuffer.getLED(0) == kYellow)
-      {
-        for(int i = 0; i<ledBuffer.getLength();i++)
-        {
-          ledBuffer.setRGB(i, 255, 19, 180);
-        }
-        LED.setData(ledBuffer);
-      }
-      if(ledBuffer.getLED(0) == kPurple)
-      {
-        for(int i = 0; i<ledBuffer.getLength();i++)
-        {
-          ledBuffer.setRGB(i, 255, 255, 0);
-        }
-        LED.setData(ledBuffer); 
-      }
-    }
+    
   }
 
   // Called once the command ends or is interrupted.

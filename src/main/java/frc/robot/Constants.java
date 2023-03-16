@@ -70,4 +70,5 @@ public final class Constants {
     //Claw
     public static final int MOTOR_CLAW_1 = 17;
     public static final double CLAW_MOTOR_SPEED = 0.75;
+    public static boolean yellow = true;
 }

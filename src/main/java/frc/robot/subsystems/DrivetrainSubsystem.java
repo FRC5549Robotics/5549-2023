@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.XboxController;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -84,8 +86,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
   SwerveDriveOdometry m_odometry;
-  public DrivetrainSubsystem() {
+  XboxController m_Controller;
+  public DrivetrainSubsystem(XboxController xbox) {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+    m_Controller = xbox;
      
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
@@ -243,7 +247,7 @@ public void lockModules() {
 
   @Override
   public void periodic() {
-        if(!locked){
+        if(!(m_Controller.getRawButton(3))){
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
@@ -260,6 +264,9 @@ public void lockModules() {
                 m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
                 m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+        }
+        else {
+                lockModules();
         }
   }
 }

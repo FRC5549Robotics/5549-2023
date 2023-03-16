@@ -4,20 +4,17 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Telescope;
-import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants;
+import frc.robot.subsystems.Claw;
 
-public class DefaultTelescopeCommand extends CommandBase {
-  /** Creates a new TelescopeCommand. */
-  private Telescope m_tele;
-  private XboxController m_joy2;
-  public DefaultTelescopeCommand(Telescope tele, XboxController joy2) {
-    m_tele = tele;
-    m_joy2 = joy2;
-    addRequirements(tele);
+public class ToggleLED extends CommandBase {
+  /** Creates a new ToggleLED. */
+  Claw m_claw;
+  public ToggleLED(Claw claw) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_claw = claw;
+    addRequirements(claw);
   }
 
   // Called when the command is initially scheduled.
@@ -27,22 +24,18 @@ public class DefaultTelescopeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-
-    if(Math.abs(m_joy2.getRawAxis(5)) > 0.1)
-    {
-      m_tele.on(-m_joy2.getRawAxis(5));
-    }
-    else
-    {
-      m_tele.off();
-    }
+    m_claw.LEDToggle();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_tele.off();
+    if (Constants.yellow){
+      Constants.yellow = false;
+    }
+    else{
+      Constants.yellow = true;
+    }
   }
 
   // Returns true when the command should end.

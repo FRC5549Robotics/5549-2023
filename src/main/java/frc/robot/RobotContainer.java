@@ -25,6 +25,7 @@ import frc.robot.commands.AutoStable;
 import frc.robot.commands.ChargeStationWheelLocking;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.RunIntakeCube;
+import frc.robot.commands.ToggleLED;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -56,16 +57,18 @@ import frc.robot.subsystems.Limelight;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final XboxController m_controller = new XboxController(0);
+  private final XboxController m_controller2 = new XboxController(1);
+  private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(m_controller);
   private final Limelight m_Limelight = new Limelight();
   private final Intake m_Intake = new Intake();
   private final Telescope m_telescope = new Telescope();
   private final Tower m_tower = new Tower();
-  private final Claw m_claw = new Claw();
+  AddressableLED LED = new AddressableLED(0);
+  private final Claw m_claw = new Claw(LED);
   
 
-  private final XboxController m_controller = new XboxController(0);
-  private final XboxController m_controller2 = new XboxController(1);
+
   
   //All the Paths
   public static PathPlannerTrajectory BotToCC = PathPlanner.loadPath("BotToCC", new PathConstraints(4, 3));
@@ -104,7 +107,6 @@ public class RobotContainer {
   JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
   JoystickButton lEDToggleButton = new JoystickButton(m_controller2, 4);
-  AddressableLED LED = new AddressableLED(0);
 
   //AutoCommands
   Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
@@ -180,7 +182,7 @@ public class RobotContainer {
     //Tower-Position Command
     towerMidPosition.whileTrue(new PivotMid(m_tower));
     towerHighPosition.whileTrue(new PivotHigh(m_tower));
-    wheelLockButton.whileTrue(new ChargeStationWheelLocking(m_drivetrainSubsystem));
+    lEDToggleButton.whileTrue(new ToggleLED(m_claw));
   }
 
   /**

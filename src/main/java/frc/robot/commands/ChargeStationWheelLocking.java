@@ -13,6 +13,7 @@ public class ChargeStationWheelLocking extends CommandBase {
   public ChargeStationWheelLocking(DrivetrainSubsystem drivetrainSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_DrivetrainSubsystem = drivetrainSubsystem;
+    addRequirements(m_DrivetrainSubsystem);
   }
 
   // Called when the command is initially scheduled.
