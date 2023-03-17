@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Tower;
 
 
@@ -13,6 +14,7 @@ public class PivotMid extends CommandBase {
   /** Creates a new Pivot. */
   Tower m_Tower;
   boolean finished;
+  double setpoint = Constants.PIVOT_MID_SETPOINT;
   PIDController controller = new PIDController(0.5,0,0);
   public PivotMid(Tower Tower) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,9 +30,14 @@ public class PivotMid extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    finished = false;
     double currentAngle = m_Tower.GetEncoderValue();
-    m_Tower.runSpeed(controller.calculate(currentAngle, 0.610962));
+    // if (currentAngle - setpoint > 2 || currentAngle - setpoint < -2){
+    // m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
+    // }
+    // else{
+    //   finished = true;
+    // }
+    finished = m_Tower.Pivot(controller, currentAngle, setpoint);
   }
 
   // Called once the command ends or is interrupted.
