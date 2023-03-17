@@ -19,8 +19,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
-import frc.robot.commands.PivotMid;
-import frc.robot.commands.PivotHigh;
+import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.RunIntakeCube;
@@ -29,8 +28,6 @@ import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Y;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Z;
-import frc.robot.commands.AutonCommands.FiveConeAuto;
-import frc.robot.commands.AutonCommands.FourConeAuto;
 import frc.robot.commands.AutonCommands.OneConeAuto;
 import frc.robot.commands.AutonCommands.ThreeConeAuto;
 import frc.robot.commands.AutonCommands.TwoConeAuto;
@@ -60,39 +57,39 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(m_controller);
   private final Limelight m_Limelight = new Limelight();
   private final Intake m_Intake = new Intake();
-  private final Telescope m_telescope = new Telescope();
+  private final Telescope m_telescope = new Telescope(m_controller);
   private final Tower m_tower = new Tower();
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   
   //All the Paths
-  PathPlannerTrajectory BotToCC = PathPlanner.loadPath("BotToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory BotToCT3 = PathPlanner.loadPath("BotToCT3", new PathConstraints(4, 3));
-  PathPlannerTrajectory BotToCT4 = PathPlanner.loadPath("BotToCT4", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT1ToCC = PathPlanner.loadPath("CT1ToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT1ToMidT = PathPlanner.loadPath("CT1ToMidT", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT1ToTop = PathPlanner.loadPath("CT1ToTop", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT2ToCC = PathPlanner.loadPath("CT2ToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT2ToMidT = PathPlanner.loadPath("CT2ToMidT", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT2ToTop = PathPlanner.loadPath("CT2ToTop", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT3ToCC = PathPlanner.loadPath("CT3ToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT3ToMidB = PathPlanner.loadPath("CT3ToMidB", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT3ToBot = PathPlanner.loadPath("CT3ToBot", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT4ToCC = PathPlanner.loadPath("CT4ToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT4ToMidB = PathPlanner.loadPath("CT4ToMidB", new PathConstraints(4, 3));
-  PathPlannerTrajectory CT4ToBot = PathPlanner.loadPath("CT4ToBot", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidBToCC = PathPlanner.loadPath("MidBToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidBToCT3 = PathPlanner.loadPath("MidBToCT3", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidBToCT4 = PathPlanner.loadPath("MidBToCT4", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidTToCC = PathPlanner.loadPath("MidTToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidTToCT1 = PathPlanner.loadPath("MidTToCT1", new PathConstraints(4, 3));
-  PathPlannerTrajectory MidTToCT2 = PathPlanner.loadPath("MidTToCT2", new PathConstraints(4, 3));
-  PathPlannerTrajectory TopToCC = PathPlanner.loadPath("TopToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory TopToCT1 = PathPlanner.loadPath("TopToCT1", new PathConstraints(4, 3));
-  PathPlannerTrajectory TopToCT2 = PathPlanner.loadPath("TopToCT2", new PathConstraints(4, 3));
-  PathPlannerTrajectory SmallTest = PathPlanner.loadPath("SmallTest", new PathConstraints(0.5, 0.5));
-  PathPlannerTrajectory MidCToCC = PathPlanner.loadPath("MidCToCC", new PathConstraints(4, 3));
-  PathPlannerTrajectory BotCtoCC = PathPlanner.loadPath("BotCtoCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory BotToCC = PathPlanner.loadPath("BotToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory BotToCT3 = PathPlanner.loadPath("BotToCT3", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory BotToCT4 = PathPlanner.loadPath("BotToCT4", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT1ToCC = PathPlanner.loadPath("CT1ToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT1ToMidT = PathPlanner.loadPath("CT1ToMidT", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT1ToTop = PathPlanner.loadPath("CT1ToTop", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT2ToCC = PathPlanner.loadPath("CT2ToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT2ToMidT = PathPlanner.loadPath("CT2ToMidT", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT2ToTop = PathPlanner.loadPath("CT2ToTop", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT3ToCC = PathPlanner.loadPath("CT3ToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT3ToMidB = PathPlanner.loadPath("CT3ToMidB", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT3ToBot = PathPlanner.loadPath("CT3ToBot", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT4ToCC = PathPlanner.loadPath("CT4ToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT4ToMidB = PathPlanner.loadPath("CT4ToMidB", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT4ToBot = PathPlanner.loadPath("CT4ToBot", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidBToCC = PathPlanner.loadPath("MidBToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidBToCT3 = PathPlanner.loadPath("MidBToCT3", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidBToCT4 = PathPlanner.loadPath("MidBToCT4", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidTToCC = PathPlanner.loadPath("MidTToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidTToCT1 = PathPlanner.loadPath("MidTToCT1", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidTToCT2 = PathPlanner.loadPath("MidTToCT2", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory TopToCC = PathPlanner.loadPath("TopToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory TopToCT1 = PathPlanner.loadPath("TopToCT1", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory TopToCT2 = PathPlanner.loadPath("TopToCT2", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory SmallTest = PathPlanner.loadPath("SmallTest", new PathConstraints(0.5, 0.5));
+  public static PathPlannerTrajectory MidCToCC = PathPlanner.loadPath("MidCToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory BotCtoCC = PathPlanner.loadPath("BotCtoCC", new PathConstraints(4, 3));
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
@@ -104,11 +101,9 @@ public class RobotContainer {
 
   //AutoCommands
   Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller);
-  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_FourConeAuto = new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_FiveConeAuto = new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.Mid);
+  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
+  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   public static SendableChooser<PathPlannerTrajectory> m_pathpChooser = new SendableChooser<>();
@@ -133,7 +128,7 @@ public class RobotContainer {
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
-    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2));
+    m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2, led));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -144,8 +139,6 @@ public class RobotContainer {
     m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
     m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
     m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
-    m_autoChooser.addOption("Four Cone Auto", m_FourConeAuto);
-    m_autoChooser.addOption("Five Cone Auto", m_FiveConeAuto);
 
     //Adding paths to path planner command chooser
     m_pathpChooser.setDefaultOption("Nothing", null);
@@ -237,8 +230,8 @@ public class RobotContainer {
 
 
     //Tower-Position Command
-    towerMidPosition.whileTrue(new PivotMid(m_tower));
-    towerHighPosition.whileTrue(new PivotHigh(m_tower));
+    towerMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Mid));
+    towerHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.High));
 
     
 

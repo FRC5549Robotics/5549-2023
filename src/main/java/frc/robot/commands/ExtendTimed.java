@@ -11,18 +11,20 @@ import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.Constants;
 
-public class ExtendFar extends CommandBase {
-  /** Creates a new ExtendFar. */
-
+public class ExtendTimed extends CommandBase {
+  /** Creates a new ExtendTimed. */
   double startTime;
   Telescope m_Telescope;
   boolean finished = false;
   XboxController rumController;
-  public ExtendFar(Telescope telescope, XboxController RumController) {
+  double setpoint;
+  Tower.TargetLevel target;
+  public ExtendTimed(Telescope telescope, XboxController RumController, Tower.TargetLevel Target) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Telescope = telescope;
     rumController = RumController;
     addRequirements(telescope);
+    target = Target;
   }
 
   // Called when the command is initially scheduled.
@@ -30,17 +32,15 @@ public class ExtendFar extends CommandBase {
   public void initialize() {
     startTime = System.currentTimeMillis();
     rumController.setRumble(RumbleType.kBothRumble, 0);
+    if(target == Tower.TargetLevel.High)setpoint = Constants.EXTEND_HIGH_SETPOINT;
+    else if(target == Tower.TargetLevel.Mid)setpoint = Constants.EXTEND_MID_SETPOINT;
+    else finished = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (System.currentTimeMillis() - startTime < 7000) {
-      m_Telescope.on(Constants.armSpeed);
-    }
-    else{
-      finished = true;
-    }
+
   }
 
   // Called once the command ends or is interrupted.
