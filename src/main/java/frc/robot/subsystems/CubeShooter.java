@@ -17,8 +17,8 @@ public class CubeShooter extends SubsystemBase {
   private XboxController m_Controller;
   /** Creates a new CubeShooter. */
   private CANSparkMax HingeMotor = new CANSparkMax(31, MotorType.kBrushless);
-  private TalonSRX ShooterMotor1 = new TalonSRX(34);
-  private TalonSRX ShooterMotor2 = new TalonSRX(35);
+  private TalonSRX ShooterMotor1 = new TalonSRX(30);
+  private TalonSRX ShooterMotor2 = new TalonSRX(31);
 
   public CubeShooter(XboxController Controller) {
     m_Controller = Controller;
@@ -39,6 +39,10 @@ public class CubeShooter extends SubsystemBase {
   public void setLowPosition()
   {
     HingeMotor.set(0);
+  }
+  public void ShooterOff(){
+    ShooterMotor1.set(TalonSRXControlMode.PercentOutput, 0);
+    ShooterMotor2.set(TalonSRXControlMode.PercentOutput, 0);
   }
   @Override
   public void periodic() {
