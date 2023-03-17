@@ -59,7 +59,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(m_controller);
   private final Limelight m_Limelight = new Limelight();
   private final Intake m_Intake = new Intake();
-  private final Telescope m_telescope = new Telescope();
+  private final Telescope m_telescope = new Telescope(m_controller);
   private final CubeShooter m_CubeShooter = new CubeShooter(m_controller2);
   private final Tower m_tower = new Tower();
   private AddressableLED led = new AddressableLED(0);
@@ -103,15 +103,12 @@ public class RobotContainer {
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
   //AutoCommands
-  Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.Mid);
-  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
-  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
+  // Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
+  // Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.Mid);
+  // Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
+  // Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
-  public static SendableChooser<PathPlannerTrajectory> m_pathpChooser = new SendableChooser<>();
-  public static SendableChooser<PathPlannerTrajectory> m_pathpChooser2 = new SendableChooser<>();
-  public static SendableChooser<Boolean> m_ShouldDrive = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -139,75 +136,15 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Adding Commands to autonomous command chooser
-    m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
-    m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
-    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
-    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+    // m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
+    // m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
+    // m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
+    // m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
 
     //Adding paths to path planner command chooser
-    m_pathpChooser.setDefaultOption("Nothing", null);
-    m_pathpChooser.addOption("Top to Cone 1", TopToCT1);
-    m_pathpChooser.addOption("Top to Cone 2", TopToCT2);
-    m_pathpChooser.addOption("Bottom to Charge Station", BotToCC);
-    m_pathpChooser.addOption("Bottom to Cone 3", BotToCT3);
-    m_pathpChooser.addOption("Bottom to Cone 4", BotToCT4);
-    m_pathpChooser.addOption("Cone 1 to Charge Station", CT1ToCC);
-    m_pathpChooser.addOption("Cone 1 to Mid Cone Node", CT1ToMidT);
-    m_pathpChooser.addOption("Cone 1 to Top Cone Node", CT1ToTop);
-    m_pathpChooser.addOption("Cone 2 to Charge Station", CT2ToCC);
-    m_pathpChooser.addOption("Cone 2 to Mid Cone Node", CT2ToMidT);
-    m_pathpChooser.addOption("Cone 2 to Top Cone Node", CT2ToTop);
-    m_pathpChooser.addOption("Cone 3 to Bottom Cone Node", CT3ToBot);
-    m_pathpChooser.addOption("Cone 3 to Charge Station", CT3ToCC);
-    m_pathpChooser.addOption("Cone 3 to Mid Bottom Cone Node", CT3ToBot);
-    m_pathpChooser.addOption("Cone 4 to Bottom Cone Node", CT4ToBot);
-    m_pathpChooser.addOption("Cone 4 to Charge Station", CT4ToCC);
-    m_pathpChooser.addOption("Cone 4 to Mid Bottom Cone Node", CT4ToMidB);
-    m_pathpChooser.addOption("Mid Cube to Charge Station", MidBToCC);
-    m_pathpChooser.addOption("Mid Bottom Cone to Cone 3", MidBToCT3);
-    m_pathpChooser.addOption("Mid Bottom Cone to Cone 4", MidBToCT4);
-    m_pathpChooser.addOption("Mid Cone Node to Charge Station", MidTToCC);
-    m_pathpChooser.addOption("Mid Cone Node to Cone 1", MidTToCT1);
-    m_pathpChooser.addOption("Mid Cone Node to Cone 2", MidTToCT2);
-    m_pathpChooser.addOption("Top Cone Node to Charge Station", TopToCC);
-    m_pathpChooser.addOption("Top Cube Node to Charge Station", TopToCC);
-    m_pathpChooser.addOption("Bottom Cube Node to Charge Station", BotCtoCC);
 
-    m_pathpChooser2.setDefaultOption("Nothing", null);
-    m_pathpChooser2.addOption("Top to Cone 1", TopToCT1);
-    m_pathpChooser2.addOption("Top to Cone 2", TopToCT2);
-    m_pathpChooser2.addOption("Bottom to Charge Station", BotToCC);
-    m_pathpChooser2.addOption("Bottom to Cone 3", BotToCT3);
-    m_pathpChooser2.addOption("Bottom to Cone 4", BotToCT4);
-    m_pathpChooser2.addOption("Cone 1 to Charge Station", CT1ToCC);
-    m_pathpChooser2.addOption("Cone 1 to Mid Cone Node", CT1ToMidT);
-    m_pathpChooser2.addOption("Cone 1 to Top Cone Node", CT1ToTop);
-    m_pathpChooser2.addOption("Cone 2 to Charge Station", CT2ToCC);
-    m_pathpChooser2.addOption("Cone 2 to Mid Cone Node", CT2ToMidT);
-    m_pathpChooser2.addOption("Cone 2 to Top Cone Node", CT2ToTop);
-    m_pathpChooser2.addOption("Cone 3 to Bottom Cone Node", CT3ToBot);
-    m_pathpChooser2.addOption("Cone 3 to Charge Station", CT3ToCC);
-    m_pathpChooser2.addOption("Cone 3 to Mid Bottom Cone Node", CT3ToBot);
-    m_pathpChooser2.addOption("Cone 4 to Bottom Cone Node", CT4ToBot);
-    m_pathpChooser2.addOption("Cone 4 to Charge Station", CT4ToCC);
-    m_pathpChooser2.addOption("Cone 4 to Mid Bottom Cone Node", CT4ToMidB);
-    m_pathpChooser2.addOption("Mid Cube to Charge Station", MidBToCC);
-    m_pathpChooser2.addOption("Mid Bottom Cone to Cone 3", MidBToCT3);
-    m_pathpChooser2.addOption("Mid Bottom Cone to Cone 4", MidBToCT4);
-    m_pathpChooser2.addOption("Mid Cone Node to Charge Station", MidTToCC);
-    m_pathpChooser2.addOption("Mid Cone Node to Cone 1", MidTToCT1);
-    m_pathpChooser2.addOption("Mid Cone Node to Cone 2", MidTToCT2);
-    m_pathpChooser2.addOption("Top Cone Node to Charge Station", TopToCC);
-    m_pathpChooser2.addOption("Top Cube Node to Charge Station", TopToCC);
-    m_pathpChooser2.addOption("Bottom Cube Node to Charge Station", BotCtoCC);
-
-    m_ShouldDrive.setDefaultOption("Yes", true);
-    m_ShouldDrive.addOption("No", false);
 
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
-    SmartDashboard.putData("Path1 Choser", m_pathpChooser);
-    SmartDashboard.putData("Path2 Chooser", m_pathpChooser2);
-    SmartDashboard.putData("Driving:", m_ShouldDrive);
   }
 
   /**

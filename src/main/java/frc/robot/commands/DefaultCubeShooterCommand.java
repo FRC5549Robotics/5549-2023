@@ -10,12 +10,12 @@ import frc.robot.subsystems.CubeShooter;
 
 public class DefaultCubeShooterCommand extends CommandBase {
   /** Creates a new DefaultCubeShooterCommand. */
-  private XboxController m_controller2;
+  private XboxController m_controller;
   private CubeShooter m_CubeShooter;
 
 
   public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller) {
-    m_controller2 = m_Controller;
+    m_controller = m_Controller;
     m_CubeShooter = cubeShooter;
     addRequirements(cubeShooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,19 +28,22 @@ public class DefaultCubeShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if(m_controller2.getRawButton(0))
+    if(m_controller.getRawButton(7))
     {
       m_CubeShooter.setSpeed(0.5);
+      System.out.println("yes");
     }
-    if(m_controller2.getRawButton(0))
+    else if(m_controller.getRawButton(8))
     {
+      System.out.println("yds");
       m_CubeShooter.setSpeed(-0.5);
     }
     else
     {
-      m_CubeShooter.ShooterOff();
+      m_CubeShooter.setSpeed(0);
     }
+
+    
   }
 
   // Called once the command ends or is interrupted.

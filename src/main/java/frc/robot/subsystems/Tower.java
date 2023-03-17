@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 
 import frc.robot.Constants;
@@ -18,19 +19,21 @@ import frc.robot.Constants;
 public class Tower extends SubsystemBase {
   /** Creates a new Tower. */
   public enum TargetLevel{
-    In,
+    Retracted,
+    Intake,
     Mid,
-    High
+    High,
   }
   CANSparkMax motor1;
   CANSparkMax motor2;
 
-  public Encoder throughBoreEncoder;
+  public DutyCycleEncoder throughBoreEncoder;
   public RelativeEncoder Encoder1;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
     motor2 = new CANSparkMax(Constants.MOTOR_TOWER2, MotorType.kBrushless);
-    throughBoreEncoder = new Encoder(0, 1);
+    throughBoreEncoder = new DutyCycleEncoder(0);
+    throughBoreEncoder.setPositionOffset(0.674);
     Encoder1 = motor1.getEncoder();
     // encoder2 = motor2.getAlternateEncoder(0);
     

@@ -29,9 +29,10 @@ public class PivotEncoder extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(state == Tower.TargetLevel.In)setpoint = Constants.PIVOT_IN_SETPOINT;
+    if(state == Tower.TargetLevel.High)setpoint = Constants.PIVOT_HIGH_SETPOINT;
+    else if(state == Tower.TargetLevel.Intake)setpoint = Constants.PIVOT_INTAKE_SETPOINT;
     else if(state == Tower.TargetLevel.Mid)setpoint = Constants.PIVOT_MID_SETPOINT;
-    else setpoint = Constants.PIVOT_HIGH_SETPOINT;
+    else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

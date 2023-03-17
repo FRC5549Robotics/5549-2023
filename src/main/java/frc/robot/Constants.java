@@ -66,7 +66,8 @@ public final class Constants {
     public static final double PIVOT_SPEED = 0.5;
     public static final double PIVOT_HIGH_SETPOINT = 0;
     public static final double PIVOT_MID_SETPOINT = 0;
-    public static final double PIVOT_IN_SETPOINT = 0;
+    public static final double PIVOT_RETRACTED_SETPOINT = 0;
+    public static final double PIVOT_INTAKE_SETPOINT = 0;
 
     //Telescope
     public static final int MOTOR_TELESCOPE_1 = 14;

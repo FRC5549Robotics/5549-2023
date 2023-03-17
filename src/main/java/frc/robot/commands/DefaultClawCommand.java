@@ -65,8 +65,7 @@ public class DefaultClawCommand extends CommandBase {
     if(joy2.getRawButton(6) || match.color == m_intake.kYellowTarget)
     {
       m_claw.setConeMode();
-    }
-    
+    } 
   }
 
   // Called once the command ends or is interrupted.

@@ -45,7 +45,7 @@ public class OneConeAuto extends SequentialCommandGroup {
     target1 = Target1;
     addCommands(
       new InstantCommand(() -> {
-        m_DrivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
+        m_DrivetrainSubsystem.resetOdometry(RobotContainer.TopToCT1.getInitialHolonomicPose());
       }),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
@@ -55,7 +55,7 @@ public class OneConeAuto extends SequentialCommandGroup {
       new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem).withTimeout(1),
       new ParallelCommandGroup(
-        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
+        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.TopToCT1),
         new InstantCommand(m_claw::stopClaw),
         new Retract(m_telescope)
       )
