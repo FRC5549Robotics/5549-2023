@@ -10,14 +10,18 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Tower;
 
 
-public class PivotHigh extends CommandBase {
-  /** Creates a new Pivot. */
+public class PivotEncoder extends CommandBase {
+  /** Creates a new PivotEncoder. */
+  Tower.TargetLevel state;
+  // 1 = in, 2 = mid, 3 = in
+
   Tower m_Tower;
   boolean finished = false;
   PIDController controller = new PIDController(0.5, 0, 0);
-  double setpoint = Constants.PIVOT_HIGH_SETPOINT;
-  public PivotHigh(Tower Tower) {
+  double setpoint;
+  public PivotEncoder(Tower Tower, Tower.TargetLevel State) {
     // Use addRequirements() here to declare subsystem dependencies.
+    state = State;
     m_Tower = Tower;
     addRequirements(Tower);
   }
@@ -25,13 +29,16 @@ public class PivotHigh extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(state == Tower.TargetLevel.In)setpoint = Constants.PIVOT_IN_SETPOINT;
+    else if(state == Tower.TargetLevel.Mid)setpoint = Constants.PIVOT_MID_SETPOINT;
+    else setpoint = Constants.PIVOT_HIGH_SETPOINT;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double currentAngle = m_Tower.GetEncoderValue();
-    // if (currentAngle - setpoint > 2 || currentAngle - setpoint < -2){
+    // if ( currentAngle - setpoint > 2 || currentAngle - setpoint < -2){
     // m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
     // }
     // else{

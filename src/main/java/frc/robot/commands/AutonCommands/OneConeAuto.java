@@ -7,7 +7,6 @@ package frc.robot.commands.AutonCommands;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -21,6 +20,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.RobotContainer;
+import frc.robot.commands.PivotEncoder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,26 +31,33 @@ public class OneConeAuto extends SequentialCommandGroup {
   Tower m_tower;
   Telescope m_telescope;
   Claw m_claw;
-  XboxController m_XboxController;
-  public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox) {
+  XboxController rumController;
+  PathPlannerTrajectory path1;
+  Tower.TargetLevel target1;
+  public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox, Tower.TargetLevel Target1) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_DrivetrainSubsystem = Drivetrain;
     m_tower = tower;
     m_telescope = telescope;
     m_claw = claw;
-    m_XboxController = xbox;
+    rumController = xbox;
+    target1 = Target1;
     addCommands(
       new InstantCommand(() -> {
-        m_DrivetrainSubsystem.resetOdometry(RobotContainer.TopToCT1.getInitialHolonomicPose());
+        m_DrivetrainSubsystem.resetOdometry(RobotContainer.m_pathpChooser.getSelected().getInitialHolonomicPose());
       }),
+      new ParallelCommandGroup(
+        new ExtendMedium(m_telescope, rumController),
+        new PivotEncoder(m_tower, target1)
+      ),
       new PivotTimed(m_tower),
-      new ExtendMedium(m_telescope, m_XboxController),
+      new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem).withTimeout(1),
       new ParallelCommandGroup(
+        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.m_pathpChooser.getSelected()),
         new InstantCommand(m_claw::stopClaw),
-        new Retract(m_telescope),
-        m_DrivetrainSubsystem.followTrajectoryCommand(RobotContainer.TopToCT1)
+        new Retract(m_telescope)
       )
     );
   }

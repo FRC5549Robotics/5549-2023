@@ -19,8 +19,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
-import frc.robot.commands.PivotMid;
-import frc.robot.commands.PivotHigh;
+import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
@@ -30,8 +29,6 @@ import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Y;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Z;
-import frc.robot.commands.AutonCommands.FiveConeAuto;
-import frc.robot.commands.AutonCommands.FourConeAuto;
 import frc.robot.commands.AutonCommands.OneConeAuto;
 import frc.robot.commands.AutonCommands.ThreeConeAuto;
 import frc.robot.commands.AutonCommands.TwoConeAuto;
@@ -107,11 +104,9 @@ public class RobotContainer {
 
   //AutoCommands
   Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller);
-  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_FourConeAuto = new FourConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
-  Command m_FiveConeAuto = new FiveConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller);
+  Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.Mid);
+  Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
+  Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   public static SendableChooser<PathPlannerTrajectory> m_pathpChooser = new SendableChooser<>();
@@ -148,8 +143,6 @@ public class RobotContainer {
     m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
     m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
     m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
-    m_autoChooser.addOption("Four Cone Auto", m_FourConeAuto);
-    m_autoChooser.addOption("Five Cone Auto", m_FiveConeAuto);
 
     //Adding paths to path planner command chooser
     m_pathpChooser.setDefaultOption("Nothing", null);
@@ -241,8 +234,8 @@ public class RobotContainer {
 
 
     //Tower-Position Command
-    towerMidPosition.whileTrue(new PivotMid(m_tower));
-    towerHighPosition.whileTrue(new PivotHigh(m_tower));
+    towerMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Mid));
+    towerHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.High));
 
     
 

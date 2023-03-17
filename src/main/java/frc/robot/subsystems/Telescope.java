@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
 
@@ -17,10 +18,15 @@ public class Telescope extends SubsystemBase {
   CANSparkMax TelescopeMotor;
   CANSparkMax ClawMotor;
   PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
+  XboxController rumController;
+  double startTime;
+  Telescope m_Telescope;
+  boolean finished = false;
     
 
-  public Telescope() {
+  public Telescope(XboxController controller) {
     TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
+    rumController = controller;
   }
 
   @Override
@@ -32,6 +38,16 @@ public class Telescope extends SubsystemBase {
   public double getEncoder()
   {
     return TelescopeMotor.getEncoder().getPosition();
+  }
+
+  public boolean RunToTarget(double startTime, double timeSetpoint){
+    if (System.currentTimeMillis() - startTime < timeSetpoint) {
+      m_Telescope.on(Constants.armSpeed);
+    }
+    else{
+      return true;
+    }
+    return false;
   }
 
   public void on(double speed) {

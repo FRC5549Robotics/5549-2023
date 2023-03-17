@@ -64,12 +64,14 @@ public final class Constants {
     public static final int MOTOR_TOWER1 = 16;
     public static final int MOTOR_TOWER2 = 15;
     public static final double PIVOT_SPEED = 0.5;
-
-    //Telescope
-    public static final int MOTOR_TELESCOPE_1 = 14;
     public static final double PIVOT_HIGH_SETPOINT = 0;
     public static final double PIVOT_MID_SETPOINT = 0;
     public static final double PIVOT_IN_SETPOINT = 0;
+
+    //Telescope
+    public static final int MOTOR_TELESCOPE_1 = 14;
+    public static final double EXTEND_HIGH_SETPOINT = 7000;
+    public static final double EXTEND_MID_SETPOINT = 4000;
 
     //Claw
     public static final int MOTOR_CLAW_1 = 17;

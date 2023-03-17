@@ -17,6 +17,11 @@ import frc.robot.Constants;
 
 public class Tower extends SubsystemBase {
   /** Creates a new Tower. */
+  public enum TargetLevel{
+    In,
+    Mid,
+    High
+  }
   CANSparkMax motor1;
   CANSparkMax motor2;
 
@@ -40,14 +45,14 @@ public class Tower extends SubsystemBase {
   }
 
   public boolean Pivot(PIDController controller, double currentAngle, double setpoint){
-    boolean finished = false;
+
     if (currentAngle - setpoint > 2 || currentAngle - setpoint < -2){
     runSpeed(controller.calculate(currentAngle, setpoint));
     }
     else{
-      finished = true;
+      return true;
     }
-    return finished;
+    return false;
   }
   
   public void runSpeed(double speed)
