@@ -33,6 +33,13 @@ public class CubeShooter extends SubsystemBase {
   public void setHighPosition(){
     HingeMotor.set(1);
   }
+  public void setMidPosition(){
+    HingeMotor.set(0.5);
+  }
+  public void setLowPosition()
+  {
+    HingeMotor.set(0);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
