@@ -70,7 +70,6 @@ public class Claw extends SubsystemBase {
   }
   
   public void LEDToggle(){
-    System.out.println("button");
     if(Constants.yellow){
       System.out.println("Color Detected");
       for(int i = 0; i<ledBuffer.getLength();i++)

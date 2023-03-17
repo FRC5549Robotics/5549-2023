@@ -106,7 +106,7 @@ public class RobotContainer {
   JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
   JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
-  JoystickButton lEDToggleButton = new JoystickButton(m_controller2, 4);
+  JoystickButton lEDToggleButton = new JoystickButton(m_controller2, 8);
 
   //AutoCommands
   Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
