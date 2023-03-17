@@ -21,8 +21,10 @@ public class Tower extends SubsystemBase {
   public enum TargetLevel{
     Retracted,
     Intake,
-    Mid,
-    High,
+    CubeMid,
+    CubeHigh,
+    ConeMid,
+    ConeHigh,
   }
   CANSparkMax motor1;
   CANSparkMax motor2;

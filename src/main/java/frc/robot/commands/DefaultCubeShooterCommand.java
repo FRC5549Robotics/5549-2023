@@ -30,13 +30,13 @@ public class DefaultCubeShooterCommand extends CommandBase {
   public void execute() {
     if(m_controller.getRawButton(7))
     {
-      m_CubeShooter.setSpeed(0.5);
+      m_CubeShooter.setSpeed(1);
       System.out.println("yes");
     }
     else if(m_controller.getRawButton(8))
     {
       System.out.println("yds");
-      m_CubeShooter.setSpeed(-0.5);
+      m_CubeShooter.setSpeed(-1);
     }
     else
     {

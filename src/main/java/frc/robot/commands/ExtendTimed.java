@@ -32,8 +32,8 @@ public class ExtendTimed extends CommandBase {
   public void initialize() {
     startTime = System.currentTimeMillis();
     rumController.setRumble(RumbleType.kBothRumble, 0);
-    if(target == Tower.TargetLevel.High)setpoint = Constants.EXTEND_HIGH_SETPOINT;
-    else if(target == Tower.TargetLevel.Mid)setpoint = Constants.EXTEND_MID_SETPOINT;
+    if(target == Tower.TargetLevel.ConeHigh)setpoint = Constants.EXTEND_CONE_HIGH_SETPOINT;
+    else if(target == Tower.TargetLevel.ConeMid)setpoint = Constants.EXTEND_CONE_MID_SETPOINT;
     else finished = true;
   }
 

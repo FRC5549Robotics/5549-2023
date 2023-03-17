@@ -16,8 +16,8 @@ public class PivotEncoder extends CommandBase {
   // 1 = in, 2 = mid, 3 = in
 
   Tower m_Tower;
-  boolean finished = false;
-  PIDController controller = new PIDController(0.5, 0, 0);
+  boolean finished;
+  PIDController controller = new PIDController(1.5, 0, 0);
   double setpoint;
   public PivotEncoder(Tower Tower, Tower.TargetLevel State) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,28 +29,33 @@ public class PivotEncoder extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(state == Tower.TargetLevel.High)setpoint = Constants.PIVOT_HIGH_SETPOINT;
+    if(state == Tower.TargetLevel.ConeHigh)setpoint = Constants.PIVOT_CONE_HIGH_SETPOINT;
     else if(state == Tower.TargetLevel.Intake)setpoint = Constants.PIVOT_INTAKE_SETPOINT;
-    else if(state == Tower.TargetLevel.Mid)setpoint = Constants.PIVOT_MID_SETPOINT;
+    else if(state == Tower.TargetLevel.ConeMid)setpoint = Constants.PIVOT_CONE_MID_SETPOINT;
+    else if(state == Tower.TargetLevel.CubeHigh)setpoint = Constants.PIVOT_CUBE_HIGH_SETPOINT;
+    else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.PIVOT_CUBE_MID_SETPOINT;
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    finished = false;
     double currentAngle = m_Tower.GetEncoderValue();
-    // if ( currentAngle - setpoint > 2 || currentAngle - setpoint < -2){
-    // m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
-    // }
-    // else{
-    //   finished = true;
-    // }
-    finished = m_Tower.Pivot(controller, currentAngle, setpoint);
+    System.out.println(setpoint);
+    System.out.println(currentAngle);
+    if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
+    m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
+  }
+    else{
+      finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("finished");
     m_Tower.off();
   }
 

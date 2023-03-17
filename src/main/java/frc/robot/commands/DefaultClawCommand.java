@@ -49,11 +49,11 @@ public class DefaultClawCommand extends CommandBase {
 
     if(joy2.getRawAxis(2) > 0.2)
     {
-        m_claw.setClawSpeed(joy2.getRawAxis(2)*0.25);
+        m_claw.setClawSpeed(joy2.getRawAxis(2)*0.75);
     }
     else if (joy2.getRawAxis(3) > 0.2)
     {
-      m_claw.setClawSpeed(-joy2.getRawAxis(3)*0.5);
+      m_claw.setClawSpeed(-joy2.getRawAxis(3)*0.75);
     } else {
       m_claw.stopClaw();
     }
