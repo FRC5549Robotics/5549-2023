@@ -21,6 +21,7 @@ public class Tower extends SubsystemBase {
   public enum TargetLevel{
     Retracted,
     Intake,
+    CubeLow,
     CubeMid,
     CubeHigh,
     ConeMid,

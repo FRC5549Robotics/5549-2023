@@ -54,6 +54,15 @@ public class CubeShooter extends SubsystemBase {
   {
     HingeMotor.set(speed);
   }
+  public void HingeOff()
+  {
+    HingeMotor.set(0);
+  }
+  public void RunShooter(double speed)
+  {
+    ShooterMotor1.set(TalonSRXControlMode.PercentOutput, speed);
+    ShooterMotor2.set(TalonSRXControlMode.PercentOutput, -speed);
+  }
   public void ShooterOff(){
     ShooterMotor1.set(TalonSRXControlMode.PercentOutput, 0);
     ShooterMotor2.set(TalonSRXControlMode.PercentOutput, 0);
