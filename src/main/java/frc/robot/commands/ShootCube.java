@@ -28,7 +28,8 @@ public class ShootCube extends CommandBase {
     if(target == Tower.TargetLevel.CubeHigh) setpoint = Constants.CUBE_SHOOTER_HIGH_SETPOINT;
     else if(target == Tower.TargetLevel.CubeMid) setpoint = Constants.CUBE_SHOOTER_MID_SETPOINT;
     else if(target == Tower.TargetLevel.CubeLow) setpoint = Constants.CUBE_SHOOTER_LOW_SETPOINT;
-    else ;
+    else if(target == Tower.TargetLevel.Intake) setpoint = Constants.CUBE_SHOOTER_INTAKE_SETPOINT;
+    else;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

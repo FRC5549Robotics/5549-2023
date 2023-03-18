@@ -172,7 +172,7 @@ public class RobotContainer {
 
     //Tower-Position Command
     towerCubeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeMid));
-    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeHigh));
+    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted));
 
     
 

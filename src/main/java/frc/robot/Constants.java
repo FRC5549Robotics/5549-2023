@@ -64,9 +64,9 @@ public final class Constants {
     public static final int MOTOR_TOWER1 = 16;
     public static final int MOTOR_TOWER2 = 15;
     public static final double PIVOT_SPEED = 0.5;
-    public static final double PIVOT_CONE_HIGH_SETPOINT = 0;
-    public static final double PIVOT_CONE_MID_SETPOINT = 0;
-    public static final double PIVOT_RETRACTED_SETPOINT = 0;
+    public static final double PIVOT_CONE_HIGH_SETPOINT = -0.604;
+    public static final double PIVOT_CONE_MID_SETPOINT = -0.206;
+    public static final double PIVOT_RETRACTED_SETPOINT = -0.02;
     public static final double PIVOT_INTAKE_SETPOINT = 0;
     public static final double PIVOT_CUBE_HIGH_SETPOINT = 0;
     public static final double PIVOT_CUBE_MID_SETPOINT = -0.171;
@@ -86,9 +86,10 @@ public final class Constants {
     //Cube Shooter
     public static final double CUBE_HINGE_HIGH_SETPOINT = 0;
     public static final double CUBE_HINGE_MID_SETPOINT = 0;
-    public static final double CUBE_HINGE_LOW_SETPOINT = 0;
+    public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 0;
     public static final double CUBE_SHOOTER_HIGH_SETPOINT = 0;
     public static final double CUBE_SHOOTER_MID_SETPOINT = 0;
     public static final double CUBE_SHOOTER_LOW_SETPOINT = 0;
+    public static final double CUBE_SHOOTER_INTAKE_SETPOINT = 0;
     
 }
