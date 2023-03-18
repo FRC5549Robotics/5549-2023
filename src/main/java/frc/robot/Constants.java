@@ -82,4 +82,10 @@ public final class Constants {
     public static final int MOTOR_CLAW_1 = 17;
     public static final double CLAW_MOTOR_SPEED = 0.75;
     public static boolean yellow = true;
+
+    //Cube Shooter
+    public static final double CUBE_HINGE_HIGH_SETPOINT = 0;
+    public static final double CUBE_HINGE_MID_SETPOINT = 0;
+    public static final double CUBE_HINGE_LOW_SETPOINT = 0;
+    
 }

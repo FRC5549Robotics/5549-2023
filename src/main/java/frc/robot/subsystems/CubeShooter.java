@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -19,14 +20,14 @@ public class CubeShooter extends SubsystemBase {
 
   private XboxController m_Controller;
   /** Creates a new CubeShooter. */
-  //private CANSparkMax HingeMotor = new CANSparkMax(32, MotorType.kBrushless);
+  private CANSparkMax HingeMotor = new CANSparkMax(32, MotorType.kBrushless);
   private WPI_TalonSRX ShooterMotor1 = new WPI_TalonSRX(30);
   private WPI_TalonSRX ShooterMotor2 = new WPI_TalonSRX(31);
   RelativeEncoder HingeEncoder;
 
   public CubeShooter(XboxController Controller) {
     m_Controller = Controller;
-    //HingeEncoder = HingeMotor.getEncoder();
+    HingeEncoder = HingeMotor.getEncoder();
   }
 
   public double getEncoderValue()
@@ -49,9 +50,17 @@ public class CubeShooter extends SubsystemBase {
   {
     //HingeMotor.set(0);
   }
+  public void RunHinge(double speed)
+  {
+    HingeMotor.set(speed);
+  }
   public void ShooterOff(){
     ShooterMotor1.set(TalonSRXControlMode.PercentOutput, 0);
     ShooterMotor2.set(TalonSRXControlMode.PercentOutput, 0);
+  }
+  public double GetEncoderValue()
+  {
+    return HingeEncoder.getPosition();
   }
   @Override
   public void periodic() {
