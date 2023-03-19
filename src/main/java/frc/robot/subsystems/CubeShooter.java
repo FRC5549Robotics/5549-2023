@@ -20,9 +20,9 @@ public class CubeShooter extends SubsystemBase {
 
   private XboxController m_Controller;
   /** Creates a new CubeShooter. */
-  private CANSparkMax HingeMotor = new CANSparkMax(32, MotorType.kBrushless);
-  private CANSparkMax ShooterMotor1 = new CANSparkMax(30, MotorType.kBrushless);
-  private CANSparkMax ShooterMotor2 = new CANSparkMax(31, MotorType.kBrushless);
+  private CANSparkMax HingeMotor = new CANSparkMax(19, MotorType.kBrushless);
+  private CANSparkMax ShooterMotor1 = new CANSparkMax(20, MotorType.kBrushless);
+  private CANSparkMax ShooterMotor2 = new CANSparkMax(18, MotorType.kBrushless);
   RelativeEncoder HingeEncoder;
 
   public CubeShooter(XboxController Controller) {
@@ -38,7 +38,7 @@ public class CubeShooter extends SubsystemBase {
   public void setSpeed(double speed)
   {
     ShooterMotor1.set(speed);
-    ShooterMotor2.set(-speed);
+    ShooterMotor2.set(speed);
   }
   public void setHighPosition(){
     //HingeMotor.set(1);
