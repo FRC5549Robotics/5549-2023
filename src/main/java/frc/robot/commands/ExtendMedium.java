@@ -34,7 +34,7 @@ public class ExtendMedium extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (System.currentTimeMillis() - startTime < 2000) {
+    if (System.currentTimeMillis() - startTime < 9000) {
       m_Telescope.on(Constants.armSpeed);
     }
     else{
@@ -46,6 +46,7 @@ public class ExtendMedium extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Telescope.off();
+    System.out.println("Finished telescope extension");
   }
 
   // Returns true when the command should end.

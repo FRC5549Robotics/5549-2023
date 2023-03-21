@@ -54,6 +54,10 @@ public class Claw extends SubsystemBase {
   {
     ClawMotor.set(speed);
   }
+
+  public void runSlow(){
+    ClawMotor.set(-0.1);
+  }
   
 
   public void setConeMode()

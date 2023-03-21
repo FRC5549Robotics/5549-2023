@@ -29,6 +29,7 @@ import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Y;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Z;
+import frc.robot.commands.AutonCommands.OneConeAutoNoDrive;
 import frc.robot.commands.AutonCommands.OneConeAuto;
 import frc.robot.commands.AutonCommands.ThreeConeAuto;
 import frc.robot.commands.AutonCommands.TwoConeAuto;
@@ -96,17 +97,19 @@ public class RobotContainer {
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
+  JoystickButton resetNavXButton = new JoystickButton(m_controller, 4);
 
-
-  JoystickButton towerHighPosition = new JoystickButton(m_controller2, 2);
-  JoystickButton towerMidPosition = new JoystickButton(m_controller2, 1);
+  JoystickButton towerCubeHighPosition = new JoystickButton(m_controller2, 2);
+  JoystickButton towerCubeMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
   //AutoCommands
-  // Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-  // Command m_OneConeAuto = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.Mid);
-  // Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
-  // Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid, Tower.TargetLevel.Mid);
+   Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
+   Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh);
+   Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
+   Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
+   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
+   Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -136,10 +139,12 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Adding Commands to autonomous command chooser
-    // m_autoChooser.setDefaultOption("Zero Cone Auto", m_ZeroConeAuto);
-    // m_autoChooser.addOption("One Cone Auto", m_OneConeAuto);
-    // m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
-    // m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+     m_autoChooser.setDefaultOption("Only Drive", m_ZeroConeAuto);
+    m_autoChooser.addOption("One Cone Auto Near Substation Wall", m_OneConeAutoNearWall);
+    m_autoChooser.addOption("One Cone Auto Near Exit Wall", m_OneConeAutoNearExit);
+    m_autoChooser.addOption("One Cone Auto No Drive", m_OneConeAutoNoDrive);
+    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
+    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
 
     //Adding paths to path planner command chooser
 
@@ -155,9 +160,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
-    new Trigger(m_controller::getBackButton)
-            // No requirements because we don't need to interrupt anything
-            .onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
+    // No requirements because we don't need to interrupt anything
+    resetNavXButton.onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.whileTrue(new SequentialCommandGroup(
       //new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
       new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
@@ -171,8 +175,8 @@ public class RobotContainer {
 
 
     //Tower-Position Command
-    towerMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Mid));
-    towerHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.High));
+    towerCubeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeMid, m_claw));
+    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw));
 
     
 

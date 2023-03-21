@@ -29,7 +29,7 @@ public class Retract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (System.currentTimeMillis() - startTime < 7000) {
+    if (System.currentTimeMillis() - startTime < 9000) {
       m_Telescope.on(-Constants.armSpeed);
     }
     else{

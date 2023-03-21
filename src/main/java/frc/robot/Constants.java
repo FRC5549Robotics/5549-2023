@@ -45,7 +45,7 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 7; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(284.24); 
-    public static final double armSpeed = 0.1;
+    public static final double armSpeed = 0.5;
 
     public static double INITIAL_HEADING;
     public static double POLE_DISTANCE = 39.75;
@@ -64,18 +64,32 @@ public final class Constants {
     public static final int MOTOR_TOWER1 = 16;
     public static final int MOTOR_TOWER2 = 15;
     public static final double PIVOT_SPEED = 0.5;
-    public static final double PIVOT_HIGH_SETPOINT = 0;
-    public static final double PIVOT_MID_SETPOINT = 0;
-    public static final double PIVOT_RETRACTED_SETPOINT = 0;
+    public static final double PIVOT_CONE_HIGH_SETPOINT = -0.580;
+    public static final double PIVOT_CONE_MID_SETPOINT = -0.206;
+    public static final double PIVOT_RETRACTED_SETPOINT = -0.02;
     public static final double PIVOT_INTAKE_SETPOINT = 0;
+    public static final double PIVOT_CUBE_HIGH_SETPOINT = 0;
+    public static final double PIVOT_CUBE_MID_SETPOINT = -0.171;
 
     //Telescope
     public static final int MOTOR_TELESCOPE_1 = 14;
-    public static final double EXTEND_HIGH_SETPOINT = 7000;
-    public static final double EXTEND_MID_SETPOINT = 4000;
+    public static final double EXTEND_CONE_HIGH_SETPOINT = 7000;
+    public static final double EXTEND_CONE_MID_SETPOINT = 4000;
+    public static final double EXTEND_CUBE_HIGH_SETPOINT = 7000;
+    public static final double EXTEND_CUBE_MID_SETPOINT = 4000;
 
     //Claw
     public static final int MOTOR_CLAW_1 = 17;
     public static final double CLAW_MOTOR_SPEED = 0.75;
     public static boolean yellow = true;
+
+    //Cube Shooter
+    public static final double CUBE_HINGE_HIGH_SETPOINT = 0;
+    public static final double CUBE_HINGE_MID_SETPOINT = 0;
+    public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 0;
+    public static final double CUBE_SHOOTER_HIGH_SETPOINT = 0;
+    public static final double CUBE_SHOOTER_MID_SETPOINT = 0;
+    public static final double CUBE_SHOOTER_LOW_SETPOINT = 0;
+    public static final double CUBE_SHOOTER_INTAKE_SETPOINT = 0;
+    
 }
