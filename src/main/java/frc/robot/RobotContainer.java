@@ -129,7 +129,7 @@ public class RobotContainer {
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
     m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2, led));
-    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller));
+    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_tower));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
