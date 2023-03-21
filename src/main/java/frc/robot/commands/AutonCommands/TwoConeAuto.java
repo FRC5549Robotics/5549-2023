@@ -61,7 +61,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
       }),
       new ParallelCommandGroup(
         new ExtendMedium(m_telescope, rumController),
-        new PivotEncoder(m_tower, target1)
+        new PivotEncoder(m_tower, target1, m_claw)
       ),
       new InstantCommand(m_claw::dropItem),
       new Retract(m_telescope),
@@ -70,7 +70,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT1ToTop),
         new ExtendMedium(m_telescope, rumController),
-        new PivotEncoder(m_tower, target2)
+        new PivotEncoder(m_tower, target2, m_claw)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem)

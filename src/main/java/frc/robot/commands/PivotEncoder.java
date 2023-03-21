@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Tower;
+import frc.robot.subsystems.Claw;
 
 
 public class PivotEncoder extends CommandBase {
@@ -19,11 +20,13 @@ public class PivotEncoder extends CommandBase {
   boolean finished;
   PIDController controller = new PIDController(1.5, 0, 0);
   double setpoint;
-  public PivotEncoder(Tower Tower, Tower.TargetLevel State) {
+  Claw m_claw;
+  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_Tower = Tower;
-    addRequirements(Tower);
+    m_claw = claw;
+    addRequirements(Tower, claw);
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +38,8 @@ public class PivotEncoder extends CommandBase {
     else if(state == Tower.TargetLevel.CubeHigh)setpoint = Constants.PIVOT_CUBE_HIGH_SETPOINT;
     else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.PIVOT_CUBE_MID_SETPOINT;
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
+
+    if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT)m_claw.runSlow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,6 +62,7 @@ public class PivotEncoder extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("finished");
     m_Tower.off();
+    m_claw.stopClaw();
   }
 
   // Returns true when the command should end.

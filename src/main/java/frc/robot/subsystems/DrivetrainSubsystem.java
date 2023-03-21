@@ -231,6 +231,10 @@ public double getCurrentHeading(){
         return m_navx.getAngle();
 }
 
+public double getCurrentPitch(){
+        return m_navx.getPitch();
+}
+
 public void lockModules() {
     SwerveModuleState[] states = new SwerveModuleState[4];
     states[0] = new SwerveModuleState(0,Rotation2d.fromDegrees(315));
@@ -251,6 +255,7 @@ public void lockModules() {
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
+                SmartDashboard.putNumber("Navx Pitch", m_navx.getPitch());
                 SmartDashboard.putNumber("Navx Yaw", m_navx.getYaw());
                 m_odometry.update(
                 getGyroscopeRotation(),

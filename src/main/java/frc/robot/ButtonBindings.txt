@@ -5,6 +5,7 @@ button - 1-2-2-1-5
 
 m_controller - 1 - Autoalign
 m_controller - 2 - autoStableButton
+m_controller - 3 - brake
 m_controller - 5 - intake piston toggle
 m_controller - 6 - intake piston toggle
 m_controller - 7 - setSpeedCubeShooter
