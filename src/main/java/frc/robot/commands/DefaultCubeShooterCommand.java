@@ -54,7 +54,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
     {
       m_CubeShooter.RunHinge(-m_controller.getRawAxis(3)/5);
     } else {
-       if (TowerEncoderValue < -0.193){
+       if (TowerEncoderValue < -0.2){
         m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 15.7));
        } else {
         m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
@@ -68,6 +68,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_CubeShooter.HingeOff();
+    m_CubeShooter.setSpeed(0);
   }
 
   // Returns true when the command should end.

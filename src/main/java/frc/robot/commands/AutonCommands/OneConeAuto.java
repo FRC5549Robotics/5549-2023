@@ -16,6 +16,7 @@ import frc.robot.commands.Retract;
 import frc.robot.commands.ExtendFar;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CubeShooter;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
@@ -31,10 +32,11 @@ public class OneConeAuto extends SequentialCommandGroup {
   Tower m_tower;
   Telescope m_telescope;
   Claw m_claw;
+  CubeShooter CubeShooter;
   XboxController rumController;
   PathPlannerTrajectory path1;
   Tower.TargetLevel target1;
-  public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox, Tower.TargetLevel Target1,
+  public OneConeAuto(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, CubeShooter CubeShooter, XboxController xbox, Tower.TargetLevel Target1,
   PathPlannerTrajectory path1) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -42,6 +44,7 @@ public class OneConeAuto extends SequentialCommandGroup {
     m_tower = tower;
     m_telescope = telescope;
     m_claw = claw;
+    this.CubeShooter = CubeShooter;
     rumController = xbox;
     target1 = Target1;
     this.path1 = path1;
@@ -51,7 +54,7 @@ public class OneConeAuto extends SequentialCommandGroup {
       }),
       new ParallelCommandGroup(
        // new ExtendMedium(m_telescope, rumController, m_claw),
-        new PivotEncoder(m_tower, target1, m_claw)
+        new PivotEncoder(m_tower, target1, m_claw, CubeShooter)
       ),
       new PivotTimed(m_tower),
       new ExtendMedium(m_telescope, rumController, m_claw),

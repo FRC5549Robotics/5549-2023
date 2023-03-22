@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CubeShooter;
 
 
 public class PivotEncoder extends CommandBase {
@@ -21,12 +22,14 @@ public class PivotEncoder extends CommandBase {
   PIDController controller = new PIDController(1.5, 0, 0);
   double setpoint;
   Claw m_claw;
-  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw) {
+  CubeShooter cubeShooter;
+  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw, CubeShooter cubeShooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_Tower = Tower;
     m_claw = claw;
-    addRequirements(Tower, claw);
+    this.cubeShooter = cubeShooter;
+    addRequirements(Tower, claw, cubeShooter);
   }
 
   // Called when the command is initially scheduled.
@@ -49,6 +52,7 @@ public class PivotEncoder extends CommandBase {
     double currentAngle = m_Tower.GetEncoderValue();
     System.out.println(setpoint);
     System.out.println(currentAngle);
+    cubeShooter.HingeOff();
     if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
     m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
   }
@@ -63,6 +67,7 @@ public class PivotEncoder extends CommandBase {
     System.out.println("finished");
     m_Tower.off();
     m_claw.stopClaw();
+    cubeShooter.HingeOff();
   }
 
   // Returns true when the command should end.

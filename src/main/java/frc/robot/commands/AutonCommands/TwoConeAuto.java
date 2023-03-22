@@ -25,6 +25,7 @@ import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CubeShooter;
 import frc.robot.RobotContainer;
 
 
@@ -39,16 +40,18 @@ public class TwoConeAuto extends SequentialCommandGroup {
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
+  CubeShooter CubeShooter;
   XboxController rumController;
   Tower.TargetLevel target1;
   Tower.TargetLevel target2;
-  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, Tower.TargetLevel Target1, Tower.TargetLevel Target2) {
+  public TwoConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, CubeShooter CubeShooter, XboxController RumController, Tower.TargetLevel Target1, Tower.TargetLevel Target2) {
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
     m_claw = claw;
     m_intake = intake;
+    this.CubeShooter = CubeShooter;
     rumController = RumController;
     target1 = Target1;
     target2 = Target2;
@@ -61,7 +64,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
       }),
       new ParallelCommandGroup(
         //new ExtendMedium(m_telescope, rumController, m_claw),
-        new PivotEncoder(m_tower, target1, m_claw)
+        new PivotEncoder(m_tower, target1, m_claw, CubeShooter)
       ),
       new InstantCommand(m_claw::dropItem),
       new Retract(m_telescope),
@@ -70,7 +73,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT1ToTop),
         //new ExtendMedium(m_telescope, rumController, m_claw),
-        new PivotEncoder(m_tower, target2, m_claw)
+        new PivotEncoder(m_tower, target2, m_claw, CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem)

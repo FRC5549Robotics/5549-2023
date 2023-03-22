@@ -104,11 +104,11 @@ public class RobotContainer {
 
   //AutoCommands
    Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-   Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh);
-   Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
-   Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
-   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
-   Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
+   Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh);
+   Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
+   Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
+   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
+   Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -173,8 +173,8 @@ public class RobotContainer {
 
 
     //Tower-Position Command
-    towerCubeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeMid, m_claw));
-    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw));
+    towerCubeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeMid, m_claw, m_CubeShooter));
+    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));
 
     
 
