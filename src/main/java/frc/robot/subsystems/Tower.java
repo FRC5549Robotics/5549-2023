@@ -32,6 +32,7 @@ public class Tower extends SubsystemBase {
 
   public DutyCycleEncoder throughBoreEncoder;
   public RelativeEncoder Encoder1;
+  public double towerEncoderValue;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
     motor2 = new CANSparkMax(Constants.MOTOR_TOWER2, MotorType.kBrushless);
@@ -46,6 +47,7 @@ public class Tower extends SubsystemBase {
   public void periodic() {
     // calculatedEncoder = encoder1.getPosition()/64;
     // This method will be called once per scheduler run
+    towerEncoderValue = throughBoreEncoder.getDistance();
     SmartDashboard.putNumber("Through Bore Encoder Value:", throughBoreEncoder.getDistance());
     SmartDashboard.putNumber("Motor 1 Encoder Values:", Encoder1.getPosition());
   }

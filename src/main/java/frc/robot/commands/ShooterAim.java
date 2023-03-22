@@ -30,6 +30,7 @@ public class ShooterAim extends CommandBase {
     if(state == Tower.TargetLevel.CubeHigh) setpoint = Constants.CUBE_HINGE_HIGH_SETPOINT;
     else if(state == Tower.TargetLevel.CubeMid) setpoint = Constants.CUBE_HINGE_MID_SETPOINT;
     else if(state == Tower.TargetLevel.CubeLow || state == Tower.TargetLevel.Intake) setpoint = Constants.CUBE_HINGE_LOW_AND_INTAKE_SETPOINT;
+    else if(state == Tower.TargetLevel.Retracted) setpoint = Constants.CUBE_HINGE_RETRACTED_SETPOINT;
     else finished = true;
   }
 

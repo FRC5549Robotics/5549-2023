@@ -60,7 +60,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
           m_drivetrainSubsystem.resetOdometry(RobotContainer.TopToCT1.getInitialHolonomicPose());
       }),
       new ParallelCommandGroup(
-        new ExtendMedium(m_telescope, rumController),
+        //new ExtendMedium(m_telescope, rumController, m_claw),
         new PivotEncoder(m_tower, target1, m_claw)
       ),
       new InstantCommand(m_claw::dropItem),
@@ -69,7 +69,7 @@ public class TwoConeAuto extends SequentialCommandGroup {
       new RunIntakeAuto(m_intake),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT1ToTop),
-        new ExtendMedium(m_telescope, rumController),
+        //new ExtendMedium(m_telescope, rumController, m_claw),
         new PivotEncoder(m_tower, target2, m_claw)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

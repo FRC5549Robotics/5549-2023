@@ -50,11 +50,11 @@ public class OneConeAuto extends SequentialCommandGroup {
         m_DrivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
       }),
       new ParallelCommandGroup(
-        new ExtendMedium(m_telescope, rumController),
+       // new ExtendMedium(m_telescope, rumController, m_claw),
         new PivotEncoder(m_tower, target1, m_claw)
       ),
       new PivotTimed(m_tower),
-      new ExtendMedium(m_telescope, rumController),
+      new ExtendMedium(m_telescope, rumController, m_claw),
       new InstantCommand(m_claw::dropItem).withTimeout(1),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),

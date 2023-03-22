@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.PivotEncoder;
@@ -61,8 +60,8 @@ public class RobotContainer {
   private final Limelight m_Limelight = new Limelight();
   private final Intake m_Intake = new Intake();
   private final Telescope m_telescope = new Telescope(m_controller);
-  private final CubeShooter m_CubeShooter = new CubeShooter(m_controller2);
   private final Tower m_tower = new Tower();
+  private final CubeShooter m_CubeShooter = new CubeShooter(m_controller2, m_tower);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   
@@ -130,7 +129,6 @@ public class RobotContainer {
     ));
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
-    m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
     m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2, led));
     m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();

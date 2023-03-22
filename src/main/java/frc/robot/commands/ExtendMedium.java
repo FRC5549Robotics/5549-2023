@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Telescope;
+import frc.robot.subsystems.Claw;
 import frc.robot.Constants;
 
 public class ExtendMedium extends CommandBase {
@@ -15,13 +16,15 @@ public class ExtendMedium extends CommandBase {
 
   double startTime;
   Telescope m_Telescope;
+  Claw m_Claw;
   boolean finished = false;
   XboxController rumController;
-  public ExtendMedium(Telescope telescope, XboxController RumController) {
+  public ExtendMedium(Telescope telescope, XboxController RumController, Claw claw) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Telescope = telescope;
     rumController = RumController;
-    addRequirements(telescope);
+    m_Claw = claw;
+    addRequirements(telescope, claw);
   }
 
   // Called when the command is initially scheduled.
@@ -46,6 +49,7 @@ public class ExtendMedium extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Telescope.off();
+    m_Claw.setCubeMode();
     System.out.println("Finished telescope extension");
   }
 

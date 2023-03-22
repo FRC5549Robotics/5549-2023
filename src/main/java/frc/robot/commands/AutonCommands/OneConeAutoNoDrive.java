@@ -42,8 +42,7 @@ public class OneConeAutoNoDrive extends SequentialCommandGroup {
         //new ExtendMedium(m_telescope, rumController),
         new PivotEncoder(m_tower, target1, m_claw)
       ),
-      new ExtendMedium(m_telescope, rumController),
-      new InstantCommand(m_claw::setCubeMode),
+      new ExtendMedium(m_telescope, rumController, m_claw),
       new ParallelCommandGroup(
         new Retract(m_telescope),
         new PivotEncoder(tower, Tower.TargetLevel.Retracted, claw)

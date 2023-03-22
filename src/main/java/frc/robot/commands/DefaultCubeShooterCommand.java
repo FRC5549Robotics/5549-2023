@@ -7,12 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CubeShooter;
+import edu.wpi.first.math.controller.PIDController;
 
 public class DefaultCubeShooterCommand extends CommandBase {
   /** Creates a new DefaultCubeShooterCommand. */
   private XboxController m_controller;
   private CubeShooter m_CubeShooter;
-
+  double TowerEncoderValue;
+  double HingeEncoderValue;
+  PIDController controller = new PIDController(0.04, 0, 0);
 
   public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller) {
     m_controller = m_Controller;
@@ -28,27 +31,44 @@ public class DefaultCubeShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_controller.getRawButton(7))
+    TowerEncoderValue = m_CubeShooter.getTowerEncoderValue();
+    HingeEncoderValue = m_CubeShooter.GetEncoderValue();
+    if(m_controller.getRawButton(5))
     {
-      m_CubeShooter.setSpeed(0.125);
+      m_CubeShooter.setSpeed(-0.125);
       System.out.println("yes");
     }
-    else if(m_controller.getRawButton(8))
+    else if(m_controller.getRawButton(6))
     {
-      System.out.println("yds");
-      m_CubeShooter.setSpeed(-1);
+      m_CubeShooter.setSpeed(1);
     }
     else
     {
       m_CubeShooter.setSpeed(0);
     }
-
+    if(m_controller.getRawAxis(2) > 0.1)
+    {
+      m_CubeShooter.RunHinge(m_controller.getRawAxis(2)/5);
+    }
+    else if(m_controller.getRawAxis(3) > 0.1)
+    {
+      m_CubeShooter.RunHinge(-m_controller.getRawAxis(3)/5);
+    } else {
+       if (TowerEncoderValue < -0.193){
+        m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 15.7));
+       } else {
+        m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
+       }
+        //m_CubeShooter.HingeOff();
+    }
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_CubeShooter.HingeOff();
+  }
 
   // Returns true when the command should end.
   @Override
