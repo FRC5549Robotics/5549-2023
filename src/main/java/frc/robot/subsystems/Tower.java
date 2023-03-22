@@ -30,6 +30,7 @@ public class Tower extends SubsystemBase {
   CANSparkMax motor1;
   CANSparkMax motor2;
 
+  
   public DutyCycleEncoder throughBoreEncoder;
   public RelativeEncoder Encoder1;
   public double towerEncoderValue;

@@ -15,7 +15,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
   private CubeShooter m_CubeShooter;
   double TowerEncoderValue;
   double HingeEncoderValue;
-  PIDController controller = new PIDController(0.04, 0, 0);
+  PIDController controller = new PIDController(0.01, 0, 0);
 
   public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller) {
     m_controller = m_Controller;
@@ -47,14 +47,14 @@ public class DefaultCubeShooterCommand extends CommandBase {
       m_CubeShooter.setSpeed(0);
     }
     if(m_controller.getRawAxis(2) > 0.1)
-    {
+    { 
       m_CubeShooter.RunHinge(m_controller.getRawAxis(2)/5);
     }
     else if(m_controller.getRawAxis(3) > 0.1)
     {
       m_CubeShooter.RunHinge(-m_controller.getRawAxis(3)/5);
     } else {
-       if (TowerEncoderValue < -0.2){
+       if (TowerEncoderValue < -0.2 && m_CubeShooter.canMove){
         m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 15.7));
        } else {
         m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));

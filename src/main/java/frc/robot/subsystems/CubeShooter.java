@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class CubeShooter extends SubsystemBase {
 
   private XboxController m_Controller;
+  public boolean canMove = false;
   Tower tower;
   /** Creates a new CubeShooter. */
   private CANSparkMax HingeMotor = new CANSparkMax(18, MotorType.kBrushless);
@@ -31,6 +32,7 @@ public class CubeShooter extends SubsystemBase {
     m_Controller = Controller;
     HingeEncoder = HingeMotor.getEncoder();
     this.tower = tower;
+
   }
 
   public double getTowerEncoderValue(){
@@ -75,6 +77,11 @@ public class CubeShooter extends SubsystemBase {
   }
   @Override
   public void periodic() {
+    System.out.print(tower.GetEncoderValue());
+    if(tower.GetEncoderValue() < -0.2)
+    {
+      canMove = true;
+    }
     SmartDashboard.putNumber("Hinge Encoder Value:", GetEncoderValue());
     SmartDashboard.putNumber("Tower Encoder Value", getTowerEncoderValue());
     // This method will be called once per scheduler run
