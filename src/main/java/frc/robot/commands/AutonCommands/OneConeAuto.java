@@ -58,7 +58,7 @@ public class OneConeAuto extends SequentialCommandGroup {
       new WaitCommand(500),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),
-        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, claw, CubeShooter),
+        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter),
         new Retract(m_telescope)
       )
     );

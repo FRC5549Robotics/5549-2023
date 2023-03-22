@@ -7,7 +7,6 @@ package frc.robot.commands.AutonCommands;
 import frc.robot.RobotContainer;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Limelight;
@@ -21,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.Retract;
-import frc.robot.commands.RunIntakeAuto;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 
 
@@ -31,7 +29,6 @@ import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 public class ThreeConeAuto extends SequentialCommandGroup {
   /** Creates a new ThreeConeAuto. */
   DrivetrainSubsystem m_drivetrainSubsystem;
-  Intake m_intake;
   Telescope m_telescope;
   Tower m_tower;
   Limelight m_limelight;
@@ -41,11 +38,10 @@ public class ThreeConeAuto extends SequentialCommandGroup {
   Tower.TargetLevel target1;
   Tower.TargetLevel target2;
   Tower.TargetLevel target3;
-  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, CubeShooter Cubeshooter, XboxController RumController, Tower.TargetLevel Target1, Tower.TargetLevel Target2, Tower.TargetLevel Target3) {
+  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Telescope telescope, Tower tower, Limelight limelight, Claw claw, CubeShooter Cubeshooter, XboxController RumController, Tower.TargetLevel Target1, Tower.TargetLevel Target2, Tower.TargetLevel Target3) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_drivetrainSubsystem = drivetrainSubsystem;
-    m_intake = intake;
     m_telescope = telescope;
     m_tower = tower;
     m_limelight = limelight;
@@ -69,8 +65,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT1ToMidT),
-        new RunIntakeAuto(m_intake)
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT1ToMidT)
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
@@ -81,8 +76,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT2ToMidT),
-        new RunIntakeAuto(m_intake)
+        m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT2ToMidT)
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCC),

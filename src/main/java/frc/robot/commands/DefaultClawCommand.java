@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Tower;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -17,7 +16,6 @@ import com.revrobotics.ColorMatchResult;
 public class DefaultClawCommand extends CommandBase {
   /** Creates a new DefaultClawCommand. */
   Claw m_claw;
-  Intake m_intake;
   XboxController joy2;
   Color detectedColor;
   ColorMatchResult match;
@@ -28,9 +26,8 @@ public class DefaultClawCommand extends CommandBase {
   Color kPurple1 = new Color(255,19,180);
   Color kYellow1 = new Color(255, 255, 0);
 
-  public DefaultClawCommand(Claw claw, Intake intake, XboxController xbox, AddressableLED led) {
+  public DefaultClawCommand(Claw claw, XboxController xbox, AddressableLED led) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_intake = intake;
     m_claw = claw;
     joy2 = xbox;
     addRequirements(claw);
@@ -44,8 +41,6 @@ public class DefaultClawCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    detectedColor = m_intake.getColor();
-    match = m_intake.m_colorMatcher.matchClosestColor(detectedColor);
 
     if(joy2.getRawAxis(2) > 0.2)
     {
@@ -58,11 +53,11 @@ public class DefaultClawCommand extends CommandBase {
       m_claw.stopClaw();
     }
 
-    if(joy2.getRawButton(5) || match.color == m_intake.kPurpleTarget)
+    if(joy2.getRawButton(5))
     {
       m_claw.setCubeMode();
     }
-    if(joy2.getRawButton(6) || match.color == m_intake.kYellowTarget)
+    if(joy2.getRawButton(6))
     {
       m_claw.setConeMode();
     } 

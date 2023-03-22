@@ -47,7 +47,7 @@ public class OneConeAutoNoDrive extends SequentialCommandGroup {
       new WaitCommand(500),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        new PivotEncoder(tower, Tower.TargetLevel.Retracted, claw, CubeShooter)
+        new PivotEncoder(tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter)
       )
     );
   }
