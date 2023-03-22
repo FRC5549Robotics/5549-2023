@@ -54,12 +54,12 @@ public class DefaultCubeShooterCommand extends CommandBase {
     {
       m_CubeShooter.RunHinge(-m_controller.getRawAxis(3)/5);
     } else {
-       if (TowerEncoderValue < -0.2 && m_CubeShooter.canMove){
-        m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 15.7));
-       } else {
-        m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
-       }
-        //m_CubeShooter.HingeOff();
+      //  if (TowerEncoderValue < -0.2){
+      //   m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 0));
+      //  } else {
+      //   m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
+      //  }
+        m_CubeShooter.HingeOff();
     }
     
   }

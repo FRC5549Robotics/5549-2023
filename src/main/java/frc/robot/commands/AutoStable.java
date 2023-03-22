@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -18,7 +19,8 @@ public class AutoStable extends InstantCommand {
   boolean endCommand = false;
   double angle, oldAngle;
   double steering_adjust;
-  double kp = 2;
+  double kp = 0.4;
+  PIDController controller = new PIDController(kp, 0, 0);
 
 
   public AutoStable(DrivetrainSubsystem drivetrain) {
@@ -39,14 +41,19 @@ public class AutoStable extends InstantCommand {
 
     angle = m_drivetrain.getCurrentPitch();
 
-    if(angle <= oldAngle)
-    {
-      m_drivetrain.drive(new ChassisSpeeds(0,-0.4*steering_adjust,0));
+    // if(angle <= oldAngle)
+    // {
+    //   m_drivetrain.drive(new ChassisSpeeds(0,-0.4*steering_adjust,0));
+    // }
+    // else {
+    //   m_drivetrain.drive(new ChassisSpeeds(0,0.4 * steering_adjust,0));
+    // }
+    if(angle < oldAngle + 1 || angle > oldAngle - 1){
+      m_drivetrain.drive(new ChassisSpeeds(controller.calculate(oldAngle, angle),0,0));
     }
-    else {
-      m_drivetrain.drive(new ChassisSpeeds(0,0.4 * steering_adjust,0));
+    else{
+      endCommand = true;
     }
-    
   }
 
   // Called once the command ends or is interrupted.

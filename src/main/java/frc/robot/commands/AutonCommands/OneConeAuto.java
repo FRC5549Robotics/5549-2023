@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.PivotTimed;
 import frc.robot.commands.Retract;
+import frc.robot.commands.WaitCommand;
 import frc.robot.commands.ExtendFar;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
@@ -52,16 +53,12 @@ public class OneConeAuto extends SequentialCommandGroup {
       new InstantCommand(() -> {
         m_DrivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
       }),
-      new ParallelCommandGroup(
-       // new ExtendMedium(m_telescope, rumController, m_claw),
-        new PivotEncoder(m_tower, target1, m_claw, CubeShooter)
-      ),
-      new PivotTimed(m_tower),
+      new PivotEncoder(m_tower, target1, m_claw, CubeShooter),
       new ExtendMedium(m_telescope, rumController, m_claw),
-      new InstantCommand(m_claw::dropItem).withTimeout(1),
+      new WaitCommand(500),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),
-        new InstantCommand(m_claw::stopClaw),
+        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, claw, CubeShooter),
         new Retract(m_telescope)
       )
     );

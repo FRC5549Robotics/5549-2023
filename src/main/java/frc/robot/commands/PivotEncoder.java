@@ -20,9 +20,12 @@ public class PivotEncoder extends CommandBase {
   Tower m_Tower;
   boolean finished;
   PIDController controller = new PIDController(1.5, 0, 0);
+  PIDController cubeController = new PIDController(0.01, 0, 0);
+
   double setpoint;
   Claw m_claw;
   CubeShooter cubeShooter;
+  double HingeEncoderValue;
   public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw, CubeShooter cubeShooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
@@ -42,17 +45,27 @@ public class PivotEncoder extends CommandBase {
     else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.PIVOT_CUBE_MID_SETPOINT;
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
 
-    if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT)m_claw.runSlow();
+    if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT){
+      m_claw.runSlow();
+    } else {
+      m_claw.setCubeMode();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    HingeEncoderValue = cubeShooter.GetEncoderValue();
     finished = false;
     double currentAngle = m_Tower.GetEncoderValue();
     System.out.println(setpoint);
     System.out.println(currentAngle);
-    cubeShooter.HingeOff();
+    if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
+      cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 29.5));
+    } else {
+      cubeShooter.HingeOff();
+    }
+
     if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
     m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
   }

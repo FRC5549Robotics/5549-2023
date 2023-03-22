@@ -78,10 +78,6 @@ public class CubeShooter extends SubsystemBase {
   @Override
   public void periodic() {
     System.out.print(tower.GetEncoderValue());
-    if(tower.GetEncoderValue() < -0.2)
-    {
-      canMove = true;
-    }
     SmartDashboard.putNumber("Hinge Encoder Value:", GetEncoderValue());
     SmartDashboard.putNumber("Tower Encoder Value", getTowerEncoderValue());
     // This method will be called once per scheduler run
