@@ -42,25 +42,21 @@ public class DefaultClawCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(joy2.getRawAxis(2) > 0.2)
+    if(joy2.getRawButton(5))
     {
-        m_claw.setClawSpeed(joy2.getRawAxis(2)*0.75);
+        m_claw.setClawSpeed(0.75);
     }
-    else if (joy2.getRawAxis(3) > 0.2)
+    else if (joy2.getRawButton(6))
     {
-      m_claw.setClawSpeed(-joy2.getRawAxis(3)*0.75);
+      m_claw.setClawSpeed(-0.75);
     } else {
       m_claw.stopClaw();
     }
 
-    if(joy2.getRawButton(5))
+    if(joy2.getRawButton(3))
     {
-      m_claw.setCubeMode();
+      m_claw.toggleClaw();;
     }
-    if(joy2.getRawButton(6))
-    {
-      m_claw.setConeMode();
-    } 
   }
 
   // Called once the command ends or is interrupted.

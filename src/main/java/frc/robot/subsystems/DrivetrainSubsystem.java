@@ -172,7 +172,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * 'forwards' direction.
    */
   public void zeroGyroscope() {
-    m_navx.zeroYaw();
+    m_odometry.resetPosition(
+        getGyroscopeRotation(), 
+        new SwerveModulePosition[]{m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(), m_backLeftModule.getPosition(), m_backRightModule.getPosition()}, 
+        new Pose2d(m_odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0))
+    );
+        //m_navx.zeroYaw(); 
   }
 
   public Rotation2d getGyroscopeRotation() {

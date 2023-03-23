@@ -5,21 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.CubeShooter;
-import frc.robot.subsystems.Tower;
 import edu.wpi.first.math.controller.PIDController;
 
 public class DefaultCubeShooterCommand extends CommandBase {
   /** Creates a new DefaultCubeShooterCommand. */
   private XboxController m_controller;
+  private XboxController m_controller2;
   private CubeShooter m_CubeShooter;
   double TowerEncoderValue;
   double HingeEncoderValue;
-  PIDController controller = new PIDController(0.01, 0, 0);
+  PIDController controller = new PIDController(0.04, 0, 0);
 
-  public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller, Tower tower) {
+  public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller, XboxController m_Controller2) {
     m_controller = m_Controller;
+    m_controller2 = m_Controller2;
     m_CubeShooter = cubeShooter;
     addRequirements(cubeShooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,43 +37,72 @@ public class DefaultCubeShooterCommand extends CommandBase {
   public void execute() {
     TowerEncoderValue = m_CubeShooter.getTowerEncoderValue();
     HingeEncoderValue = m_CubeShooter.GetEncoderValue();
-    
+    SmartDashboard.putNumber("POV Controller: ", m_controller2.getPOV());
     //Intake the cube speed: -0.125
-    if(m_controller.getRawButton(5))
-    {
-      m_CubeShooter.setSpeed(-0.125);
-      System.out.println("yes");
-    }
 
     //Outtake speed High
-    else if(m_controller.getRawButton(2) && m_controller.getRawAxis(3) > 0.1)
+    if(m_controller2.getPOV() == 0)
     {
-      m_CubeShooter.setSpeed(1);
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
+      if (m_controller2.getRawAxis(3) >0.1){
+        m_CubeShooter.setSpeed(1);
+      } else {
+        m_CubeShooter.setSpeed(0);
+      }
     }
 
     //Outtake speed Mid.
-    else if(m_controller.getRawButton(1) && m_controller.getRawAxis(3) > 0.1)
+    else if(m_controller2.getPOV() == 270)
     {
-      m_CubeShooter.setSpeed(0.7);
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
+      if (m_controller2.getRawAxis(3) > 0.1){
+        m_CubeShooter.setSpeed(0.7);
+      } else {
+        m_CubeShooter.setSpeed(0);
+      }
     }
 
+    //Outtake speed Low
+    else if (m_controller2.getPOV() == 180)
+    {
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_LOW_AND_INTAKE_SETPOINT));
+      if (m_controller2.getRawAxis(3) > 0.1){
+        m_CubeShooter.setSpeed(0.2);
+      } else if (m_controller2.getRawAxis(2)> 0.1){
+        m_CubeShooter.setSpeed(-0.2);
+      } else{
+        m_CubeShooter.setSpeed(0);
+      }
+    }
 
-    else
+    //Shooter Up
+    else if(m_controller.getRawButton(6))
+    { 
+      m_CubeShooter.setSpeed(0);
+      m_CubeShooter.RunHinge(0.2);
+    }
+
+    //Shooter Down
+    else if(m_controller.getRawButton(5))
     {
       m_CubeShooter.setSpeed(0);
+      m_CubeShooter.RunHinge(-0.2);
     }
 
-
-
-    if(m_controller.getRawAxis(2) > 0.1)
-    { 
-      m_CubeShooter.RunHinge(m_controller.getRawAxis(2)/5);
-    }
-    else if(m_controller.getRawAxis(3) > 0.1)
+    //Shooter Speed
+    else if (m_controller.getRawAxis(3) > 0.1){
+      m_CubeShooter.setSpeed(m_controller.getRawAxis(3));
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, HingeEncoderValue));
+    } 
+    else if (m_controller.getPOV() == 90)
     {
-      m_CubeShooter.RunHinge(-m_controller.getRawAxis(3)/5);
-    } else {
-        m_CubeShooter.HingeOff();
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 0));
+
+    }
+
+    else {
+      m_CubeShooter.setSpeed(0);
+      m_CubeShooter.HingeOff();
     }
     
   }

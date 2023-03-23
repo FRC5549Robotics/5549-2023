@@ -7,15 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
@@ -98,12 +95,9 @@ public class RobotContainer {
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton resetNavXButton = new JoystickButton(m_controller, 4);
 
-  JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 2);
-  JoystickButton towerConeMidPosition = new JoystickButton(m_controller2, 1);
-  JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
-
-  JoystickButton cubeshooterHigh = new JoystickButton(m_controller, 1);
-  JoystickButton cubeshooterMid = new JoystickButton(m_controller, 2);
+  JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
+  JoystickButton towerConeMidPosition = new JoystickButton(m_controller2, 2);
+  JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
 
 
   //AutoCommands
@@ -136,7 +130,7 @@ public class RobotContainer {
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_controller2, led));
-    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_tower));
+    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -172,9 +166,7 @@ public class RobotContainer {
       new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     ));
-    autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
-    cubeshooterHigh.whileTrue(new ShooterAim(m_CubeShooter, Tower.TargetLevel.ShooterAim, m_controller));
-    cubeshooterMid.whileTrue(new ShooterAim(m_CubeShooter, Tower.TargetLevel.ShooterAim, m_controller));
+    autoStableButton.whileTrue(new AutoStable(m_drivetrainSubsystem));
 
     //Intake Command
 
@@ -184,6 +176,7 @@ public class RobotContainer {
     //Tower-Position Command
     towerConeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter));
     towerConeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter));
+    stowedPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));
 
     
 

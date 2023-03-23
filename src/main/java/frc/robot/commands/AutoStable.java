@@ -16,10 +16,10 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class AutoStable extends InstantCommand {
 
   DrivetrainSubsystem m_drivetrain;
-  boolean endCommand = false;
   double angle, oldAngle;
+  boolean endCommand;
   double steering_adjust;
-  double kp = 0.4;
+  double kp = 0.04;
   PIDController controller = new PIDController(kp, 0, 0);
 
 
@@ -36,9 +36,7 @@ public class AutoStable extends InstantCommand {
   
   @Override
   public void execute() {
-    steering_adjust = Constants.kP*(oldAngle-angle);
-    oldAngle = angle;
-
+    endCommand = false;
     angle = m_drivetrain.getCurrentPitch();
 
     // if(angle <= oldAngle)
@@ -48,8 +46,8 @@ public class AutoStable extends InstantCommand {
     // else {
     //   m_drivetrain.drive(new ChassisSpeeds(0,0.4 * steering_adjust,0));
     // }
-    if(angle < -1 || angle > 1){
-      m_drivetrain.drive(new ChassisSpeeds(controller.calculate(angle, 0),0,0));
+    if(angle < -3 || angle > 3){
+      m_drivetrain.drive(new ChassisSpeeds(Math.sin(Math.toRadians(angle))*-1, 0, 0));
     }
     else{
       endCommand = true;
@@ -60,6 +58,7 @@ public class AutoStable extends InstantCommand {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.drive(new ChassisSpeeds(0, 0, 0));
+    System.out.println("Finished AutoStable");
   }
 
   // Returns true when the command should end.

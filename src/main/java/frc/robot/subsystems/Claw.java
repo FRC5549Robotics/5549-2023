@@ -69,6 +69,10 @@ public class Claw extends SubsystemBase {
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
+  public void toggleClaw(){
+    m_clawDoubleSolenoid.toggle();
+  }
+
   public void stopClaw(){
     ClawMotor.set(0);
   }
