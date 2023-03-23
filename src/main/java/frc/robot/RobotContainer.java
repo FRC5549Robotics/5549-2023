@@ -146,7 +146,6 @@ public class RobotContainer {
 
     //Adding paths to path planner command chooser
 
-
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
   }
 
