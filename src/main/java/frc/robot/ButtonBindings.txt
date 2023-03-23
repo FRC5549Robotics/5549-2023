@@ -11,10 +11,12 @@ m_controller - Joystick 2 - runHingeSpeed
 m_controller - Joystick 3 - setSpeedCubeShooter
 
 
-m_controller2 - 1 - towerMidPostion
-m_controller2 - 2 - towerHighPostion
-m_controller2 - 5 - clawCubePosition
-m_controller2 - 6 - clawConePosition
+m_controller2 - 2 - towerMidPostion
+m_controller2 - 4 - towerHighPostion
+m_controller2 - 1 - towerStowed
+m_controller2 - 3 - clawPositionToggle
+m_controller2 - 5 - 
+m_controller2 - 6 - 
 m_controller2 - Joystick 1 - setTowerSpeed
 m_controller2 - Joystick 2 - setClawSpeed
 m_controller2 - Joystick 3 - inverseClawSpeed
