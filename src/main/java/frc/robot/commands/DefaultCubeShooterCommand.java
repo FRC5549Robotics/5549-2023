@@ -33,19 +33,34 @@ public class DefaultCubeShooterCommand extends CommandBase {
   public void execute() {
     TowerEncoderValue = m_CubeShooter.getTowerEncoderValue();
     HingeEncoderValue = m_CubeShooter.GetEncoderValue();
+    
+    //Intake the cube speed: -0.125
     if(m_controller.getRawButton(5))
     {
       m_CubeShooter.setSpeed(-0.125);
       System.out.println("yes");
     }
-    else if(m_controller.getRawButton(6))
+
+    //Outtake speed High
+    else if(m_controller.getRawButton(2) && m_controller.getRawAxis(3) > 0.1)
     {
       m_CubeShooter.setSpeed(1);
     }
+
+    //Outtake speed Mid.
+    else if(m_controller.getRawButton(1) && m_controller.getRawAxis(3) > 0.1)
+    {
+      m_CubeShooter.setSpeed(0.7);
+    }
+
+
     else
     {
       m_CubeShooter.setSpeed(0);
     }
+
+
+
     if(m_controller.getRawAxis(2) > 0.1)
     { 
       m_CubeShooter.RunHinge(m_controller.getRawAxis(2)/5);
@@ -54,11 +69,6 @@ public class DefaultCubeShooterCommand extends CommandBase {
     {
       m_CubeShooter.RunHinge(-m_controller.getRawAxis(3)/5);
     } else {
-      //  if (TowerEncoderValue < -0.2){
-      //   m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 0));
-      //  } else {
-      //   m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
-      //  }
         m_CubeShooter.HingeOff();
     }
     

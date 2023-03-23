@@ -22,6 +22,7 @@ import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
+import frc.robot.commands.ShooterAim;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -99,6 +100,8 @@ public class RobotContainer {
   JoystickButton towerCubeMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
+  JoystickButton cubeshooterHigh = new JoystickButton(m_controller, 1);
+  JoystickButton cubeshooterMid = new JoystickButton(m_controller, 2);
   //AutoCommands
    Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
    Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh);
@@ -163,6 +166,8 @@ public class RobotContainer {
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     ));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
+    cubeshooterHigh.whileTrue(new ShooterAim(m_CubeShooter, Tower.TargetLevel.CubeHigh));
+    cubeshooterMid.whileTrue(new ShooterAim(m_CubeShooter, Tower.TargetLevel.CubeHigh));
 
     //Intake Command
 
