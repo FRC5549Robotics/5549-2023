@@ -5,6 +5,9 @@
 package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -15,15 +18,17 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class ZeroConeAuto extends SequentialCommandGroup {
   /** Creates a new ZeroConeAuto. */
   DrivetrainSubsystem m_drivetrainSubsystem;
-  public ZeroConeAuto(DrivetrainSubsystem drivetrainSubsystem) {
+  PathPlannerTrajectory path;
+  public ZeroConeAuto(DrivetrainSubsystem drivetrainSubsystem, PathPlannerTrajectory path) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_drivetrainSubsystem = drivetrainSubsystem;
+    this.path = path;
     addCommands(
       new InstantCommand(() -> {
-            m_drivetrainSubsystem.resetOdometry(RobotContainer.TopToCT1.getInitialHolonomicPose());
+            m_drivetrainSubsystem.resetOdometry(path.getInitialHolonomicPose());
          }),
-           m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.TopToCT1)
+           m_drivetrainSubsystem.followTrajectoryCommand(path)
     );
   }
 }

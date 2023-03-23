@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CubeShooter;
+import frc.robot.subsystems.Tower;
 import edu.wpi.first.math.controller.PIDController;
 
 public class DefaultCubeShooterCommand extends CommandBase {
@@ -17,7 +18,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
   double HingeEncoderValue;
   PIDController controller = new PIDController(0.01, 0, 0);
 
-  public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller) {
+  public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller, Tower tower) {
     m_controller = m_Controller;
     m_CubeShooter = cubeShooter;
     addRequirements(cubeShooter);

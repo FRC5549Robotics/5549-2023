@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.CubeShooter;
@@ -14,23 +16,25 @@ public class ShooterAim extends CommandBase {
   boolean finished = false;
   Tower.TargetLevel state;
   double setpoint;
-  PIDController controller = new PIDController(1.5, 0, 0);
+  PIDController controller = new PIDController(0.05, 0, 0);
   CubeShooter m_CubeShooter;
+  XboxController xbox;
   /** Creates a new ShooterAim. */
-  public ShooterAim(CubeShooter CubeShooter, Tower.TargetLevel State) {
+  public ShooterAim(CubeShooter CubeShooter, Tower.TargetLevel State, XboxController xbox) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_CubeShooter = CubeShooter;
+    this.xbox = xbox;
     addRequirements(CubeShooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(state == Tower.TargetLevel.CubeHigh && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_HIGH_SETPOINT;
-    else if(state == Tower.TargetLevel.CubeMid && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_MID_SETPOINT;
+    if(state == Tower.TargetLevel.ShooterAim) setpoint = Constants.CUBE_HINGE_HIGH_SETPOINT;
+    else if(state == Tower.TargetLevel.CubeMid) setpoint = Constants.CUBE_HINGE_MID_SETPOINT;
     else if((state == Tower.TargetLevel.CubeLow || state == Tower.TargetLevel.Intake) && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_LOW_AND_INTAKE_SETPOINT;
-    else if(state == Tower.TargetLevel.Retracted && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_RETRACTED_SETPOINT;
+    else if(state == Tower.TargetLevel.Retracted) setpoint = Constants.CUBE_HINGE_RETRACTED_SETPOINT;
     else finished = true;
   }
 
@@ -41,7 +45,7 @@ public class ShooterAim extends CommandBase {
     double currentAngle = m_CubeShooter.GetEncoderValue();
     System.out.println(setpoint);
     System.out.println(currentAngle);
-    if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01 && m_CubeShooter.canMove){
+    if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
     m_CubeShooter.RunHinge(controller.calculate(currentAngle, setpoint));
   }
     else{
