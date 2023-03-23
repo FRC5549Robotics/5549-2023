@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CubeShooter;
 
 
 public class PivotEncoder extends CommandBase {
@@ -19,14 +20,19 @@ public class PivotEncoder extends CommandBase {
   Tower m_Tower;
   boolean finished;
   PIDController controller = new PIDController(1.5, 0, 0);
+  PIDController cubeController = new PIDController(0.01, 0, 0);
+
   double setpoint;
   Claw m_claw;
-  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw) {
+  CubeShooter cubeShooter;
+  double HingeEncoderValue;
+  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw, CubeShooter cubeShooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_Tower = Tower;
     m_claw = claw;
-    addRequirements(Tower, claw);
+    this.cubeShooter = cubeShooter;
+    addRequirements(Tower, claw, cubeShooter);
   }
 
   // Called when the command is initially scheduled.
@@ -39,16 +45,27 @@ public class PivotEncoder extends CommandBase {
     else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.PIVOT_CUBE_MID_SETPOINT;
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
 
-    if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT)m_claw.runSlow();
+    if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT){
+      m_claw.runSlow();
+    } else {
+      m_claw.setCubeMode();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    HingeEncoderValue = cubeShooter.GetEncoderValue();
     finished = false;
     double currentAngle = m_Tower.GetEncoderValue();
     System.out.println(setpoint);
     System.out.println(currentAngle);
+    if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
+      cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 29.5));
+    } else {
+      cubeShooter.HingeOff();
+    }
+
     if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
     m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
   }
@@ -63,6 +80,7 @@ public class PivotEncoder extends CommandBase {
     System.out.println("finished");
     m_Tower.off();
     m_claw.stopClaw();
+    cubeShooter.HingeOff();
   }
 
   // Returns true when the command should end.

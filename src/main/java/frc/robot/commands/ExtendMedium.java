@@ -5,9 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Telescope;
+import frc.robot.subsystems.Claw;
 import frc.robot.Constants;
 
 public class ExtendMedium extends CommandBase {
@@ -15,13 +17,15 @@ public class ExtendMedium extends CommandBase {
 
   double startTime;
   Telescope m_Telescope;
-  boolean finished = false;
+  Claw m_Claw;
+  boolean finished;
   XboxController rumController;
-  public ExtendMedium(Telescope telescope, XboxController RumController) {
+  public ExtendMedium(Telescope telescope, XboxController RumController, Claw claw) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Telescope = telescope;
     rumController = RumController;
-    addRequirements(telescope);
+    m_Claw = claw;
+    addRequirements(telescope, claw);
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +38,8 @@ public class ExtendMedium extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (System.currentTimeMillis() - startTime < 9000) {
+    finished = false;
+    if (System.currentTimeMillis() - startTime < 1650) {
       m_Telescope.on(Constants.armSpeed);
     }
     else{
@@ -46,6 +51,7 @@ public class ExtendMedium extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Telescope.off();
+    m_Claw.setConeMode();
     System.out.println("Finished telescope extension");
   }
 

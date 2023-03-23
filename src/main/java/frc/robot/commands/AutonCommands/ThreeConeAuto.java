@@ -12,7 +12,7 @@ import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Claw;
-
+import frc.robot.subsystems.CubeShooter;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -36,11 +36,12 @@ public class ThreeConeAuto extends SequentialCommandGroup {
   Tower m_tower;
   Limelight m_limelight;
   Claw m_claw;
+  CubeShooter m_CubeShooter;
   XboxController rumController;
   Tower.TargetLevel target1;
   Tower.TargetLevel target2;
   Tower.TargetLevel target3;
-  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, XboxController RumController, Tower.TargetLevel Target1, Tower.TargetLevel Target2, Tower.TargetLevel Target3) {
+  public ThreeConeAuto(DrivetrainSubsystem drivetrainSubsystem, Intake intake, Telescope telescope, Tower tower, Limelight limelight, Claw claw, CubeShooter Cubeshooter, XboxController RumController, Tower.TargetLevel Target1, Tower.TargetLevel Target2, Tower.TargetLevel Target3) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_drivetrainSubsystem = drivetrainSubsystem;
@@ -53,6 +54,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
     target1 = Target1;
     target2 = Target2;
     target2 = Target3;
+    m_CubeShooter = Cubeshooter;
     
     addCommands(
       new InstantCommand(() -> {
@@ -60,10 +62,10 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       }),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
-        new ExtendMedium(m_telescope, rumController),
-        new PivotEncoder(m_tower, Target1, m_claw)
+        //new ExtendMedium(m_telescope, rumController, m_claw),
+        new PivotEncoder(m_tower, Target1, m_claw, m_CubeShooter)
       ),
-      new ExtendMedium(m_telescope, rumController),
+      new ExtendMedium(m_telescope, rumController, m_claw),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),
@@ -72,8 +74,8 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
-        new ExtendMedium(m_telescope, rumController),
-        new PivotEncoder(m_tower, Target2, m_claw)
+        //new ExtendMedium(m_telescope, rumController, m_claw),
+        new PivotEncoder(m_tower, Target2, m_claw, m_CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem),
@@ -84,8 +86,8 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCC),
-        new ExtendMedium(m_telescope, rumController),
-        new PivotEncoder(m_tower, Target3, m_claw)
+        //new ExtendMedium(m_telescope, rumController, m_claw),
+        new PivotEncoder(m_tower, Target3, m_claw, m_CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem)

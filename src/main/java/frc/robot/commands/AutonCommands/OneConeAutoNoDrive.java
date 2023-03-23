@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.PivotTimed;
 import frc.robot.commands.Retract;
+import frc.robot.commands.WaitCommand;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CubeShooter;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
@@ -26,9 +28,10 @@ public class OneConeAutoNoDrive extends SequentialCommandGroup {
   Tower m_tower;
   Telescope m_telescope;
   Claw m_claw;
+  CubeShooter CubeShooter;
   XboxController rumController;
   Tower.TargetLevel target1;
-  public OneConeAutoNoDrive(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, XboxController xbox, Tower.TargetLevel Target1) {
+  public OneConeAutoNoDrive(DrivetrainSubsystem Drivetrain, Telescope telescope, Tower tower, Claw claw, CubeShooter CubeShooter, XboxController xbox, Tower.TargetLevel Target1) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_DrivetrainSubsystem = Drivetrain;
@@ -36,17 +39,15 @@ public class OneConeAutoNoDrive extends SequentialCommandGroup {
     m_telescope = telescope;
     m_claw = claw;
     rumController = xbox;
+    this.CubeShooter = CubeShooter;
     target1 = Target1;
     addCommands(
-      new ParallelCommandGroup(
-        //new ExtendMedium(m_telescope, rumController),
-        new PivotEncoder(m_tower, target1, m_claw)
-      ),
-      new ExtendMedium(m_telescope, rumController),
-      new InstantCommand(m_claw::setCubeMode),
+      new PivotEncoder(m_tower, target1, m_claw, CubeShooter),
+      new ExtendMedium(m_telescope, rumController, m_claw),
+      new WaitCommand(500),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        new PivotEncoder(tower, Tower.TargetLevel.Retracted, claw)
+        new PivotEncoder(tower, Tower.TargetLevel.Retracted, claw, CubeShooter)
       )
     );
   }

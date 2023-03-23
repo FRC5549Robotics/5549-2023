@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.PivotEncoder;
@@ -24,6 +23,7 @@ import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
 import frc.robot.commands.RunIntakeCube;
+import frc.robot.commands.ShooterAim;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -61,8 +61,8 @@ public class RobotContainer {
   private final Limelight m_Limelight = new Limelight();
   private final Intake m_Intake = new Intake();
   private final Telescope m_telescope = new Telescope(m_controller);
-  private final CubeShooter m_CubeShooter = new CubeShooter(m_controller2);
   private final Tower m_tower = new Tower();
+  private final CubeShooter m_CubeShooter = new CubeShooter(m_controller2, m_tower);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   
@@ -103,13 +103,15 @@ public class RobotContainer {
   JoystickButton towerCubeMidPosition = new JoystickButton(m_controller2, 1);
   JoystickButton intakePistonToggle = new JoystickButton(m_controller, 5);
 
+  JoystickButton cubeshooterHigh = new JoystickButton(m_controller, 1);
+  JoystickButton cubeshooterMid = new JoystickButton(m_controller, 2);
   //AutoCommands
    Command m_ZeroConeAuto = new ZeroConeAuto(m_drivetrainSubsystem);
-   Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh);
-   Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
-   Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
-   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
-   Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
+   Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh);
+   Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
+   Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
+   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
+   Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_Intake, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -130,7 +132,6 @@ public class RobotContainer {
     ));
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
-    m_Intake.setDefaultCommand(new DefaultIntakeCommand(m_Intake, m_controller));
     m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_Intake, m_controller2, led));
     m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_tower));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
@@ -168,6 +169,8 @@ public class RobotContainer {
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     ));
     autoStableButton.onTrue(new AutoStable(m_drivetrainSubsystem));
+    cubeshooterHigh.whileTrue(new ShooterAim(m_CubeShooter, Tower.TargetLevel.CubeHigh));
+    cubeshooterMid.whileTrue(new ShooterAim(m_CubeShooter, Tower.TargetLevel.CubeHigh));
 
     //Intake Command
 
@@ -175,8 +178,8 @@ public class RobotContainer {
 
 
     //Tower-Position Command
-    towerCubeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeMid, m_claw));
-    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw));
+    towerCubeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.CubeMid, m_claw, m_CubeShooter));
+    towerCubeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));
 
     
 

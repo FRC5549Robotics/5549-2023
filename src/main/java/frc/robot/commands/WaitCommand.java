@@ -4,20 +4,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Telescope;
-import frc.robot.Constants;
 
-public class Retract extends CommandBase {
-  /** Creates a new Retract. */
-
+public class WaitCommand extends CommandBase {
+  /** Creates a new WaitCommand. */
   double startTime;
-  Telescope m_Telescope;
+  double m_duration;
   boolean finished;
-  public Retract(Telescope telescope) {
+  public WaitCommand(double duration) {
+    m_duration = duration;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Telescope = telescope;
-    addRequirements(telescope);
   }
 
   // Called when the command is initially scheduled.
@@ -30,19 +27,16 @@ public class Retract extends CommandBase {
   @Override
   public void execute() {
     finished = false;
-    if (System.currentTimeMillis() - startTime < 1650) {
-      m_Telescope.on(-Constants.armSpeed-0.11);
+    if (System.currentTimeMillis() - startTime < m_duration) {
     }
     else{
       finished = true;
-    }
+    } 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_Telescope.off();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

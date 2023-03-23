@@ -27,9 +27,10 @@ public class ShooterAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(state == Tower.TargetLevel.CubeHigh) setpoint = Constants.CUBE_HINGE_HIGH_SETPOINT;
-    else if(state == Tower.TargetLevel.CubeMid) setpoint = Constants.CUBE_HINGE_MID_SETPOINT;
-    else if(state == Tower.TargetLevel.CubeLow || state == Tower.TargetLevel.Intake) setpoint = Constants.CUBE_HINGE_LOW_AND_INTAKE_SETPOINT;
+    if(state == Tower.TargetLevel.CubeHigh && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_HIGH_SETPOINT;
+    else if(state == Tower.TargetLevel.CubeMid && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_MID_SETPOINT;
+    else if((state == Tower.TargetLevel.CubeLow || state == Tower.TargetLevel.Intake) && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_LOW_AND_INTAKE_SETPOINT;
+    else if(state == Tower.TargetLevel.Retracted && m_CubeShooter.canMove) setpoint = Constants.CUBE_HINGE_RETRACTED_SETPOINT;
     else finished = true;
   }
 
@@ -40,7 +41,7 @@ public class ShooterAim extends CommandBase {
     double currentAngle = m_CubeShooter.GetEncoderValue();
     System.out.println(setpoint);
     System.out.println(currentAngle);
-    if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
+    if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01 && m_CubeShooter.canMove){
     m_CubeShooter.RunHinge(controller.calculate(currentAngle, setpoint));
   }
     else{
