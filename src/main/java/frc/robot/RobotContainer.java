@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -21,6 +22,7 @@ import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
 import frc.robot.commands.ShooterAim;
+import frc.robot.commands.toggleClaw;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -98,7 +100,7 @@ public class RobotContainer {
   JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
   JoystickButton towerConeMidPosition = new JoystickButton(m_controller2, 2);
   JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
-
+  JoystickButton toggleClaw = new JoystickButton(m_controller2, 3);
 
   //AutoCommands
    Command m_ZeroConeAutoMiddle = new ZeroConeAuto(m_drivetrainSubsystem, MidBStraight);
@@ -160,7 +162,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     // No requirements because we don't need to interrupt anything
-    resetNavXButton.onTrue(new RunCommand(m_drivetrainSubsystem::zeroGyroscope));
+    resetNavXButton.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
     autoAlignButton.whileTrue(new SequentialCommandGroup(
       //new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
       new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
@@ -171,7 +173,7 @@ public class RobotContainer {
     //Intake Command
 
     //Claw Command
-
+    //toggleClaw.onTrue(new toggleClaw(m_claw));
 
     //Tower-Position Command
     towerConeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter));

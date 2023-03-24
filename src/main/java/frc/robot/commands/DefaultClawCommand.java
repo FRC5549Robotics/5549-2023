@@ -53,9 +53,11 @@ public class DefaultClawCommand extends CommandBase {
       m_claw.stopClaw();
     }
 
-    if(joy2.getRawButton(3))
-    {
-      m_claw.toggleClaw();;
+    if (joy2.getRawButton(7)){
+      m_claw.setConeMode();
+    }
+    if (joy2.getRawButton(8)){
+      m_claw.setCubeMode();
     }
   }
 
