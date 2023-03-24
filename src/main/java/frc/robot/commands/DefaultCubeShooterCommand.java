@@ -46,9 +46,14 @@ public class DefaultCubeShooterCommand extends CommandBase {
       m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
       if (m_controller2.getRawAxis(3) >0.1){
         m_CubeShooter.setSpeed(1);
-      } else {
+      } else {  
         m_CubeShooter.setSpeed(0);
       }
+    }
+    else if (m_controller2.getPOV() == 90)
+    {
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_RETRACTED_SETPOINT));
+
     }
 
     //Outtake speed Mid.
@@ -94,11 +99,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
       m_CubeShooter.setSpeed(m_controller.getRawAxis(3));
       m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, HingeEncoderValue));
     } 
-    else if (m_controller.getPOV() == 90)
-    {
-      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 0));
-
-    }
+    
 
     else {
       m_CubeShooter.setSpeed(0);
