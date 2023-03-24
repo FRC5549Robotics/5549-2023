@@ -22,7 +22,6 @@ import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
 import frc.robot.commands.ShooterAim;
-import frc.robot.commands.toggleClaw;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -59,7 +58,7 @@ public class RobotContainer {
   private final Limelight m_Limelight = new Limelight();
   private final Telescope m_telescope = new Telescope(m_controller);
   private final Tower m_tower = new Tower();
-  private final CubeShooter m_CubeShooter = new CubeShooter(m_controller2, m_tower);
+  private final CubeShooter m_CubeShooter = new CubeShooter(m_tower);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   

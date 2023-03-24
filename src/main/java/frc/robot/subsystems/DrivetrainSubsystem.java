@@ -257,8 +257,12 @@ public void lockModules() {
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());    
 }
 
+  public boolean getGyroConnected(){
+        return m_navx.isConnected();
+  }
   @Override
   public void periodic() {
+        SmartDashboard.putBoolean("Navx Connected?", getGyroConnected());
         if(!(m_Controller.getRawButton(3))){
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);

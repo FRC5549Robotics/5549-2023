@@ -6,15 +6,9 @@ package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import java.lang.System.Logger.Level;
-
-import com.ctre.phoenixpro.signals.System_StateValue;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.ExtendFar;
-import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.Retract;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;

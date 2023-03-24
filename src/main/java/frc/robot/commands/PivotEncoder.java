@@ -19,7 +19,7 @@ public class PivotEncoder extends CommandBase {
 
   Tower m_Tower;
   boolean finished;
-  PIDController controller = new PIDController(1.5, 0, 0);
+  PIDController controller = new PIDController(2, 0, 0);
   PIDController cubeController = new PIDController(0.01, 0, 0);
 
   double setpoint;
@@ -63,7 +63,7 @@ public class PivotEncoder extends CommandBase {
     if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
       cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 29.5));
     } else {
-      cubeShooter.HingeOff();
+      cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 0.0));
     }
 
     if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){

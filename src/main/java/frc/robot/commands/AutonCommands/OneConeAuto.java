@@ -11,17 +11,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.PivotTimed;
 import frc.robot.commands.Retract;
 import frc.robot.commands.WaitCommand;
-import frc.robot.commands.ExtendFar;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CubeShooter;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
-import frc.robot.RobotContainer;
 import frc.robot.commands.PivotEncoder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

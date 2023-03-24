@@ -4,22 +4,14 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CubeShooter extends SubsystemBase {
 
-  private XboxController m_Controller;
   public boolean canMove = false;
   Tower tower;
   /** Creates a new CubeShooter. */
@@ -28,8 +20,7 @@ public class CubeShooter extends SubsystemBase {
   private CANSparkMax ShooterMotor2 = new CANSparkMax(20, MotorType.kBrushless);
   RelativeEncoder HingeEncoder;
 
-  public CubeShooter(XboxController Controller, Tower tower) {
-    m_Controller = Controller;
+  public CubeShooter(Tower tower) {
     HingeEncoder = HingeMotor.getEncoder();
     this.tower = tower;
 

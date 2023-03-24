@@ -87,7 +87,7 @@ public final class Constants {
     public static final double CUBE_HINGE_HIGH_SETPOINT = 16.8;
     public static final double CUBE_HINGE_MID_SETPOINT = 0;
     public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 29.5;
-    public static final double CUBE_HINGE_RETRACTED_SETPOINT = 15.7;
+    public static final double CUBE_HINGE_RETRACTED_SETPOINT = 15;
     public static final double CUBE_SHOOTER_HIGH_SETPOINT = 1;
     public static final double CUBE_SHOOTER_MID_SETPOINT = 0;
     public static final double CUBE_SHOOTER_LOW_SETPOINT = 0;

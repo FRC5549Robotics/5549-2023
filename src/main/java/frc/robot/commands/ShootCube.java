@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.CubeShooter;
 import frc.robot.subsystems.Tower;
-import frc.robot.subsystems.Tower.TargetLevel;
 
 public class ShootCube extends CommandBase {
   /** Creates a new ShootCube. */

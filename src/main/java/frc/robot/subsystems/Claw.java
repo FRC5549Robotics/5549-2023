@@ -10,12 +10,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
-import com.revrobotics.ColorMatchResult;
 
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
@@ -95,8 +94,16 @@ public class Claw extends SubsystemBase {
     }
   }
 
+  public boolean getPneumaticState(){
+    if(m_clawDoubleSolenoid.get() == DoubleSolenoid.Value.kForward){
+      return false;
+    } else {
+      return true;
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Cone Mode?", getPneumaticState());
   }
 }
