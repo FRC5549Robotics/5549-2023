@@ -46,7 +46,7 @@ public class AutoStable extends InstantCommand {
     //   m_drivetrain.drive(new ChassisSpeeds(0,0.4 * steering_adjust,0));
     // }
     if(angle < -3 || angle > 3){
-      m_drivetrain.drive(new ChassisSpeeds(Math.sin(Math.toRadians(angle))*-1, 0, 0));
+      m_drivetrain.drive(new ChassisSpeeds(Math.sin(Math.toRadians(angle))*-1.45, 0, 0));
     }
     else{
       endCommand = true;

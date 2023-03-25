@@ -15,7 +15,7 @@ import frc.robot.subsystems.CubeShooter;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
-import frc.robot.commands.PivotEncoder;
+import frc.robot.commands.PivotEncoderAuton;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -40,12 +40,14 @@ public class OneConeAutoNoDrive extends SequentialCommandGroup {
     this.CubeShooter = CubeShooter;
     target1 = Target1;
     addCommands(
-      new PivotEncoder(m_tower, target1, m_claw, CubeShooter),
-      new ExtendMedium(m_telescope, rumController, m_claw),
+      new ParallelCommandGroup(
+      new PivotEncoderAuton(m_tower, target1, m_claw, CubeShooter),
+      new ExtendMedium(m_telescope, rumController)
+      ),
       new WaitCommand(500),
       new ParallelCommandGroup(
         new Retract(m_telescope),
-        new PivotEncoder(tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter)
+        new PivotEncoderAuton(tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter)
       )
     );
   }

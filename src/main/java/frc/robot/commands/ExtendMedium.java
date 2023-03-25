@@ -16,15 +16,13 @@ public class ExtendMedium extends CommandBase {
 
   double startTime;
   Telescope m_Telescope;
-  Claw m_Claw;
   boolean finished;
   XboxController rumController;
-  public ExtendMedium(Telescope telescope, XboxController RumController, Claw claw) {
+  public ExtendMedium(Telescope telescope, XboxController RumController) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Telescope = telescope;
     rumController = RumController;
-    m_Claw = claw;
-    addRequirements(telescope, claw);
+    addRequirements(telescope);
   }
 
   // Called when the command is initially scheduled.
@@ -50,7 +48,6 @@ public class ExtendMedium extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Telescope.off();
-    m_Claw.setConeMode();
     System.out.println("Finished telescope extension");
   }
 

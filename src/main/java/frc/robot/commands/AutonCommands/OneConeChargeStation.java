@@ -22,6 +22,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.commands.PivotEncoder;
+import frc.robot.commands.PivotEncoderAuton;
 import frc.robot.commands.AutoStable;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -53,15 +54,20 @@ public class OneConeChargeStation extends SequentialCommandGroup {
       new InstantCommand(() -> {
         m_DrivetrainSubsystem.resetOdometry(path1.getInitialHolonomicPose());
       }),
-      new PivotEncoder(m_tower, target1, m_claw, CubeShooter),
-      new ExtendMedium(m_telescope, rumController, m_claw),
+      new ParallelCommandGroup(
+      new PivotEncoderAuton(m_tower, target1, m_claw, CubeShooter),
+      new ExtendMedium(m_telescope, rumController)
+      ),
       new WaitCommand(500),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),
-        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter),
+
         new Retract(m_telescope)
       ),
-      new AutoStable(m_DrivetrainSubsystem)
+      new ParallelCommandGroup(
+        new AutoStable(m_DrivetrainSubsystem),
+        new PivotEncoder(tower, Tower.TargetLevel.ConeMid, claw, CubeShooter)
+      )
     );
   }
 }

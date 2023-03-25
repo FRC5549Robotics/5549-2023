@@ -61,7 +61,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
         //new ExtendMedium(m_telescope, rumController, m_claw),
         new PivotEncoder(m_tower, Target1, m_claw, m_CubeShooter)
       ),
-      new ExtendMedium(m_telescope, rumController, m_claw),
+      new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
         new Retract(m_telescope),

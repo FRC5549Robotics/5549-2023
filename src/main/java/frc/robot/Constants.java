@@ -84,7 +84,7 @@ public final class Constants {
     public static boolean yellow = true;
 
     //Cube Shooter
-    public static final double CUBE_HINGE_HIGH_SETPOINT = 16.8;
+    public static final double CUBE_HINGE_HIGH_SETPOINT = 16.7;
     public static final double CUBE_HINGE_MID_SETPOINT = 0;
     public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 29.5;
     public static final double CUBE_HINGE_RETRACTED_SETPOINT = 15;

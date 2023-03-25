@@ -12,7 +12,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CubeShooter;
 
 
-public class PivotEncoder extends CommandBase {
+public class PivotEncoderAuton extends CommandBase {
   /** Creates a new PivotEncoder. */
   Tower.TargetLevel state;
   // 1 = in, 2 = mid, 3 = in
@@ -26,7 +26,7 @@ public class PivotEncoder extends CommandBase {
   Claw m_claw;
   CubeShooter cubeShooter;
   double HingeEncoderValue;
-  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw, CubeShooter cubeShooter) {
+  public PivotEncoderAuton(Tower Tower, Tower.TargetLevel State, Claw claw, CubeShooter cubeShooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_Tower = Tower;
@@ -81,6 +81,7 @@ public class PivotEncoder extends CommandBase {
     System.out.println("finished");
     m_Tower.off();
     m_claw.stopClaw();
+    m_claw.setConeMode();
     cubeShooter.HingeOff();
   }
 
