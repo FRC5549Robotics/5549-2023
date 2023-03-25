@@ -28,6 +28,8 @@ import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Y;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2Z;
 import frc.robot.commands.AutonCommands.OneConeAutoNoDrive;
+import frc.robot.commands.AutonCommands.OneConeChargeStation;
+import frc.robot.commands.AutonCommands.OnlyChargeStation;
 import frc.robot.commands.AutonCommands.OneConeAuto;
 import frc.robot.commands.AutonCommands.ThreeConeAuto;
 import frc.robot.commands.AutonCommands.TwoConeAuto;
@@ -91,15 +93,19 @@ public class RobotContainer {
   public static PathPlannerTrajectory MidCToCC = PathPlanner.loadPath("MidCToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory BotCtoCC = PathPlanner.loadPath("BotCtoCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBStraight = PathPlanner.loadPath("MidBStraight", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory TopAroundToCC = PathPlanner.loadPath("TopAroundToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory BotAroundToCC = PathPlanner.loadPath("BotAroundToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidTAroundToCC = PathPlanner.loadPath("MidTAroundToCC", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory MidBAroundToCC = PathPlanner.loadPath("MidBAroundToCC", new PathConstraints(4, 3));
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton resetNavXButton = new JoystickButton(m_controller, 4);
 
-  JoystickButton towerConeFrontPickUpPosition = new JoystickButton(m_controller2, 3);
+  JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
   JoystickButton towerConeMidPosition = new JoystickButton(m_controller2, 2);
   JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
-  JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
+  JoystickButton toggleClaw = new JoystickButton(m_controller2, 3);
 
   //AutoCommands
    Command m_ZeroConeAutoMiddle = new ZeroConeAuto(m_drivetrainSubsystem, MidBStraight);
@@ -110,6 +116,14 @@ public class RobotContainer {
    Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
    Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
    Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
+   Command m_OneConeChargeStationNearWall = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopAroundToCC);
+   Command m_OneConeChargeStationNearExit = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotAroundToCC);
+   Command m_OneConeChargeStationMiddleWallSide = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidTAroundToCC);
+   Command m_OneConeChargeStationMiddleExitSide = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidBAroundToCC);
+   Command m_ChargeStationNearWall = new OnlyChargeStation(m_drivetrainSubsystem, TopAroundToCC);
+   Command m_ChargeStationNearExit = new OnlyChargeStation(m_drivetrainSubsystem, BotAroundToCC);
+   Command m_ChargeStationMiddleWallSide = new OnlyChargeStation(m_drivetrainSubsystem, MidTAroundToCC);
+   Command m_ChargeStationMiddleExitSide = new OnlyChargeStation(m_drivetrainSubsystem, MidBAroundToCC);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -146,6 +160,15 @@ public class RobotContainer {
     m_autoChooser.addOption("One Cone Auto No Drive", m_OneConeAutoNoDrive);
     m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
     m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+    m_autoChooser.addOption("One Cone Charge Station Substation Wall", m_OneConeChargeStationNearWall);
+    m_autoChooser.addOption("One Cone Charge Station Exit Wall", m_OneConeChargeStationNearExit);
+    m_autoChooser.addOption("One Cone Charge Station Middle Substation Side", m_OneConeChargeStationMiddleWallSide);
+    m_autoChooser.addOption("One Cone Charge Station Middle Exit Side", m_OneConeChargeStationMiddleExitSide);
+    m_autoChooser.addOption("Charge Station Substation Wall", m_ChargeStationNearWall);
+    m_autoChooser.addOption("Charge Station Exit Wall", m_ChargeStationNearExit);
+    m_autoChooser.addOption("Charge Station Middle Substation Side", m_ChargeStationMiddleWallSide);
+    m_autoChooser.addOption("Charge Station Middle Exit Side", m_ChargeStationMiddleExitSide);
+    
 
     //Adding paths to path planner command chooser
 
@@ -175,9 +198,8 @@ public class RobotContainer {
     //toggleClaw.onTrue(new toggleClaw(m_claw));
 
     //Tower-Position Command
-    towerConeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter));
     towerConeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter));
-    towerConeFrontPickUpPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.PickUpFront, m_claw, m_CubeShooter));
+    towerConeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter));
     stowedPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));
 
     
