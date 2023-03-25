@@ -96,10 +96,10 @@ public class RobotContainer {
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
   JoystickButton resetNavXButton = new JoystickButton(m_controller, 4);
 
-  JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
+  JoystickButton towerConeFrontPickUpPosition = new JoystickButton(m_controller2, 3);
   JoystickButton towerConeMidPosition = new JoystickButton(m_controller2, 2);
   JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
-  JoystickButton toggleClaw = new JoystickButton(m_controller2, 3);
+  JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
 
   //AutoCommands
    Command m_ZeroConeAutoMiddle = new ZeroConeAuto(m_drivetrainSubsystem, MidBStraight);
@@ -175,8 +175,9 @@ public class RobotContainer {
     //toggleClaw.onTrue(new toggleClaw(m_claw));
 
     //Tower-Position Command
-    towerConeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter));
     towerConeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter));
+    towerConeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter));
+    towerConeFrontPickUpPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.PickUpFront, m_claw, m_CubeShooter));
     stowedPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));
 
     

@@ -92,5 +92,6 @@ public final class Constants {
     public static final double CUBE_SHOOTER_MID_SETPOINT = 0;
     public static final double CUBE_SHOOTER_LOW_SETPOINT = 0;
     public static final double CUBE_SHOOTER_INTAKE_SETPOINT = 0;
+    public static final double CONE_PICKUP_FRONT = -0.213;
     
 }

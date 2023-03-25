@@ -43,6 +43,7 @@ public class PivotEncoder extends CommandBase {
     else if(state == Tower.TargetLevel.ConeMid)setpoint = Constants.PIVOT_CONE_MID_SETPOINT;
     else if(state == Tower.TargetLevel.CubeHigh)setpoint = Constants.PIVOT_CUBE_HIGH_SETPOINT;
     else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.PIVOT_CUBE_MID_SETPOINT;
+    else if(state == Tower.TargetLevel.PickUpFront)setpoint = Constants.CONE_PICKUP_FRONT;
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
 
     if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT){
