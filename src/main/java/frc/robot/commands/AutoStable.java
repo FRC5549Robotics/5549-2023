@@ -58,6 +58,7 @@ public class AutoStable extends InstantCommand {
   public void end(boolean interrupted) {
     m_drivetrain.drive(new ChassisSpeeds(0, 0, 0));
     System.out.println("Finished AutoStable");
+    m_drivetrain.lockModules();
   }
 
   // Returns true when the command should end.
