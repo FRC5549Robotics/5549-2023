@@ -19,9 +19,13 @@ public class CubeShooter extends SubsystemBase {
   private CANSparkMax ShooterMotor1 = new CANSparkMax(19, MotorType.kBrushless);
   private CANSparkMax ShooterMotor2 = new CANSparkMax(20, MotorType.kBrushless);
   RelativeEncoder HingeEncoder;
+  RelativeEncoder ShooterMotor1Encoder;
+  RelativeEncoder ShooterMotor2Encoder;
 
   public CubeShooter(Tower tower) {
     HingeEncoder = HingeMotor.getEncoder();
+    ShooterMotor1Encoder = ShooterMotor1.getEncoder();
+    ShooterMotor2Encoder = ShooterMotor2.getEncoder();
     this.tower = tower;
 
   }
@@ -66,10 +70,35 @@ public class CubeShooter extends SubsystemBase {
   {
     return HingeEncoder.getPosition();
   }
+
+  public boolean getHingeMotorStatus(){
+    if (HingeEncoder.getVelocity() > 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public boolean getLeftShooterMotorStatus(){
+    if (ShooterMotor1Encoder.getVelocity() > 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean getRightShooterMotorStatus(){
+    if (ShooterMotor2Encoder.getVelocity() > 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Hinge Encoder Value:", GetEncoderValue());
-    SmartDashboard.putNumber("Tower Encoder Value", getTowerEncoderValue());
+    SmartDashboard.putBoolean("Hinge Motor Running?", getHingeMotorStatus());
+    SmartDashboard.putBoolean("Left Motor Running?", getLeftShooterMotorStatus());
+    SmartDashboard.putBoolean("Right Motor Running?", getRightShooterMotorStatus());
     // This method will be called once per scheduler run
   }
 }

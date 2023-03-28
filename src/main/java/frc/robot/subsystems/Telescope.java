@@ -7,9 +7,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 
@@ -21,17 +23,28 @@ public class Telescope extends SubsystemBase {
   XboxController rumController;
   double startTime;
   Telescope m_Telescope;
+  RelativeEncoder telescopeMEncoder;
   boolean finished = false;
     
 
   public Telescope(XboxController controller) {
     TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
+    telescopeMEncoder = TelescopeMotor.getEncoder();
     rumController = controller;
+  }
+
+  public boolean getTelescopeMotorStatus(){
+    if (telescopeMEncoder.getVelocity() > 0){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Telescope Motor Running?", getTelescopeMotorStatus());
 
   }
 

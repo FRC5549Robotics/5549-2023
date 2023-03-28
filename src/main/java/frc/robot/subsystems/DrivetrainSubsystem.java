@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+import com.revrobotics.RelativeEncoder;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.PIDController;
 import frc.lib.MkSwerveModuleBuilder;
@@ -81,6 +82,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_frontRightModule;
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
+
+  public RelativeEncoder m_frontLeftModuleDriveEncoder, m_frontLeftModuleSteerEncoder;
+  public RelativeEncoder m_frontRightModuleDriveEncoder, m_frontRightModuleSteerEncoder;
+  public RelativeEncoder m_backLeftModuleDriveEncoder, m_backLeftModuleSteerEncoder;
+  public RelativeEncoder m_backRightModuleDriveEncoder, m_backRightModuleSteerEncoder;
+
   public boolean locked = false;
 
   public ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -260,6 +267,7 @@ public void lockModules() {
   public boolean getGyroConnected(){
         return m_navx.isConnected();
   }
+
   @Override
   public void periodic() {
         SmartDashboard.putBoolean("Navx Connected?", getGyroConnected());
