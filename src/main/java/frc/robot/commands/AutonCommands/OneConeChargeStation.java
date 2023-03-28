@@ -61,7 +61,6 @@ public class OneConeChargeStation extends SequentialCommandGroup {
       new WaitCommand(500),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),
-
         new Retract(m_telescope)
       ),
       new ParallelCommandGroup(
