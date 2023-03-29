@@ -11,7 +11,7 @@ import java.util.Objects;
 public class MkModuleConfiguration {
     private double nominalVoltage = 12.0;
     private double driveCurrentLimit = 40.0;
-    private double steerCurrentLimit = 40.0;
+    private double steerCurrentLimit = 20.0;
 
     private double steerKP = Double.NaN;
     private double steerKI = Double.NaN;

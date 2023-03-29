@@ -97,6 +97,7 @@ public class RobotContainer {
   public static PathPlannerTrajectory BotAroundToCC = PathPlanner.loadPath("BotAroundToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidTAroundToCC = PathPlanner.loadPath("MidTAroundToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBAroundToCC = PathPlanner.loadPath("MidBAroundToCC", new PathConstraints(1, 1));
+  public static PathPlannerTrajectory TestCube = PathPlanner.loadPath("TestCube", new PathConstraints(2, 2));
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
@@ -125,6 +126,7 @@ public class RobotContainer {
    Command m_ChargeStationMiddleWallSide = new OnlyChargeStation(m_drivetrainSubsystem, MidTAroundToCC);
    Command m_ChargeStationMiddleExitSide = new OnlyChargeStation(m_drivetrainSubsystem, MidBAroundToCC);
    Command m_OneConeChargeStationNoCommunityMiddle = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidBToCC);
+   Command m_TestCube = new ZeroConeAuto(m_drivetrainSubsystem, TestCube);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -170,7 +172,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Charge Station Middle Substation Side", m_ChargeStationMiddleWallSide);
     m_autoChooser.addOption("Charge Station Middle Exit Side", m_ChargeStationMiddleExitSide);
     m_autoChooser.addOption("One Cone Charge Station No Community Middle Exit Side", m_OneConeChargeStationNoCommunityMiddle);
-    
+    m_autoChooser.addOption("Test Cube", m_TestCube);
 
     //Adding paths to path planner command chooser
 

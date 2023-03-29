@@ -180,7 +180,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         new Pose2d(m_odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0))
     );
     */
-        m_navx.zeroYaw(); 
+        m_navx.reset(); 
   }
 
   public Rotation2d getGyroscopeRotation() {
@@ -263,7 +263,6 @@ public void lockModules() {
   @Override
   public void periodic() {
         SmartDashboard.putBoolean("Navx Connected?", getGyroConnected());
-        if(!(m_Controller.getRawButton(3))){
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
@@ -281,9 +280,5 @@ public void lockModules() {
                 m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
                 m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
-        }
-        else {
-                lockModules();
-        }
   }
 }
