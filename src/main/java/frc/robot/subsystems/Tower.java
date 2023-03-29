@@ -33,7 +33,7 @@ public class Tower extends SubsystemBase {
 
   
   public DutyCycleEncoder throughBoreEncoder;
-  public RelativeEncoder Encoder1;
+  public RelativeEncoder Encoder1, Encoder2;
   public double towerEncoderValue;
   public Tower() {
     motor1 = new CANSparkMax(Constants.MOTOR_TOWER1, MotorType.kBrushless);
@@ -41,6 +41,7 @@ public class Tower extends SubsystemBase {
     throughBoreEncoder = new DutyCycleEncoder(0);
     throughBoreEncoder.setPositionOffset(0.674);
     Encoder1 = motor1.getEncoder();
+    Encoder2 = motor2.getEncoder();
     // encoder2 = motor2.getAlternateEncoder(0);
     
   }
@@ -52,6 +53,24 @@ public class Tower extends SubsystemBase {
     towerEncoderValue = throughBoreEncoder.getDistance();
     SmartDashboard.putNumber("Through Bore Encoder Value:", throughBoreEncoder.getDistance());
     SmartDashboard.putNumber("Motor 1 Encoder Values:", Encoder1.getPosition());
+    SmartDashboard.putBoolean("Tower Motor 1 Running?", getTowerMotor1Status());
+    SmartDashboard.putBoolean("Tower Motor 2 Running?", getTowerMotor2Status());
+  }
+
+  public boolean getTowerMotor1Status(){
+    if (Encoder1.getVelocity() > 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean getTowerMotor2Status(){
+    if (Encoder2.getVelocity() > 0){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean Pivot(PIDController controller, double currentAngle, double setpoint){
@@ -79,14 +98,6 @@ public class Tower extends SubsystemBase {
   {
     return throughBoreEncoder.getDistance();
   }
-  // public double getEncoderAngle()
-  // {
-  //   return encoder1.getPosition();
-  // }
-  // public double getCalculatedEncoderAngle()
-  // {
-  //   return encoder1.getPosition()/64;
-  // }
 
 
   public void runBack() {

@@ -101,9 +101,18 @@ public class Claw extends SubsystemBase {
       return true;
     }
   }
+
+  public boolean getClawMotorStatus(){
+    if (ClawMotor.getEncoder().getVelocity() > 0){
+      return true;
+    } else{
+      return false;
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Cone Mode?", getPneumaticState());
+    SmartDashboard.putBoolean("Claw Motor Running?", getClawMotorStatus());
   }
 }
