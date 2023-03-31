@@ -22,6 +22,8 @@ public class Limelight extends SubsystemBase {
   public NetworkTable limelightCube;
   public NetworkTable limelightCone;
   public NetworkTable limelightAprilTag;
+  NetworkTable limelightTable;
+  NetworkTable apriltagTable;
   double ty, tv, tx, angle, distance, yaw, ta;
   double min_command = 0.05;
   //XboxController xbox1;
@@ -36,6 +38,7 @@ public class Limelight extends SubsystemBase {
     limelightCone = NetworkTableInstance.getDefault().getTable("Cone");
     limelightAprilTag = NetworkTableInstance.getDefault().getTable("AprilTag");
 
+    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
   public TargetVision getTarget() {

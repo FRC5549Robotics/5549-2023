@@ -49,6 +49,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.PoseEstimator;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -64,6 +65,7 @@ public class RobotContainer {
   private final Telescope m_telescope = new Telescope(m_controller);
   private final Tower m_tower = new Tower();
   private final CubeShooter m_CubeShooter = new CubeShooter(m_tower);
+  //private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   private UltrasonicSensor ultra = new UltrasonicSensor();
@@ -103,6 +105,7 @@ public class RobotContainer {
   public static PathPlannerTrajectory MidTAroundToCC = PathPlanner.loadPath("MidTAroundToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBAroundToCC = PathPlanner.loadPath("MidBAroundToCC", new PathConstraints(1, 1));
   public static PathPlannerTrajectory TestCube = PathPlanner.loadPath("TestCube", new PathConstraints(2, 2));
+  public static PathPlannerTrajectory CT1ToTopC = PathPlanner.loadPath("CT1ToTopC", new PathConstraints(4, 3));
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
@@ -120,8 +123,8 @@ public class RobotContainer {
    Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh);
    Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
    Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
-   //Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
-   //Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
+   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, TopToCT1, CT1ToTopC);
+   Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
    Command m_OneConeChargeStationNearWall = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopAroundToCC);
    Command m_OneConeChargeStationNearExit = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotAroundToCC);
    Command m_OneConeChargeStationMiddleWallSide = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidTAroundToCC);
@@ -132,6 +135,7 @@ public class RobotContainer {
    Command m_ChargeStationMiddleExitSide = new OnlyChargeStation(m_drivetrainSubsystem, MidBAroundToCC);
    Command m_OneConeChargeStationNoCommunityMiddle = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidBToCC);
    Command m_TestCube = new ZeroConeAuto(m_drivetrainSubsystem, TestCube);
+   Command m_TwoConeAutoNearSubstationWall = new TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, TopToCT1, CT1ToTopC);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -178,6 +182,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Charge Station Middle Exit Side", m_ChargeStationMiddleExitSide);
     m_autoChooser.addOption("One Cone Charge Station No Community Middle Exit Side", m_OneConeChargeStationNoCommunityMiddle);
     m_autoChooser.addOption("Test Cube", m_TestCube);
+    m_autoChooser.addOption("Two Cone Auto Near Substation Wall", m_TwoConeAutoNearSubstationWall);
 
     //Adding paths to path planner command chooser
 
