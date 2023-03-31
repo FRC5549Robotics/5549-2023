@@ -14,6 +14,7 @@ public class Limelight extends SubsystemBase {
 
   double Kp = 1/27;
   NetworkTable limelightTable;
+  NetworkTable apriltagTable;
   double ty, tv, tx, angle, distance, yaw, ta;
   double min_command = 0.05;
   //XboxController xbox1;
@@ -24,7 +25,6 @@ public class Limelight extends SubsystemBase {
   public Limelight() {
 
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-
   }
 
   public double getAngle() {

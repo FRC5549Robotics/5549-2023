@@ -78,10 +78,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); 
 
   // These are our modules. We initialize them in the constructor.
-  private final SwerveModule m_frontLeftModule;
-  private final SwerveModule m_frontRightModule;
-  private final SwerveModule m_backLeftModule;
-  private final SwerveModule m_backRightModule;
+  final SwerveModule m_frontLeftModule;
+  final SwerveModule m_frontRightModule;
+  final SwerveModule m_backLeftModule;
+  final SwerveModule m_backRightModule;
 
   public RelativeEncoder m_frontLeftModuleDriveEncoder, m_frontLeftModuleSteerEncoder;
   public RelativeEncoder m_frontRightModuleDriveEncoder, m_frontRightModuleSteerEncoder;

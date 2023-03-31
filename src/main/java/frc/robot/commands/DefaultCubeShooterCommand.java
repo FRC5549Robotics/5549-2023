@@ -45,7 +45,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
     {
       m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
       if (m_controller2.getRawAxis(3) >0.1){
-        m_CubeShooter.setSpeed(0.3); //0.3
+        m_CubeShooter.setSpeed(0.30);
       } else {  
         m_CubeShooter.setSpeed(0);
       }
@@ -93,7 +93,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
       m_CubeShooter.setSpeed(0);
       m_CubeShooter.RunHinge(-0.2);
     }
-
+ 
     //Shooter Speed
     else if (m_controller.getRawAxis(3) > 0.1){
       m_CubeShooter.setSpeed(m_controller.getRawAxis(3));
