@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.CubeShooter;
 import edu.wpi.first.math.controller.PIDController;
+import frc.robot.subsystems.UltrasonicSensor;
 
 public class DefaultCubeShooterCommand extends CommandBase {
   /** Creates a new DefaultCubeShooterCommand. */
@@ -18,12 +19,14 @@ public class DefaultCubeShooterCommand extends CommandBase {
   private CubeShooter m_CubeShooter;
   double TowerEncoderValue;
   double HingeEncoderValue;
+  UltrasonicSensor m_Sensor;
   PIDController controller = new PIDController(0.02, 0, 0);
 
-  public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller, XboxController m_Controller2) {
+  public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller, XboxController m_Controller2, UltrasonicSensor sensor) {
     m_controller = m_Controller;
     m_controller2 = m_Controller2;
     m_CubeShooter = cubeShooter;
+    m_Sensor = sensor;
     addRequirements(cubeShooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -41,7 +44,10 @@ public class DefaultCubeShooterCommand extends CommandBase {
     //Intake the cube speed: -0.125
 
     //Outtake speed High
-    if(m_controller2.getPOV() == 0)
+    if (m_Sensor.getSensorValue() < 10) {
+      m_CubeShooter.setSpeed(0);
+    }
+    else if(m_controller2.getPOV() == 0)
     {
       m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
       if (m_controller2.getRawAxis(3) >0.1){
