@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
+import frc.robot.commands.PipelineAutoAlign;
 import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.DefaultClawCommand;
@@ -37,6 +39,7 @@ import frc.robot.commands.AutonCommands.ZeroConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
+import frc.robot.subsystems.UltrasonicSensor;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CubeShooter;
 import frc.robot.Constants;
@@ -46,6 +49,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.PoseEstimator;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -61,8 +65,11 @@ public class RobotContainer {
   private final Telescope m_telescope = new Telescope(m_controller);
   private final Tower m_tower = new Tower();
   private final CubeShooter m_CubeShooter = new CubeShooter(m_tower);
+  //private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
+  private UltrasonicSensor ultra = new UltrasonicSensor();
+  private Limelight limelight = new Limelight();
   
   //All the Paths
   public static PathPlannerTrajectory BotToCC = PathPlanner.loadPath("BotToCC", new PathConstraints(4, 3));
@@ -98,6 +105,7 @@ public class RobotContainer {
   public static PathPlannerTrajectory MidTAroundToCC = PathPlanner.loadPath("MidTAroundToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBAroundToCC = PathPlanner.loadPath("MidBAroundToCC", new PathConstraints(1, 1));
   public static PathPlannerTrajectory TestCube = PathPlanner.loadPath("TestCube", new PathConstraints(2, 2));
+  public static PathPlannerTrajectory CT1ToTopC = PathPlanner.loadPath("CT1ToTopC", new PathConstraints(4, 3));
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
@@ -115,7 +123,7 @@ public class RobotContainer {
    Command m_OneConeAutoNoDrive = new OneConeAutoNoDrive(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh);
    Command m_OneConeAutoNearWall = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopToCT1);
    Command m_OneConeAutoNearExit = new OneConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotToCT4);
-   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid);
+   Command m_TwoConeAuto = new  TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, TopToCT1, CT1ToTopC);
    Command m_ThreeConeAuto = new ThreeConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, Tower.TargetLevel.CubeMid, Tower.TargetLevel.CubeMid);
    Command m_OneConeChargeStationNearWall = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, TopAroundToCC);
    Command m_OneConeChargeStationNearExit = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, BotAroundToCC);
@@ -127,10 +135,11 @@ public class RobotContainer {
    Command m_ChargeStationMiddleExitSide = new OnlyChargeStation(m_drivetrainSubsystem, MidBAroundToCC);
    Command m_OneConeChargeStationNoCommunityMiddle = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidBToCC);
    Command m_TestCube = new ZeroConeAuto(m_drivetrainSubsystem, TestCube);
+   Command m_TwoConeAutoNearSubstationWall = new TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, TopToCT1, CT1ToTopC);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-  /**
+  /**pi
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
@@ -148,7 +157,7 @@ public class RobotContainer {
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_controller2, led));
-    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_controller2));
+    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_controller2, ultra));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
@@ -161,8 +170,8 @@ public class RobotContainer {
     m_autoChooser.addOption("One Cone Auto Near Substation Wall", m_OneConeAutoNearWall);
     m_autoChooser.addOption("One Cone Auto Near Exit Wall", m_OneConeAutoNearExit);
     m_autoChooser.addOption("One Cone Auto No Drive", m_OneConeAutoNoDrive);
-    m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
-    m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
+   // m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
+    //m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
     m_autoChooser.addOption("One Cone Charge Station Substation Wall", m_OneConeChargeStationNearWall);
     m_autoChooser.addOption("One Cone Charge Station Exit Wall", m_OneConeChargeStationNearExit);
     m_autoChooser.addOption("One Cone Charge Station Middle Substation Side", m_OneConeChargeStationMiddleWallSide);
@@ -173,6 +182,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Charge Station Middle Exit Side", m_ChargeStationMiddleExitSide);
     m_autoChooser.addOption("One Cone Charge Station No Community Middle Exit Side", m_OneConeChargeStationNoCommunityMiddle);
     m_autoChooser.addOption("Test Cube", m_TestCube);
+    m_autoChooser.addOption("Two Cone Auto Near Substation Wall", m_TwoConeAutoNearSubstationWall);
 
     //Adding paths to path planner command chooser
 
@@ -189,12 +199,14 @@ public class RobotContainer {
     // Back button zeros the gyroscope
     // No requirements because we don't need to interrupt anything
     resetNavXButton.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
-    autoAlignButton.whileTrue(new SequentialCommandGroup(
+    //autoAlignButton.whileTrue(new SequentialCommandGroup(
       //new AutoAlign2Z(m_Limelight, m_drivetrainSubsystem, m_controller)//,
-      new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
+    //  new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
-    ));
+    //));
     autoStableButton.whileTrue(new AutoStable(m_drivetrainSubsystem));
+
+    autoAlignButton.whileTrue(new PipelineAutoAlign(limelight, m_drivetrainSubsystem));
 
     //Intake Command
 

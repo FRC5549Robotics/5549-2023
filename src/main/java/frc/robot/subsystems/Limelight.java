@@ -11,20 +11,49 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
-
+  public enum TargetVision{
+    Cube,
+    Cone,
+    AprilTage,
+    NotFound
+  }
   double Kp = 1/27;
+  NetworkTable t;
+  public NetworkTable limelightCube;
+  public NetworkTable limelightCone;
+  public NetworkTable limelightAprilTag;
   NetworkTable limelightTable;
+  NetworkTable apriltagTable;
   double ty, tv, tx, angle, distance, yaw, ta;
   double min_command = 0.05;
   //XboxController xbox1;
   double steering_adjust = 0.0;
+  public TargetVision target;
   private static Limelight limelight = null;
   
 
   public Limelight() {
 
-    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    limelightCube = NetworkTableInstance.getDefault().getTable("Cube");
+    limelightCone = NetworkTableInstance.getDefault().getTable("Cone");
+    limelightAprilTag = NetworkTableInstance.getDefault().getTable("AprilTag");
 
+    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+  }
+
+  public TargetVision getTarget() {
+    if (limelightCube.getEntry("tv").getDouble(0)== 1) {
+        target = TargetVision.Cube;
+        return TargetVision.Cube;
+    }
+    else if (limelightCone.getEntry("tv").getDouble(0) == 1) {
+      target = TargetVision.Cone;
+      return TargetVision.Cone;
+    }
+    else {
+      target = TargetVision.NotFound;
+      return TargetVision.NotFound;
+    }
   }
 
   public double getAngle() {
@@ -37,15 +66,39 @@ public class Limelight extends SubsystemBase {
   }
 
   public double getTx(){
-    return tx;
+    if(target == TargetVision.Cube)
+    {
+      return limelightCone.getEntry("tx").getDouble(0.0);
+    }
+    else if(target == TargetVision.Cone)
+    {
+      return limelightCube.getEntry("tx").getDouble(0.0);
+    }
+    return 0;
   }
 
   public double getTa(){
-    return ta;
+    if(target == TargetVision.Cube)
+    {
+      return limelightCone.getEntry("ta").getDouble(0.0);
+    }
+    else if(target == TargetVision.Cone)
+    {
+      return limelightCube.getEntry("ta").getDouble(0.0);
+    }
+    return 0;
   }
 
   public double getTy(){
-    return ty;
+    if(target == TargetVision.Cube)
+    {
+      return limelightCone.getEntry("ty").getDouble(0.0);
+    }
+    else if(target == TargetVision.Cone)
+    {
+      return limelightCube.getEntry("ty").getDouble(0.0);
+    }
+    return 0;
   }
 
   public double getYaw(){
@@ -93,11 +146,7 @@ public class Limelight extends SubsystemBase {
     
    
  
-    ty = limelightTable.getEntry("ty").getDouble(0);
-    tv = limelightTable.getEntry("tv").getDouble(0);
-    tx = limelightTable.getEntry("tx").getDouble(0);
-    ta = limelightTable.getEntry("ta").getDouble(0);
-    yaw = limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double[6])[4];
+    //yaw = limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double[6])[4];
 
     SmartDashboard.putNumber("ty", ty);
     SmartDashboard.putNumber("tv", tv);

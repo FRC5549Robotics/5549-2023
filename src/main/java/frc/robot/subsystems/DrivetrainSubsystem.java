@@ -78,10 +78,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); 
 
   // These are our modules. We initialize them in the constructor.
-  private final SwerveModule m_frontLeftModule;
-  private final SwerveModule m_frontRightModule;
-  private final SwerveModule m_backLeftModule;
-  private final SwerveModule m_backRightModule;
+  final SwerveModule m_frontLeftModule;
+  final SwerveModule m_frontRightModule;
+  final SwerveModule m_backLeftModule;
+  final SwerveModule m_backRightModule;
 
   public RelativeEncoder m_frontLeftModuleDriveEncoder, m_frontLeftModuleSteerEncoder;
   public RelativeEncoder m_frontRightModuleDriveEncoder, m_frontRightModuleSteerEncoder;
@@ -228,9 +228,9 @@ public Command followTrajectoryCommand(PathPlannerTrajectory traj) {
                  traj, 
                  this::getPose, // Pose supplier
                  this.m_kinematics, // SwerveDriveKinematics
-                 new PIDController(0, 0, 0), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                 new PIDController(0, 0, 0), // Y controller (usually the same values as X controller)
-                 new PIDController(0, 0, 0), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 new PIDController(5, 0, 0), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 new PIDController(5, 0, 0), // Y controller (usually the same values as X controller)
+                 new PIDController(1.5, 0, 0), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  (SwerveModuleState[] states) -> {
                         this.m_chassisSpeeds = this.m_kinematics.toChassisSpeeds(states);
                 }, // Module states consumer

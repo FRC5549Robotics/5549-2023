@@ -43,7 +43,7 @@ public class Claw extends SubsystemBase {
   }
   public void pickItem()
   {
-    ClawMotor.set(0.75);
+    ClawMotor.set(0.5);
   }
 
   public void dropItem(){
@@ -102,17 +102,17 @@ public class Claw extends SubsystemBase {
     }
   }
 
-  public boolean getClawMotorStatus(){
-    if (ClawMotor.getEncoder().getVelocity() > 0){
-      return true;
-    } else{
-      return false;
-    }
-  }
+  // public boolean getClawMotorStatus(){
+  //   if (ClawMotor.getEncoder().getVelocity() > 0){
+  //     return true;
+  //   } else{
+  //     return false;
+  //   }
+  // }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Cone Mode?", getPneumaticState());
-    SmartDashboard.putBoolean("Claw Motor Running?", getClawMotorStatus());
+    //martDashboard.putBoolean("Claw Motor Running?", getClawMotorStatus());
   }
 }

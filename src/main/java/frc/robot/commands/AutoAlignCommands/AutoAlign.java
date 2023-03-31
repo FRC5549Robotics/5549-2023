@@ -40,18 +40,7 @@ public class AutoAlign extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    oldta = ta;
-    ta = m_Limelight.getTa();
-
-    if (ta > 0.1){
-      if (ta <= oldta){
-        m_drivetrain.drive(new ChassisSpeeds(0, -1, 1));
-      } else {
-        m_drivetrain.drive(new ChassisSpeeds(0, 1, -1));
-      }
-    } else {
-      endCommand = true;
-    }
+  
 
   }
 
