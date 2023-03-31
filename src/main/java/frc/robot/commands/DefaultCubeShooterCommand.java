@@ -109,12 +109,12 @@ public class DefaultCubeShooterCommand extends CommandBase {
 
     else {
       m_CubeShooter.setSpeed(0);
-      if (TowerEncoderValue < -0.2){
-           m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_RETRACTED_SETPOINT));
-          } else {
-           m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
-         }
-      //m_CubeShooter.HingeOff();
+       if (TowerEncoderValue < -0.2){
+            m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_RETRACTED_SETPOINT));
+           } else {
+            m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
+          }
+     // m_CubeShooter.HingeOff();
     }
     
   }
