@@ -33,12 +33,13 @@ import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import frc.robot.Constants;
 
 public class PoseEstimator extends SubsystemBase {
   /** Creates a new PoseEstimator. */
   Limelight limelight;
   DrivetrainSubsystem drivetrainSubsystem;
-  NetworkTable apriltagNetworkTable;
+  public NetworkTable apriltagNetworkTable;
 
   static Vector<N7> stateStdDevs = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5), 0.05, 0.05, 0.05, 0.05);
   static Vector<N5> localMeasurementStdDevs = VecBuilder.fill(Units.degreesToRadians(0.01), 0.01, 0.01, 0.01, 0.01);
@@ -48,7 +49,16 @@ public class PoseEstimator extends SubsystemBase {
   Field2d field2d = new Field2d();
   AprilTagFieldLayout layout;
   Pose3d[] poses;
+  Pose3d targetPose;
+  Transform3d camToTarget;
+  Pose3d camPose;
+  Pose3d visionRobotPose;
+  double timestamp;
+  double subtractionConstant;
   public PoseEstimator(Limelight Limelight, DrivetrainSubsystem DrivetrainSubsystem) {
+    apriltagNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
+    subtractionConstant = apriltagNetworkTable.getEntry("ts").getDouble(0);
+
     try {
       layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
       // PV estimates will always be blue, they'll get flipped by robot thread
@@ -64,9 +74,10 @@ public class PoseEstimator extends SubsystemBase {
         poses[i] = pose.get();
       }
     }
+
     limelight = Limelight;
     drivetrainSubsystem = DrivetrainSubsystem;
-    apriltagNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
+
     poseEstimator = new SwerveDrivePoseEstimator(
       drivetrainSubsystem.m_kinematics, 
       drivetrainSubsystem.getGyroscopeRotation(), 
@@ -84,16 +95,33 @@ public class PoseEstimator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     apriltagNetworkTable.getEntry("getpipe").setDouble(2);
-    Pose3d targetPose;
-    Transform3d camToTarget;
-    Pose3d camPose;
-    var target = apriltagNetworkTable.getEntry("camerapose_targetspace").getInteger(0);
+    var target = apriltagNetworkTable.getEntry("tid").getInteger(0);
+
+    timestamp = (apriltagNetworkTable.getEntry("ts").getDouble(0) - subtractionConstant)/1000;
+
     if(target != 0){
       targetPose = new Pose3d(0, 0, 0, poses[(int)target + 1].getRotation());
       double[] transform = apriltagNetworkTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [6]);
       camToTarget = new Transform3d(new Translation3d(transform[0], transform[1], transform[2]), new Rotation3d(transform[3], transform[4], transform[5]));
+      
       camPose = targetPose.transformBy(camToTarget.inverse());
+      visionRobotPose = camPose.transformBy(Constants.CAMERA_TO_ROBOT);
+      poseEstimator.addVisionMeasurement(visionRobotPose.toPose2d(), timestamp);
     }
+
+    poseEstimator.updateWithTime(timestamp, drivetrainSubsystem.getGyroscopeRotation(), 
+    new SwerveModulePosition[]{
+      drivetrainSubsystem.m_frontLeftModule.getPosition(),
+      drivetrainSubsystem.m_frontRightModule.getPosition(),
+      drivetrainSubsystem.m_backLeftModule.getPosition(),
+      drivetrainSubsystem.m_backRightModule.getPosition()
+    });
+    
+    field2d.setRobotPose(getCurrentPose());
+  }
+
+  public Pose2d getCurrentPose(){
+    return poseEstimator.getEstimatedPosition();
   }
 }
 

@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -93,5 +97,8 @@ public final class Constants {
     public static final double CUBE_SHOOTER_LOW_SETPOINT = 0;
     public static final double CUBE_SHOOTER_INTAKE_SETPOINT = 0;
     public static final double CONE_PICKUP_FRONT = -0.213;
-    
+ 
+    //Pose Estimation
+    public static final Transform3d CAMERA_TO_ROBOT = new Transform3d();
+
 }
