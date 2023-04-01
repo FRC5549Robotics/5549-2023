@@ -4,16 +4,13 @@
 
 package frc.robot.subsystems;
 
-import java.lang.annotation.Target;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.Consumer;
 
-import edu.wpi.first.apriltag.AprilTag;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
@@ -31,7 +28,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N7;
 import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Constants;
 
@@ -59,6 +55,9 @@ public class PoseEstimator extends SubsystemBase {
     apriltagNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
     subtractionConstant = apriltagNetworkTable.getEntry("ts").getDouble(0);
 
+    limelight = Limelight;
+    drivetrainSubsystem = DrivetrainSubsystem;
+
     try {
       layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
       // PV estimates will always be blue, they'll get flipped by robot thread
@@ -74,9 +73,6 @@ public class PoseEstimator extends SubsystemBase {
         poses[i] = pose.get();
       }
     }
-
-    limelight = Limelight;
-    drivetrainSubsystem = DrivetrainSubsystem;
 
     poseEstimator = new SwerveDrivePoseEstimator(
       drivetrainSubsystem.m_kinematics, 

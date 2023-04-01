@@ -21,6 +21,7 @@ import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.PipelineAutoAlign;
 import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.AutoStable;
+import frc.robot.commands.ChaseTag;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
 import frc.robot.commands.ShooterAim;
@@ -65,7 +66,7 @@ public class RobotContainer {
   private final Telescope m_telescope = new Telescope(m_controller);
   private final Tower m_tower = new Tower();
   private final CubeShooter m_CubeShooter = new CubeShooter(m_tower);
-  //private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
+  private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   private UltrasonicSensor ultra = new UltrasonicSensor();
@@ -109,6 +110,7 @@ public class RobotContainer {
 
   JoystickButton autoAlignButton = new JoystickButton(m_controller, 1);
   JoystickButton autoStableButton = new JoystickButton(m_controller, 2);
+  JoystickButton chaseTag = new JoystickButton(m_controller, 3);
   JoystickButton resetNavXButton = new JoystickButton(m_controller, 4);
 
   JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
@@ -204,6 +206,7 @@ public class RobotContainer {
     //  new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     //));
+    chaseTag.whileTrue(new ChaseTag(m_drivetrainSubsystem, m_PoseEstimator));
     autoStableButton.whileTrue(new AutoStable(m_drivetrainSubsystem));
 
     autoAlignButton.whileTrue(new PipelineAutoAlign(limelight, m_drivetrainSubsystem));

@@ -5,8 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -99,6 +102,6 @@ public final class Constants {
     public static final double CONE_PICKUP_FRONT = -0.213;
  
     //Pose Estimation
-    public static final Transform3d CAMERA_TO_ROBOT = new Transform3d();
+    public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(new Translation3d(Units.inchesToMeters(6.5), Units.inchesToMeters(6.5), Units.inchesToMeters(20.5)), new Rotation3d(0, 0, 0));
 
 }
