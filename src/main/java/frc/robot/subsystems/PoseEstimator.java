@@ -44,7 +44,7 @@ public class PoseEstimator extends SubsystemBase {
   SwerveDrivePoseEstimator poseEstimator;
   Field2d field2d = new Field2d();
   AprilTagFieldLayout layout;
-  Pose3d[] poses;
+  Pose3d[] poses = new Pose3d[8];
   Pose3d targetPose;
   Transform3d camToTarget;
   Pose3d camPose;
@@ -67,10 +67,10 @@ public class PoseEstimator extends SubsystemBase {
       DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
       layout = null;
     }
-    for(int i = 0; i < 7; i++){
+    for(int i = 0; i < 8; i++){
       Optional<Pose3d> pose = layout.getTagPose(i);
       if(pose.isPresent()){
-        poses[i] = pose.get();
+        poses[i-1] = pose.get();
       }
     }
 
@@ -95,14 +95,14 @@ public class PoseEstimator extends SubsystemBase {
 
     timestamp = (apriltagNetworkTable.getEntry("ts").getDouble(0) - subtractionConstant)/1000;
 
-    if(target != 0){
-      targetPose = new Pose3d(0, 0, 0, poses[(int)target + 1].getRotation());
+    if(target != -1 && target < 9){
+      targetPose = new Pose3d(0, 0, 0, poses[(int)target - 1].getRotation());
       double[] transform = apriltagNetworkTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [6]);
       camToTarget = new Transform3d(new Translation3d(transform[0], transform[1], transform[2]), new Rotation3d(transform[3], transform[4], transform[5]));
       
       camPose = targetPose.transformBy(camToTarget.inverse());
       visionRobotPose = camPose.transformBy(Constants.CAMERA_TO_ROBOT);
-      poseEstimator.addVisionMeasurement(visionRobotPose.toPose2d(), timestamp);
+      //poseEstimator.addVisionMeasurement(visionRobotPose.toPose2d(), timestamp);
     }
 
     poseEstimator.updateWithTime(timestamp, drivetrainSubsystem.getGyroscopeRotation(), 
@@ -119,5 +119,4 @@ public class PoseEstimator extends SubsystemBase {
   public Pose2d getCurrentPose(){
     return poseEstimator.getEstimatedPosition();
   }
-}
-
+} 
