@@ -103,5 +103,6 @@ public final class Constants {
  
     //Pose Estimation
     public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(0), Units.inchesToMeters(0)), new Rotation3d(0, 0, 0)); //6.5 6.5 20.5
+    public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(new Translation3d(), new Rotation3d());
 
 }
