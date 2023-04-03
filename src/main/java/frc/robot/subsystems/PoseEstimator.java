@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.photonvision.PhotonCamera;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
@@ -33,7 +34,7 @@ import frc.robot.Constants;
 
 public class PoseEstimator extends SubsystemBase {
   /** Creates a new PoseEstimator. */
-  Limelight limelight;
+  public PhotonCamera photonCamera;
   DrivetrainSubsystem drivetrainSubsystem;
   public NetworkTable apriltagNetworkTable;
 
@@ -44,19 +45,19 @@ public class PoseEstimator extends SubsystemBase {
   SwerveDrivePoseEstimator poseEstimator;
   Field2d field2d = new Field2d();
   AprilTagFieldLayout layout;
-  Pose3d[] poses = new Pose3d[8];
+  Pose3d[] targetPoses = new Pose3d[8];
   Pose3d targetPose;
   Transform3d camToTarget;
   Pose3d camPose;
   Pose3d visionRobotPose;
-  double timestamp;
+  double previousPipelineTimestamp = 0;
   double subtractionConstant;
   public PoseEstimator(Limelight Limelight, DrivetrainSubsystem DrivetrainSubsystem) {
     apriltagNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
     subtractionConstant = apriltagNetworkTable.getEntry("ts").getDouble(0);
 
-    limelight = Limelight;
-    drivetrainSubsystem = DrivetrainSubsystem;
+    photonCamera = new PhotonCamera("photonvison");
+    drivetrainSubsystem = DrivetrainSubsystem;  
 
     try {
       layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
@@ -70,7 +71,7 @@ public class PoseEstimator extends SubsystemBase {
     for(int i = 0; i < 8; i++){
       Optional<Pose3d> pose = layout.getTagPose(i);
       if(pose.isPresent()){
-        poses[i-1] = pose.get();
+        targetPoses[i-1] = pose.get();
       }
     }
 
@@ -86,34 +87,34 @@ public class PoseEstimator extends SubsystemBase {
       visionMeaurementStdDevs, 
       visionMeaurementStdDevs);
   }
-/* 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
      
-    apriltagNetworkTable.getEntry("getpipe").setDouble(2);
-    var target = apriltagNetworkTable.getEntry("tid").getInteger(0);
-
-    timestamp = (apriltagNetworkTable.getEntry("ts").getDouble(0) - subtractionConstant)/1000;
-
-    if(target != -1 && target < 9){
-      targetPose = new Pose3d(0, 0, 0, poses[(int)target - 1].getRotation());
-      double[] transform = apriltagNetworkTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [6]);
-      camToTarget = new Transform3d(new Translation3d(transform[0], transform[1], transform[2]), new Rotation3d(transform[3], transform[4], transform[5]));
-      
-      camPose = targetPose.transformBy(camToTarget.inverse());
-      visionRobotPose = camPose.transformBy(Constants.CAMERA_TO_ROBOT);
-      //poseEstimator.addVisionMeasurement(visionRobotPose.toPose2d(), timestamp);
-      
+    var pipelineResult = photonCamera.getLatestResult();
+    var resultTimestamp = pipelineResult.getTimestampSeconds();
+    if(resultTimestamp != previousPipelineTimestamp && pipelineResult.hasTargets()){
+      previousPipelineTimestamp = resultTimestamp;
+      var target = pipelineResult.getBestTarget();
+      var fiducialId = target.getFiducialId();
+      if (target.getPoseAmbiguity() <= .2 && fiducialId >= 0 && fiducialId < targetPoses.length)
+      {
+        Pose3d targetPose = targetPoses[fiducialId];
+        Transform3d camToTarget = target.getBestCameraToTarget();
+        Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
+        
+        var visionMeaurement = camPose.transformBy(Constants.CAMERA_TO_ROBOT);
+        poseEstimator.addVisionMeasurement(visionMeaurement.toPose2d(), resultTimestamp);
+      }
     }
 
-    poseEstimator.updateWithTime(timestamp, drivetrainSubsystem.getGyroscopeRotation(), 
-    new SwerveModulePosition[]{
-      drivetrainSubsystem.m_frontLeftModule.getPosition(),
-      drivetrainSubsystem.m_frontRightModule.getPosition(),
-      drivetrainSubsystem.m_backLeftModule.getPosition(),
-      drivetrainSubsystem.m_backRightModule.getPosition()
-    });
+    poseEstimator.update(
+      drivetrainSubsystem.getGyroscopeRotation(), 
+      new SwerveModulePosition[]{
+        drivetrainSubsystem.m_frontLeftModule.getPosition(),
+        drivetrainSubsystem.m_frontRightModule.getPosition(),
+        drivetrainSubsystem.m_backLeftModule.getPosition(),
+        drivetrainSubsystem.m_backRightModule.getPosition()});
     
     field2d.setRobotPose(getCurrentPose());
   }
@@ -121,5 +122,4 @@ public class PoseEstimator extends SubsystemBase {
   public Pose2d getCurrentPose(){
     return poseEstimator.getEstimatedPosition();
   }
-  */
 } 
