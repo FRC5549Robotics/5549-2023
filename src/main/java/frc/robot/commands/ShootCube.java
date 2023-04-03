@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.CubeShooter;
@@ -14,38 +15,53 @@ public class ShootCube extends CommandBase {
   double setpoint;
   CubeShooter m_CubeShooter;
   Tower.TargetLevel target;
+  PIDController controller;
+  double HingeEncoderValue;
+  boolean finished;
   public ShootCube(CubeShooter cubeShooter, Tower.TargetLevel Target) {
     // Use addRequirements() here to declare subsystem dependencies.
     target = Target;
     m_CubeShooter = cubeShooter;
+    controller = new PIDController(0.2, 0, 0);
     addRequirements(cubeShooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(target == Tower.TargetLevel.CubeHigh) setpoint = Constants.CUBE_SHOOTER_HIGH_SETPOINT;
+    finished = false;
+    if(target == Tower.TargetLevel.CubeHigh) setpoint = Constants.CUBE_HINGE_HIGH_SETPOINT;
     else if(target == Tower.TargetLevel.CubeMid) setpoint = Constants.CUBE_SHOOTER_MID_SETPOINT;
     else if(target == Tower.TargetLevel.CubeLow) setpoint = Constants.CUBE_SHOOTER_LOW_SETPOINT;
     else if(target == Tower.TargetLevel.Intake) setpoint = Constants.CUBE_SHOOTER_INTAKE_SETPOINT;
+    else if(target == Tower.TargetLevel.Retracted) setpoint = Constants.CUBE_HINGE_RETRACTED_SETPOINT;
     else;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_CubeShooter.RunShooter(setpoint);
+    HingeEncoderValue = m_CubeShooter.GetEncoderValue();
+    m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, setpoint));
+    if (Math.abs(HingeEncoderValue - setpoint) < 0.5){
+      if (setpoint == Constants.CUBE_HINGE_HIGH_SETPOINT){
+        finished = true;
+      } else {
+        m_CubeShooter.setSpeed(0.3);
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_CubeShooter.ShooterOff();
+    m_CubeShooter.HingeOff();
+    m_CubeShooter.setSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

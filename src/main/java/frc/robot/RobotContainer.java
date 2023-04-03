@@ -86,6 +86,7 @@ public class RobotContainer {
   public static PathPlannerTrajectory CT4ToCC = PathPlanner.loadPath("CT4ToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory CT4ToMidB = PathPlanner.loadPath("CT4ToMidB", new PathConstraints(4, 3));
   public static PathPlannerTrajectory CT4ToBot = PathPlanner.loadPath("CT4ToBot", new PathConstraints(4, 3));
+  public static PathPlannerTrajectory CT4ToBotC = PathPlanner.loadPath("CT4ToBotC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBToCC = PathPlanner.loadPath("MidBToCC", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBToCT3 = PathPlanner.loadPath("MidBToCT3", new PathConstraints(4, 3));
   public static PathPlannerTrajectory MidBToCT4 = PathPlanner.loadPath("MidBToCT4", new PathConstraints(4, 3));
@@ -136,6 +137,7 @@ public class RobotContainer {
    Command m_OneConeChargeStationNoCommunityMiddle = new OneConeChargeStation(m_drivetrainSubsystem, m_telescope, m_tower, m_claw, m_CubeShooter, m_controller, Tower.TargetLevel.ConeHigh, MidBToCC);
    Command m_TestCube = new ZeroConeAuto(m_drivetrainSubsystem, TestCube);
    Command m_TwoConeAutoNearSubstationWall = new TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, TopToCT1, CT1ToTopC);
+   Command m_TwoConeAutoNearExitWall = new TwoConeAuto(m_drivetrainSubsystem, m_telescope, m_tower, m_Limelight, m_claw, m_CubeShooter, m_controller, BotToCT4, CT4ToBotC);
 
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -170,8 +172,6 @@ public class RobotContainer {
     m_autoChooser.addOption("One Cone Auto Near Substation Wall", m_OneConeAutoNearWall);
     m_autoChooser.addOption("One Cone Auto Near Exit Wall", m_OneConeAutoNearExit);
     m_autoChooser.addOption("One Cone Auto No Drive", m_OneConeAutoNoDrive);
-   // m_autoChooser.addOption("Two Cone Auto", m_TwoConeAuto);
-    //m_autoChooser.addOption("Three Cone Auto", m_ThreeConeAuto);
     m_autoChooser.addOption("One Cone Charge Station Substation Wall", m_OneConeChargeStationNearWall);
     m_autoChooser.addOption("One Cone Charge Station Exit Wall", m_OneConeChargeStationNearExit);
     m_autoChooser.addOption("One Cone Charge Station Middle Substation Side", m_OneConeChargeStationMiddleWallSide);
@@ -181,8 +181,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Charge Station Middle Substation Side", m_ChargeStationMiddleWallSide);
     m_autoChooser.addOption("Charge Station Middle Exit Side", m_ChargeStationMiddleExitSide);
     m_autoChooser.addOption("One Cone Charge Station No Community Middle Exit Side", m_OneConeChargeStationNoCommunityMiddle);
-    m_autoChooser.addOption("Test Cube", m_TestCube);
     m_autoChooser.addOption("Two Cone Auto Near Substation Wall", m_TwoConeAutoNearSubstationWall);
+    m_autoChooser.addOption("Two Cone Auto Near Exit Wall", m_TwoConeAutoNearExitWall);
     m_autoChooser.addOption("Do Nothing", null);
 
     //Adding paths to path planner command chooser
