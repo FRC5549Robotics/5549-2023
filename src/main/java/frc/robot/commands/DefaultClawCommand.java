@@ -9,6 +9,7 @@ import frc.robot.subsystems.Claw;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatchResult;
 
@@ -43,11 +44,11 @@ public class DefaultClawCommand extends CommandBase {
 
     if(joy2.getRawButton(5))
     {
-        m_claw.setClawSpeed(0.75);
+        m_claw.setClawSpeed(0.6);
     }
     else if (joy2.getRawButton(6))
     {
-      m_claw.setClawSpeed(-0.75);
+      m_claw.setClawSpeed(-0.6);
     } else {
       m_claw.stopClaw();
     }

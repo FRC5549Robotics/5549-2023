@@ -65,7 +65,7 @@ public class RobotContainer {
   private final Telescope m_telescope = new Telescope(m_controller);
   private final Tower m_tower = new Tower();
   private final CubeShooter m_CubeShooter = new CubeShooter(m_tower);
-  private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
+  //private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
   private Limelight limelight = new Limelight();
@@ -204,7 +204,7 @@ public class RobotContainer {
     //  new AutoAlign2X(m_Limelight, m_drivetrainSubsystem)
       //new AutoAlign2Y(m_Limelight, m_drivetrainSubsystem, m_controller))
     //));
-    chaseTag.whileTrue(new ChaseTag(m_drivetrainSubsystem, m_PoseEstimator));
+    //chaseTag.whileTrue(new ChaseTag(m_drivetrainSubsystem, m_PoseEstimator));
     autoStableButton.whileTrue(new AutoStable(m_drivetrainSubsystem));
 
     autoAlignButton.whileTrue(new PipelineAutoAlign(limelight, m_drivetrainSubsystem));

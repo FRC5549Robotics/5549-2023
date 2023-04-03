@@ -86,7 +86,6 @@ public class PoseEstimator extends SubsystemBase {
       visionMeaurementStdDevs, 
       visionMeaurementStdDevs);
   }
-/* 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -121,5 +120,4 @@ public class PoseEstimator extends SubsystemBase {
   public Pose2d getCurrentPose(){
     return poseEstimator.getEstimatedPosition();
   }
-  */
 } 

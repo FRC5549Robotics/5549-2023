@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
-  CANSparkMax ClawMotor;
+  public CANSparkMax ClawMotor;
   public DoubleSolenoid m_clawDoubleSolenoid;
 
   AddressableLED LED;
@@ -111,6 +111,10 @@ public class Claw extends SubsystemBase {
   // }
   @Override
   public void periodic() {
+
+    SmartDashboard.putNumber("Claw Motor Voltage", ClawMotor.getVoltageCompensationNominalVoltage());
+    System.out.println(ClawMotor.getVoltageCompensationNominalVoltage());
+
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Cone Mode?", getPneumaticState());
     //martDashboard.putBoolean("Claw Motor Running?", getClawMotorStatus());
