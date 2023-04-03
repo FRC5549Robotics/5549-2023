@@ -84,6 +84,8 @@ public final class Constants {
     public static final double EXTEND_CONE_MID_SETPOINT = 4000;
     public static final double EXTEND_CUBE_HIGH_SETPOINT = 7000;
     public static final double EXTEND_CUBE_MID_SETPOINT = 4000;
+    public static final double EXTEND_PICKUP_FRONT = 0;
+    public static final double EXTEND_INTAKE_SETPOINT = 0;
 
     //Claw
     public static final int MOTOR_CLAW_1 = 17;
