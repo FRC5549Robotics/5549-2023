@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.PivotEncoderAuton;
 import frc.robot.commands.Retract;
+import frc.robot.commands.ShootCube;
 import frc.robot.commands.WaitCommand;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -68,11 +69,13 @@ public class TwoConeAuto extends SequentialCommandGroup {
         m_drivetrainSubsystem.followTrajectoryCommand(trajectory)
       ),
       new ParallelCommandGroup(
-        m_drivetrainSubsystem.followTrajectoryCommand(trajectory2)
-        //new ExtendMedium(m_telescope, rumController, m_claw),
-        //new PivotEncoderAuton(m_tower, target2, m_claw, CubeShooter)
-      )
-      //new AutoAlign2(m_limelight, m_drivetrainSubsystem),
+        new ShootCube(CubeShooter, Tower.TargetLevel.Retracted),
+        new SequentialCommandGroup(
+          m_drivetrainSubsystem.followTrajectoryCommand(trajectory2),
+          new AutoAlign2(m_limelight, m_drivetrainSubsystem)
+        )
+      ),
+        new ShootCube(CubeShooter, Tower.TargetLevel.CubeHigh)
       //new InstantCommand(m_claw::dropItem)
     );
   }
