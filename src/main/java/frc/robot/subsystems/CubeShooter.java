@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 public class CubeShooter extends SubsystemBase {
 
@@ -21,6 +22,8 @@ public class CubeShooter extends SubsystemBase {
   RelativeEncoder HingeEncoder;
   RelativeEncoder ShooterMotor1Encoder;
   RelativeEncoder ShooterMotor2Encoder;
+  public AnalogPotentiometer ultrasonicSensor = new AnalogPotentiometer(0, 500, 500);
+
 
   public CubeShooter(Tower tower) {
     HingeEncoder = HingeMotor.getEncoder();
@@ -93,6 +96,11 @@ public class CubeShooter extends SubsystemBase {
       return false;
     }
   }
+
+  public double getUltrasonicSensorValue(){
+    return ultrasonicSensor.get();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Hinge Encoder Value:", GetEncoderValue());

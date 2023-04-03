@@ -40,7 +40,6 @@ import frc.robot.commands.AutonCommands.ZeroConeAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
-import frc.robot.subsystems.UltrasonicSensor;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CubeShooter;
 import frc.robot.Constants;
@@ -69,7 +68,6 @@ public class RobotContainer {
   private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
-  private UltrasonicSensor ultra = new UltrasonicSensor();
   private Limelight limelight = new Limelight();
   
   //All the Paths
@@ -159,7 +157,7 @@ public class RobotContainer {
     m_tower.setDefaultCommand(new DefaultTowerCommand(m_tower, m_controller2));
     m_telescope.setDefaultCommand(new DefaultTelescopeCommand(m_telescope, m_controller2));
     m_claw.setDefaultCommand(new DefaultClawCommand(m_claw, m_controller2, led));
-    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_controller2, ultra));
+    m_CubeShooter.setDefaultCommand(new DefaultCubeShooterCommand(m_CubeShooter, m_controller, m_controller2));
     Constants.INITIAL_HEADING = m_drivetrainSubsystem.GetInitialHeading();
     SmartDashboard.putNumber("Initial Yaw", Constants.INITIAL_HEADING);
     // Configure the button bindings
