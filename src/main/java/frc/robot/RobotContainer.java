@@ -165,8 +165,8 @@ public class RobotContainer {
 
     //Adding Commands to autonomous command chooser
      m_autoChooser.setDefaultOption("Only Drive Middle", m_ZeroConeAutoMiddle);
-    m_autoChooser.setDefaultOption("Only Drive Near Exit Wall", m_ZeroConeAutoNearExit);
-    m_autoChooser.setDefaultOption("Only Drive Substation Wall", m_ZeroConeAutoNearWall);
+    m_autoChooser.addOption("Only Drive Near Exit Wall", m_ZeroConeAutoNearExit);
+    m_autoChooser.addOption("Only Drive Substation Wall", m_ZeroConeAutoNearWall);
     m_autoChooser.addOption("One Cone Auto Near Substation Wall", m_OneConeAutoNearWall);
     m_autoChooser.addOption("One Cone Auto Near Exit Wall", m_OneConeAutoNearExit);
     m_autoChooser.addOption("One Cone Auto No Drive", m_OneConeAutoNoDrive);
@@ -183,6 +183,7 @@ public class RobotContainer {
     m_autoChooser.addOption("One Cone Charge Station No Community Middle Exit Side", m_OneConeChargeStationNoCommunityMiddle);
     m_autoChooser.addOption("Test Cube", m_TestCube);
     m_autoChooser.addOption("Two Cone Auto Near Substation Wall", m_TwoConeAutoNearSubstationWall);
+    m_autoChooser.addOption("Do Nothing", null);
 
     //Adding paths to path planner command chooser
 
