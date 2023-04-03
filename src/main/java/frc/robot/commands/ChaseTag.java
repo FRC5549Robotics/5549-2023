@@ -53,15 +53,17 @@ public class ChaseTag extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    /* 
     Pose2d robotPose = poseSupplier.getCurrentPose();
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
     omegaController.reset(robotPose.getRotation().getRadians());
+    */
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() {/* 
     Pose2d robotPose2d = poseSupplier.getCurrentPose();
     Pose3d robotPose = new Pose3d(robotPose2d.getX(), robotPose2d.getY(), 0, new Rotation3d(0,0,robotPose2d.getRotation().getRadians()));
     if(apriltagNetworkTable.getEntry("tv").getDouble(0) == 1){
@@ -98,6 +100,7 @@ public class ChaseTag extends CommandBase {
     else{
       drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
     }
+    */
   }
 
   // Called once the command ends or is interrupted.

@@ -86,10 +86,11 @@ public class PoseEstimator extends SubsystemBase {
       visionMeaurementStdDevs, 
       visionMeaurementStdDevs);
   }
-
+/* 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+     
     apriltagNetworkTable.getEntry("getpipe").setDouble(2);
     var target = apriltagNetworkTable.getEntry("tid").getInteger(0);
 
@@ -103,6 +104,7 @@ public class PoseEstimator extends SubsystemBase {
       camPose = targetPose.transformBy(camToTarget.inverse());
       visionRobotPose = camPose.transformBy(Constants.CAMERA_TO_ROBOT);
       //poseEstimator.addVisionMeasurement(visionRobotPose.toPose2d(), timestamp);
+      
     }
 
     poseEstimator.updateWithTime(timestamp, drivetrainSubsystem.getGyroscopeRotation(), 
@@ -119,4 +121,5 @@ public class PoseEstimator extends SubsystemBase {
   public Pose2d getCurrentPose(){
     return poseEstimator.getEstimatedPosition();
   }
+  */
 } 
