@@ -35,6 +35,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     TowerEncoderValue = m_CubeShooter.getTowerEncoderValue();
     HingeEncoderValue = m_CubeShooter.GetEncoderValue();
     SmartDashboard.putNumber("POV Controller: ", m_controller2.getPOV());

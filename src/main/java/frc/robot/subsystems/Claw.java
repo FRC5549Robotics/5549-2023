@@ -15,11 +15,15 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   public CANSparkMax ClawMotor;
   public DoubleSolenoid m_clawDoubleSolenoid;
+
+  public Ultrasonic ultra = new Ultrasonic(4, 5);
+
 
   AddressableLED LED;
   AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(60);
@@ -128,6 +132,14 @@ public class Claw extends SubsystemBase {
   // }
   @Override
   public void periodic() {
+
+    if(ultra.getRangeInches() > 2)
+    {
+      LEDPurple();
+    }
+    else{
+      LEDGreen();
+    }
 
     //SmartDashboard.putNumber("Claw Motor Voltage", ClawMotor.getVoltageCompensationNominalVoltage());
     //System.out.println(ClawMotor.getVoltageCompensationNominalVoltage());

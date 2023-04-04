@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
   UsbCamera cam;
   NetworkTableEntry cameraNet;
   PneumaticsControlModule pcm = new PneumaticsControlModule();
+
+  
 
   @Override
   public void robotInit() {
