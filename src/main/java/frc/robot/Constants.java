@@ -80,8 +80,8 @@ public final class Constants {
 
     //Telescope
     public static final int MOTOR_TELESCOPE_1 = 14;
-    public static final double EXTEND_CONE_HIGH_SETPOINT = 7000;
-    public static final double EXTEND_CONE_MID_SETPOINT = 4000;
+    public static final double EXTEND_CONE_HIGH_SETPOINT = -0.0499;
+    public static final double EXTEND_CONE_MID_SETPOINT = -0.048;
     public static final double EXTEND_CUBE_HIGH_SETPOINT = 7000;
     public static final double EXTEND_CUBE_MID_SETPOINT = 4000;
     public static final double EXTEND_PICKUP_FRONT = 0;

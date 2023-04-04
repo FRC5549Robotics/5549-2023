@@ -23,7 +23,6 @@ public class CubeShooter extends SubsystemBase {
   RelativeEncoder HingeEncoder;
   RelativeEncoder ShooterMotor1Encoder;
   RelativeEncoder ShooterMotor2Encoder;
-  public AnalogPotentiometer ultrasonicSensor = new AnalogPotentiometer(0, 500, 500);
 
 
   public CubeShooter(Tower tower) {
@@ -96,10 +95,6 @@ public class CubeShooter extends SubsystemBase {
     } else {
       return false;
     }
-  }
-
-  public double getUltrasonicSensorValue(){
-    return ultrasonicSensor.get();
   }
 
   @Override

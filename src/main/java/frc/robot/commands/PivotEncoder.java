@@ -47,7 +47,7 @@ public class PivotEncoder extends CommandBase {
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
 
     if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT){
-      m_claw.runSlow();
+      //m_claw.runSlow();
     } else {
       m_claw.setCubeMode();
     }
@@ -87,6 +87,6 @@ public class PivotEncoder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return false;
   }
 }

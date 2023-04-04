@@ -22,7 +22,7 @@ public class Claw extends SubsystemBase {
   public CANSparkMax ClawMotor;
   public DoubleSolenoid m_clawDoubleSolenoid;
 
-  public Ultrasonic ultra = new Ultrasonic(4, 5);
+  public Ultrasonic ultra;
 
 
   AddressableLED LED;
@@ -30,11 +30,13 @@ public class Claw extends SubsystemBase {
   Color kGreen1 = new Color(0,255, 0);
   Color kPurple1 = new Color(255,19,180);
   Color kYellow1 = new Color(255, 230, 0);
+
   public Claw(AddressableLED led){
 
   ClawMotor = new CANSparkMax(17, MotorType.kBrushless);
   ClawMotor.setIdleMode(IdleMode.kBrake);
   m_clawDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 3);
+  ultra = new Ultrasonic(7, 6);
 
   LED = led;
   LED.setLength(ledBuffer.getLength());
@@ -146,6 +148,7 @@ public class Claw extends SubsystemBase {
 
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Cone Mode?", getPneumaticState());
+    SmartDashboard.putNumber("Ultrasonic Value: ", ultra.getRangeMM());
     //martDashboard.putBoolean("Claw Motor Running?", getClawMotorStatus());
   }
 }

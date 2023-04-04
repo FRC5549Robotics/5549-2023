@@ -42,10 +42,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
     //Intake the cube speed: -0.125
 
     //Outtake speed High
-    if (m_CubeShooter.getUltrasonicSensorValue() < 10) {
-      m_CubeShooter.setSpeed(0);
-    }
-    else if(m_controller2.getPOV() == 0)
+     if(m_controller2.getPOV() == 0)
     {
       m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
       if (m_controller2.getRawAxis(3) >0.1){

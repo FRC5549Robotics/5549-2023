@@ -217,7 +217,9 @@ public class RobotContainer {
     //toggleClaw.onTrue(new toggleClaw(m_claw));
 
     //Tower-Position Command
-    towerConeMidPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter));
+    towerConeMidPosition.whileTrue(new ParallelCommandGroup(
+      new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter),
+      new ));
     towerConeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter));
     towerConeFrontPickUpPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.PickUpFront, m_claw, m_CubeShooter));
     stowedPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));

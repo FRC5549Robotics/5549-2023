@@ -26,7 +26,7 @@ public class Telescope extends SubsystemBase {
   Telescope m_Telescope;
   RelativeEncoder telescopeMEncoder;
   boolean finished = false;
-  AnalogPotentiometer stringPot = new AnalogPotentiometer(2,1,0);
+  AnalogPotentiometer stringPot = new AnalogPotentiometer(2, 1,-0.111);
 
   public Telescope(XboxController controller) {
     TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
