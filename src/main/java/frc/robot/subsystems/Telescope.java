@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -25,7 +26,7 @@ public class Telescope extends SubsystemBase {
   Telescope m_Telescope;
   RelativeEncoder telescopeMEncoder;
   boolean finished = false;
-    
+  AnalogPotentiometer stringPot = new AnalogPotentiometer(0,1,0);
 
   public Telescope(XboxController controller) {
     TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
@@ -68,5 +69,9 @@ public class Telescope extends SubsystemBase {
   }
   public void off() {
     TelescopeMotor.set(0);
+  }
+
+  public double getStringPot() {
+    return stringPot.get();
   }
 }

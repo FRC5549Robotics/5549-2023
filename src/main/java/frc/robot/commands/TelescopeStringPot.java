@@ -16,7 +16,6 @@ public class TelescopeStringPot extends CommandBase {
   /** Creates a new PivotEncoder. */
   Tower.TargetLevel state;
   boolean finished;
-  PIDController cubeController = new PIDController(0.05, 0, 0);
   Telescope m_telescope;
 
   double setpoint;
@@ -43,20 +42,13 @@ public class TelescopeStringPot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    HingeEncoderValue = cubeShooter.GetEncoderValue();
     finished = false;
-    double currentAngle = m_Tower.GetEncoderValue();
-    System.out.println(setpoint);
-    System.out.println(currentAngle);
-    if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
-      cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 29.5));
-    } else {
-      cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 0.0));
+    if(m_telescope.getStringPot() < setpoint - 0.02){
+      m_telescope.on(0.75);
     }
-
-    if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
-    m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
-  }
+    else if (m_telescope.getStringPot() > setpoint + 0.02){
+      m_telescope.on(-0.75);
+    }
     else{
       finished = true;
     }
@@ -65,10 +57,7 @@ public class TelescopeStringPot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("finished");
-    m_Tower.off();
-    m_claw.stopClaw();
-    cubeShooter.HingeOff();
+    m_telescope.off();
   }
 
   // Returns true when the command should end.

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunClawBackwards;
+import frc.robot.commands.TelescopeStringPot;
 import frc.robot.commands.WaitCommand;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.ExtendMedium;
@@ -57,12 +58,14 @@ public class OneConeChargeStation extends SequentialCommandGroup {
       }),
       new ParallelCommandGroup(
       new PivotEncoderAuton(m_tower, target1, m_claw, CubeShooter),
-      new ExtendMedium(m_telescope, rumController)
+      //new ExtendMedium(m_telescope, rumController)
+      new TelescopeStringPot(target1, telescope)
       ),
       new RunClawBackwards(m_claw, 500.0),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),
-        new Retract(m_telescope)
+        //new Retract(m_telescope)
+        new TelescopeStringPot(Tower.TargetLevel.Retracted, telescope)
       ),
       new ParallelCommandGroup(
         new AutoStable(m_DrivetrainSubsystem),

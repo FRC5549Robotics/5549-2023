@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.Retract;
+import frc.robot.commands.TelescopeStringPot;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 
 
@@ -59,28 +60,33 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
         //new ExtendMedium(m_telescope, rumController, m_claw),
-        new PivotEncoder(m_tower, Target1, m_claw, m_CubeShooter)
+        new PivotEncoder(m_tower, Target1, m_claw, m_CubeShooter),
+        new TelescopeStringPot(target1, telescope)
       ),
       new ExtendMedium(m_telescope, rumController),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
-        new Retract(m_telescope),
+        //new Retract(m_telescope),
+        new TelescopeStringPot(Tower.TargetLevel.Retracted, telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT1ToMidT)
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
         //new ExtendMedium(m_telescope, rumController, m_claw),
+        new TelescopeStringPot(target2, telescope),
         new PivotEncoder(m_tower, Target2, m_claw, m_CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem),
       new ParallelCommandGroup(
-        new Retract(m_telescope),
+        //new Retract(m_telescope),
+        new TelescopeStringPot(Tower.TargetLevel.Retracted, telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.CT2ToMidT)
       ),
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCC),
         //new ExtendMedium(m_telescope, rumController, m_claw),
+        new TelescopeStringPot(Target3, telescope),
         new PivotEncoder(m_tower, Target3, m_claw, m_CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),

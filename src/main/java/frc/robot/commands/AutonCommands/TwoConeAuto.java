@@ -16,6 +16,7 @@ import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.PivotEncoderAuton;
 import frc.robot.commands.Retract;
 import frc.robot.commands.ShootCube;
+import frc.robot.commands.TelescopeStringPot;
 import frc.robot.commands.WaitCommand;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -60,12 +61,14 @@ public class TwoConeAuto extends SequentialCommandGroup {
       }),
       new ParallelCommandGroup(
         new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeHigh, m_claw, CubeShooter),
-        new ExtendMedium(m_telescope, RumController)
+        //new ExtendMedium(m_telescope, RumController)
+        new TelescopeStringPot(Tower.TargetLevel.ConeHigh, telescope)
       ),
       new WaitCommand(500),
       new ParallelCommandGroup(
         new PivotEncoderAuton(m_tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter),
-        new Retract(m_telescope),
+        //new Retract(m_telescope),
+        new TelescopeStringPot(Tower.TargetLevel.Retracted, telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(trajectory)
       ),
       new ParallelCommandGroup(
