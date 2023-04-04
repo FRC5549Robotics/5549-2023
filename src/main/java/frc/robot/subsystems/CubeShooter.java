@@ -97,8 +97,12 @@ public class CubeShooter extends SubsystemBase {
     }
   }
 
+  
+
   @Override
   public void periodic() {
+
+
     SmartDashboard.putNumber("Hinge Encoder Value:", GetEncoderValue());
     SmartDashboard.putBoolean("Hinge Motor Running?", getHingeMotorStatus());
     SmartDashboard.putBoolean("Left Motor Running?", getLeftShooterMotorStatus());

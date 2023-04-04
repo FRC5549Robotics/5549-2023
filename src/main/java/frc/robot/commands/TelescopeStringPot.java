@@ -20,10 +20,12 @@ public class TelescopeStringPot extends CommandBase {
 
   double setpoint;
   double stringPotValue;
+  PIDController controller;
   public TelescopeStringPot(Tower.TargetLevel State, Telescope telescope) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_telescope = telescope;
+    controller = new PIDController(0.1, 0, 0);
     addRequirements(m_telescope);
   }
 
@@ -43,13 +45,9 @@ public class TelescopeStringPot extends CommandBase {
   @Override
   public void execute() {
     finished = false;
-    if(m_telescope.getStringPot() < setpoint - 0.02){
-      m_telescope.on(0.75);
-    }
-    else if (m_telescope.getStringPot() > setpoint + 0.02){
-      m_telescope.on(-0.75);
-    }
-    else{
+    if(Math.abs(m_telescope.getStringPot()) > setpoint + 0.002){
+      m_telescope.on(controller.calculate(m_telescope.getStringPot(), setpoint));
+    }else{
       finished = true;
     }
   }

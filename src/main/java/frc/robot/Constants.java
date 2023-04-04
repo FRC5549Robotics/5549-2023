@@ -94,10 +94,13 @@ public final class Constants {
     public static boolean yellow = true;
 
     //Cube Shooter
+    public static boolean coneMode = false;
+
+    public static final double CUBE_INTAKE_SPEED = = 0.25;
     public static final double CUBE_HINGE_HIGH_SETPOINT = 16.7;
     public static final double CUBE_HINGE_MID_SETPOINT = 0;
     public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 29.5;
-    public static final double CUBE_HINGE_RETRACTED_SETPOINT = 15;
+    public static final double CUBE_HINGE_RETRACTED_SETPOINT = 12;
     public static final double CUBE_SHOOTER_HIGH_SETPOINT = 1;
     public static final double CUBE_SHOOTER_MID_SETPOINT = 0;
     public static final double CUBE_SHOOTER_LOW_SETPOINT = 0;

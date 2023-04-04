@@ -42,7 +42,23 @@ public class DefaultCubeShooterCommand extends CommandBase {
     //Intake the cube speed: -0.125
 
     //Outtake speed High
-     if(m_controller2.getPOV() == 0)
+    if(Constants.coneMode = true)
+    {
+      work();
+    }
+     
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_CubeShooter.HingeOff();
+    m_CubeShooter.setSpeed(0);
+  }
+
+  public void work()
+  {
+    if(m_controller2.getPOV() == 0)
     {
       m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
       if (m_controller2.getRawAxis(3) >0.1){
@@ -75,7 +91,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
       if (m_controller2.getRawAxis(3) > 0.1){
         m_CubeShooter.setSpeed(0.2);
       } else if (m_controller2.getRawAxis(2)> 0.1){
-        m_CubeShooter.setSpeed(-0.13);
+        m_CubeShooter.setSpeed(Constants.CUBE_INTAKE_SPEED);
       } else{
         m_CubeShooter.setSpeed(0);
       }
@@ -112,13 +128,6 @@ public class DefaultCubeShooterCommand extends CommandBase {
      // m_CubeShooter.HingeOff();
     }
     
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_CubeShooter.HingeOff();
-    m_CubeShooter.setSpeed(0);
   }
 
   // Returns true when the command should end.

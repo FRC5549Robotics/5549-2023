@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDriveCommand;
@@ -25,6 +26,7 @@ import frc.robot.commands.ChaseTag;
 import frc.robot.commands.DefaultClawCommand;
 import frc.robot.commands.DefaultCubeShooterCommand;
 import frc.robot.commands.ShooterAim;
+import frc.robot.commands.TelescopeStringPot;
 import frc.robot.commands.AutoAlignCommands.AutoAlign;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2X;
@@ -217,12 +219,22 @@ public class RobotContainer {
     //toggleClaw.onTrue(new toggleClaw(m_claw));
 
     //Tower-Position Command
-    towerConeMidPosition.whileTrue(new ParallelCommandGroup(
+    towerConeMidPosition.whileTrue(
+      new ParallelCommandGroup(
       new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter),
-      new ));
-    towerConeHighPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter));
+      new TelescopeStringPot(Tower.TargetLevel.ConeMid, m_telescope)
+      ));
+    towerConeHighPosition.whileTrue(
+      new ParallelCommandGroup(
+        new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter),
+        new TelescopeStringPot(Tower.TargetLevel.ConeHigh, m_telescope)
+    ));
     towerConeFrontPickUpPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.PickUpFront, m_claw, m_CubeShooter));
-    stowedPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter));
+    stowedPosition.whileTrue(
+      new ParallelCommandGroup(
+        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter),
+        new TelescopeStringPot(Tower.TargetLevel.Retracted, m_telescope)
+      ));
   }
 
   /**
