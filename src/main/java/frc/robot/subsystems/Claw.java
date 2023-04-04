@@ -93,6 +93,23 @@ public class Claw extends SubsystemBase {
       LED.setData(ledBuffer);
     }
   }
+  public void LEDPurple(){
+
+      for(int i = 0; i<ledBuffer.getLength();i++)
+        {
+          ledBuffer.setLED(i, kPurple1);
+        }
+        LED.setData(ledBuffer);
+    }
+  public void LEDGreen()
+  {
+    for(int i = 0; i<ledBuffer.getLength(); i++)
+    {
+      ledBuffer.setLED(i, kGreen1);
+    }
+    LED.setData(ledBuffer);
+  }
+
 
   public boolean getPneumaticState(){
     if(m_clawDoubleSolenoid.get() == DoubleSolenoid.Value.kForward){
@@ -112,8 +129,8 @@ public class Claw extends SubsystemBase {
   @Override
   public void periodic() {
 
-    SmartDashboard.putNumber("Claw Motor Voltage", ClawMotor.getVoltageCompensationNominalVoltage());
-    System.out.println(ClawMotor.getVoltageCompensationNominalVoltage());
+    //SmartDashboard.putNumber("Claw Motor Voltage", ClawMotor.getVoltageCompensationNominalVoltage());
+    //System.out.println(ClawMotor.getVoltageCompensationNominalVoltage());
 
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Cone Mode?", getPneumaticState());

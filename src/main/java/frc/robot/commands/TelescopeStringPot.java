@@ -36,7 +36,7 @@ public class TelescopeStringPot extends CommandBase {
     else if(state == Tower.TargetLevel.CubeHigh)setpoint = Constants.EXTEND_CUBE_HIGH_SETPOINT;
     else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.EXTEND_CUBE_MID_SETPOINT;
     else if(state == Tower.TargetLevel.PickUpFront)setpoint = Constants.EXTEND_PICKUP_FRONT;
-    else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
+    else setpoint = Constants.EXTEND_RETRACTED;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

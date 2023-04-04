@@ -26,7 +26,7 @@ public class Telescope extends SubsystemBase {
   Telescope m_Telescope;
   RelativeEncoder telescopeMEncoder;
   boolean finished = false;
-  AnalogPotentiometer stringPot = new AnalogPotentiometer(0,1,0);
+  AnalogPotentiometer stringPot = new AnalogPotentiometer(2,1,0);
 
   public Telescope(XboxController controller) {
     TelescopeMotor = new CANSparkMax(Constants.MOTOR_TELESCOPE_1, MotorType.kBrushless);
@@ -46,7 +46,7 @@ public class Telescope extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Telescope Motor Running?", getTelescopeMotorStatus());
-
+    SmartDashboard.putNumber("String Pot", stringPot.get());
   }
 
   public double getEncoder()

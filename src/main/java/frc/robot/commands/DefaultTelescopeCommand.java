@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Telescope;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -28,15 +29,18 @@ public class DefaultTelescopeCommand extends CommandBase {
   @Override
   public void execute() {
 
-
     if(Math.abs(m_joy2.getRawAxis(5)) > 0.1)
     {
-      m_tele.on(-m_joy2.getRawAxis(5));
+      if(m_tele.getStringPot() < Constants.EXTEND_CONE_HIGH_SETPOINT && m_tele.getStringPot() > Constants.EXTEND_RETRACTED){
+        m_tele.on(-m_joy2.getRawAxis(5));
+      }
     }
     else
     {
       m_tele.off();
     }
+
+
   }
 
   // Called once the command ends or is interrupted.
