@@ -49,7 +49,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
     }
     else
     {
-      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 4.3));
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 0.0));
 
     }
      
