@@ -61,7 +61,7 @@ public class PivotEncoderAuton extends CommandBase {
     double currentAngle = m_Tower.GetEncoderValue();
     System.out.println(setpoint);
     System.out.println(currentAngle);
-    if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
+    if (setpoint == Constants.PIVOT_CONE_MID){
       cubeShooter.RunHinge(cubeController.calculate(HingeEncoderValue, 29.5));
       cubeShooter.setSpeed(-0.25);
     } else {
