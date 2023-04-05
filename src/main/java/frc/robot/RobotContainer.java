@@ -120,6 +120,8 @@ public class RobotContainer {
   JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
   JoystickButton towerConeFrontPickUpPosition = new JoystickButton(m_controller2, 3);
 
+  JoystickButton coneModeButton = new JoystickButton(m_controller2, 7);
+  JoystickButton cubeModeButton = new JoystickButton(m_controller2, 8);
   //AutoCommands
    Command m_ZeroConeAutoMiddle = new ZeroConeAuto(m_drivetrainSubsystem, MidBStraight);
    Command m_ZeroConeAutoNearExit = new ZeroConeAuto(m_drivetrainSubsystem, BotToCT4);
@@ -200,6 +202,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    coneModeButton.onTrue(new InstantCommand(m_CubeShooter::setConeMode));
+    cubeModeButton.onTrue(new InstantCommand(m_CubeShooter::setCubeMode));
     // Back button zeros the gyroscope
     // No requirements because we don't need to interrupt anything
     resetNavXButton.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
@@ -213,6 +218,7 @@ public class RobotContainer {
 
     autoAlignButton.whileTrue(new PipelineAutoAlign(limelight, m_drivetrainSubsystem));
 
+    //cube
     //Intake Command
 
     //Claw Command

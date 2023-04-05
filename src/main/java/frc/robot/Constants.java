@@ -72,7 +72,7 @@ public final class Constants {
     public static final int MOTOR_TOWER2 = 15;
     public static final double PIVOT_SPEED = 0.5;
     public static final double PIVOT_CONE_HIGH_SETPOINT = -0.580;
-    public static final double PIVOT_CONE_MID_SETPOINT = -0.206;
+    public static final double PIVOT_CONE_MID_SETPOINT = -0.216;
     public static final double PIVOT_RETRACTED_SETPOINT = -0.02;
     public static final double PIVOT_INTAKE_SETPOINT = 0;
     public static final double PIVOT_CUBE_HIGH_SETPOINT = 0;
@@ -80,8 +80,8 @@ public final class Constants {
 
     //Telescope
     public static final int MOTOR_TELESCOPE_1 = 14;
-    public static final double EXTEND_CONE_HIGH_SETPOINT = -0.0499;
-    public static final double EXTEND_CONE_MID_SETPOINT = -0.048;
+    public static final double EXTEND_CONE_HIGH_SETPOINT = -0.053;
+    public static final double EXTEND_CONE_MID_SETPOINT = -0.051;
     public static final double EXTEND_CUBE_HIGH_SETPOINT = 7000;
     public static final double EXTEND_CUBE_MID_SETPOINT = 4000;
     public static final double EXTEND_PICKUP_FRONT = 0;
@@ -94,9 +94,9 @@ public final class Constants {
     public static boolean yellow = true;
 
     //Cube Shooter
-    public static boolean coneMode = false;
+    public static boolean coneMode = true;
 
-    public static final double CUBE_INTAKE_SPEED = = 0.25;
+    public static final double CUBE_INTAKE_SPEED = -0.25;
     public static final double CUBE_HINGE_HIGH_SETPOINT = 16.7;
     public static final double CUBE_HINGE_MID_SETPOINT = 0;
     public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 29.5;

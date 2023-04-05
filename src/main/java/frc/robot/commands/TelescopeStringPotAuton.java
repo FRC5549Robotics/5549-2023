@@ -12,7 +12,7 @@ import frc.robot.subsystems.CubeShooter;
 import frc.robot.subsystems.Telescope;
 import frc.robot.Constants;
 
-public class TelescopeStringPot extends CommandBase {
+public class TelescopeStringPotAuton extends CommandBase {
   /** Creates a new PivotEncoder. */
   Tower.TargetLevel state;
   boolean finished;
@@ -21,7 +21,7 @@ public class TelescopeStringPot extends CommandBase {
   double setpoint;
   double stringPotValue;
   PIDController controller;
-  public TelescopeStringPot(Tower.TargetLevel State, Telescope telescope) {
+  public TelescopeStringPotAuton(Tower.TargetLevel State, Telescope telescope) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_telescope = telescope;
@@ -46,7 +46,11 @@ public class TelescopeStringPot extends CommandBase {
   public void execute() {
     finished = false;
       System.out.println("Trying to run");
-      m_telescope.on(-controller.calculate(m_telescope.getStringPot(), setpoint));
+      if (m_telescope.getStringPot() > setpoint + 0.001 || m_telescope.getStringPot() < setpoint - 0.001){
+        m_telescope.on(-controller.calculate(m_telescope.getStringPot(), setpoint));
+      } else{
+        finished = true;
+      }
   }
 
   // Called once the command ends or is interrupted.
@@ -58,6 +62,6 @@ public class TelescopeStringPot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

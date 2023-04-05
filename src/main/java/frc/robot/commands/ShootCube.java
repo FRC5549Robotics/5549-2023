@@ -34,7 +34,7 @@ public class ShootCube extends CommandBase {
     else if(target == Tower.TargetLevel.CubeMid) setpoint = Constants.CUBE_SHOOTER_MID_SETPOINT;
     else if(target == Tower.TargetLevel.CubeLow) setpoint = Constants.CUBE_SHOOTER_LOW_SETPOINT;
     else if(target == Tower.TargetLevel.Intake) setpoint = Constants.CUBE_SHOOTER_INTAKE_SETPOINT;
-    else if(target == Tower.TargetLevel.Retracted) setpoint = Constants.CUBE_HINGE_RETRACTED_SETPOINT;
+    else if(target == Tower.TargetLevel.Retracted) setpoint = 15;
     else;
   }
 
@@ -44,7 +44,7 @@ public class ShootCube extends CommandBase {
     HingeEncoderValue = m_CubeShooter.GetEncoderValue();
     m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, setpoint));
     if (Math.abs(HingeEncoderValue - setpoint) < 0.5){
-      if (setpoint == Constants.CUBE_HINGE_HIGH_SETPOINT){
+      if (setpoint == 15){
         finished = true;
       } else {
         m_CubeShooter.setSpeed(0.3);

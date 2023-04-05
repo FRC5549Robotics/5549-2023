@@ -12,12 +12,13 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.commands.PivotEncoderAuton;
 import frc.robot.commands.Retract;
+import frc.robot.commands.RunClawBackwards;
 import frc.robot.commands.ShootCube;
-import frc.robot.commands.TelescopeStringPot;
-import frc.robot.commands.WaitCommand;
+import frc.robot.commands.TelescopeStringPotAuton;
 import frc.robot.commands.AutoAlignCommands.AutoAlign2;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Tower;
@@ -62,20 +63,21 @@ public class TwoConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeHigh, m_claw, CubeShooter),
         //new ExtendMedium(m_telescope, RumController)
-        new TelescopeStringPot(Tower.TargetLevel.ConeHigh, telescope)
+        new TelescopeStringPotAuton(Tower.TargetLevel.ConeHigh, telescope)
       ),
-      new WaitCommand(500),
-      new ParallelCommandGroup(
-        new PivotEncoderAuton(m_tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter),
+      new RunClawBackwards(m_claw, 500),
+      new WaitCommand(4).deadlineWith(
+        new ParallelCommandGroup(
+        new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeMid, m_claw, CubeShooter),
         //new Retract(m_telescope),
-        new TelescopeStringPot(Tower.TargetLevel.Retracted, telescope),
+        new TelescopeStringPotAuton(Tower.TargetLevel.Retracted, telescope),
         m_drivetrainSubsystem.followTrajectoryCommand(trajectory)
-      ),
+      )),
       new ParallelCommandGroup(
         new ShootCube(CubeShooter, Tower.TargetLevel.Retracted),
         new SequentialCommandGroup(
-          m_drivetrainSubsystem.followTrajectoryCommand(trajectory2),
-          new AutoAlign2(m_limelight, m_drivetrainSubsystem)
+          m_drivetrainSubsystem.followTrajectoryCommand(trajectory2)
+          //new AutoAlign2(m_limelight, m_drivetrainSubsystem)
         )
       ),
         new ShootCube(CubeShooter, Tower.TargetLevel.CubeHigh)

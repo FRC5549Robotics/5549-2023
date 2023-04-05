@@ -31,9 +31,7 @@ public class DefaultTelescopeCommand extends CommandBase {
 
     if(Math.abs(m_joy2.getRawAxis(5)) > 0.1)
     {
-      if(m_tele.getStringPot() > Constants.EXTEND_RETRACTED && m_tele.getStringPot() < Constants.EXTEND_CONE_HIGH_SETPOINT){
         m_tele.on(-m_joy2.getRawAxis(5));
-      }
     }
     else
     {

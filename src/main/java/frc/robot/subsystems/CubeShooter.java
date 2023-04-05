@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import frc.robot.Constants;
 
 public class CubeShooter extends SubsystemBase {
 
@@ -68,6 +69,14 @@ public class CubeShooter extends SubsystemBase {
   public void ShooterOff(){
     ShooterMotor1.set(0);
     ShooterMotor2.set(0);
+  }
+  public void setConeMode()
+  {
+    Constants.coneMode = true;
+  }
+  public void setCubeMode()
+  {
+    Constants.coneMode = false;
   }
   public double GetEncoderValue()
   {

@@ -19,7 +19,8 @@ public class PivotEncoder extends CommandBase {
 
   Tower m_Tower;
   boolean finished;
-  PIDController controller = new PIDController(2.6, 0, 0);
+  PIDController controller = new PIDController(3, 0, 0);
+  PIDController controllerR = new PIDController(2.6, 0, 0);
   PIDController cubeController = new PIDController(0.01, 0, 0);
 
   double setpoint;
@@ -68,7 +69,11 @@ public class PivotEncoder extends CommandBase {
     }
 
     if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
-    m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
+      if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
+        m_Tower.runSpeed(controllerR.calculate(currentAngle, setpoint));
+      }else {
+        m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
+        }
   }
     else{
       finished = true;
