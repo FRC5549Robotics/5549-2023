@@ -46,6 +46,11 @@ public class DefaultCubeShooterCommand extends CommandBase {
     {
       work();
     }
+    else
+    {
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
+
+    }
      
   }
 

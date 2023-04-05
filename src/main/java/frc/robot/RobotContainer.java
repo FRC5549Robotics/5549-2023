@@ -120,6 +120,9 @@ public class RobotContainer {
   JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
   JoystickButton towerConeFrontPickUpPosition = new JoystickButton(m_controller2, 3);
 
+  JoystickButton coneModeButton = new JoystickButton(m_controller2, 7);
+  JoystickButton cubeModeButton = new JoystickButton(m_controller2, 8);
+
   //AutoCommands
    Command m_ZeroConeAutoMiddle = new ZeroConeAuto(m_drivetrainSubsystem, MidBStraight);
    Command m_ZeroConeAutoNearExit = new ZeroConeAuto(m_drivetrainSubsystem, BotToCT4);

@@ -96,7 +96,7 @@ public final class Constants {
     //Cube Shooter
     public static boolean coneMode = false;
 
-    public static final double CUBE_INTAKE_SPEED = = 0.25;
+    public static final double CUBE_INTAKE_SPEED = 0.25;
     public static final double CUBE_HINGE_HIGH_SETPOINT = 16.7;
     public static final double CUBE_HINGE_MID_SETPOINT = 0;
     public static final double CUBE_HINGE_LOW_AND_INTAKE_SETPOINT = 29.5;
