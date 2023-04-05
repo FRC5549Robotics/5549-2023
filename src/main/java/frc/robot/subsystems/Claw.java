@@ -53,7 +53,7 @@ public class Claw extends SubsystemBase {
   }
 
   public void dropItem(){
-    ClawMotor.set(-0.15);
+    ClawMotor.set(-0.3);
   }
   public void setClawSpeed(Double speed)
   {
@@ -69,6 +69,7 @@ public class Claw extends SubsystemBase {
   {
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kForward);
   }
+  
   public void setCubeMode()
   {
     m_clawDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);

@@ -26,7 +26,9 @@ public class Tower extends SubsystemBase {
     ConeMid,
     ConeHigh,
     ShooterAim,
-    PickUpFront
+    Chute,
+    Substation,
+    
   }
   CANSparkMax motor1;
   CANSparkMax motor2;

@@ -60,7 +60,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
         //new ExtendMedium(m_telescope, rumController, m_claw),
-        new PivotEncoder(m_tower, Target1, m_claw, m_CubeShooter),
+        new PivotEncoder(m_tower, Target1, m_CubeShooter),
         new TelescopeStringPot(target1, telescope)
       ),
       new ExtendMedium(m_telescope, rumController),
@@ -74,7 +74,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCT2),
         //new ExtendMedium(m_telescope, rumController, m_claw),
         new TelescopeStringPot(target2, telescope),
-        new PivotEncoder(m_tower, Target2, m_claw, m_CubeShooter)
+        new PivotEncoder(m_tower, Target2, m_CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem),
@@ -87,7 +87,7 @@ public class ThreeConeAuto extends SequentialCommandGroup {
         m_drivetrainSubsystem.followTrajectoryCommand(RobotContainer.MidTToCC),
         //new ExtendMedium(m_telescope, rumController, m_claw),
         new TelescopeStringPot(Target3, telescope),
-        new PivotEncoder(m_tower, Target3, m_claw, m_CubeShooter)
+        new PivotEncoder(m_tower, Target3, m_CubeShooter)
       ),
       new AutoAlign2(m_limelight, m_drivetrainSubsystem),
       new InstantCommand(m_claw::dropItem)

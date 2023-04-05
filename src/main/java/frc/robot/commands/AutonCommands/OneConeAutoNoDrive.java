@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunClawBackwards;
-import frc.robot.commands.TelescopeStringPot;
+import frc.robot.commands.TelescopeStringPotAuton;
 import frc.robot.commands.WaitCommand;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
@@ -43,14 +43,14 @@ public class OneConeAutoNoDrive extends SequentialCommandGroup {
     target1 = Target1;
     addCommands(
       new ParallelCommandGroup(
-      new PivotEncoderAuton(m_tower, target1, m_claw, CubeShooter),
+      new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeHigh, m_claw, CubeShooter),
       //new ExtendMedium(m_telescope, rumController)
-      new TelescopeStringPot(target1, telescope)
+      new TelescopeStringPotAuton(Tower.TargetLevel.ConeHigh, telescope)
       ),
       new RunClawBackwards(m_claw, 500.0),
       new ParallelCommandGroup(
         //new Retract(m_telescope),
-        new TelescopeStringPot(Tower.TargetLevel.Retracted, telescope),
+        new TelescopeStringPotAuton(Tower.TargetLevel.Retracted, telescope),
         new PivotEncoderAuton(tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter)
       )
     );

@@ -230,7 +230,7 @@ public Command followTrajectoryCommand(PathPlannerTrajectory traj) {
                  this.m_kinematics, // SwerveDriveKinematics
                  new PIDController(1, 0, 0), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  new PIDController(3.5, 0, 0), // Y controller (usually the same values as X controller)
-                 new PIDController(1.5, 0, 0), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 new PIDController(1.7, 0, 0), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  (SwerveModuleState[] states) -> {
                         this.m_chassisSpeeds = this.m_kinematics.toChassisSpeeds(states);
                 }, // Module states consumer

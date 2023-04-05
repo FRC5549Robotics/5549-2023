@@ -44,11 +44,11 @@ public class DefaultClawCommand extends CommandBase {
 
     if(joy2.getRawButton(5))
     {
-        m_claw.setClawSpeed(0.6);
+        m_claw.setClawSpeed(0.7);
     }
     else if (joy2.getRawButton(6))
     {
-      m_claw.setClawSpeed(-0.6);
+      m_claw.setClawSpeed(-0.7);
     } else {
       m_claw.stopClaw();
     }

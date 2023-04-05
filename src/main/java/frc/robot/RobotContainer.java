@@ -21,6 +21,7 @@ import frc.robot.commands.DefaultTelescopeCommand;
 import frc.robot.commands.DefaultTowerCommand;
 import frc.robot.commands.PipelineAutoAlign;
 import frc.robot.commands.PivotEncoder;
+import frc.robot.commands.RunClaw;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.ChaseTag;
 import frc.robot.commands.DefaultClawCommand;
@@ -70,7 +71,7 @@ public class RobotContainer {
   //private final PoseEstimator m_PoseEstimator = new PoseEstimator(m_Limelight, m_drivetrainSubsystem);
   private AddressableLED led = new AddressableLED(0);
   private final Claw m_claw = new Claw(led);
-  private Limelight limelight = new Limelight();
+  //private Limelight limelight = new Limelight();
   
 
   //All the Paths
@@ -118,10 +119,11 @@ public class RobotContainer {
   JoystickButton towerConeHighPosition = new JoystickButton(m_controller2, 4);
   JoystickButton towerConeMidPosition = new JoystickButton(m_controller2, 2);
   JoystickButton stowedPosition = new JoystickButton(m_controller2, 1);
-  JoystickButton towerConeFrontPickUpPosition = new JoystickButton(m_controller2, 3);
+  JoystickButton towerConeChutePosition = new JoystickButton(m_controller2, 3);
+  JoystickButton towerSubstationPosition = new JoystickButton(m_controller2, 8);
+ 
 
   JoystickButton coneModeButton = new JoystickButton(m_controller2, 7);
-  JoystickButton cubeModeButton = new JoystickButton(m_controller2, 8);
 
   //AutoCommands
    Command m_ZeroConeAutoMiddle = new ZeroConeAuto(m_drivetrainSubsystem, MidBStraight);
@@ -203,6 +205,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    coneModeButton.onTrue(new InstantCommand(m_CubeShooter::toggleConeMode));
     // Back button zeros the gyroscope
     // No requirements because we don't need to interrupt anything
     resetNavXButton.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
@@ -214,8 +218,9 @@ public class RobotContainer {
     //chaseTag.whileTrue(new ChaseTag(m_drivetrainSubsystem, m_PoseEstimator));
     autoStableButton.whileTrue(new AutoStable(m_drivetrainSubsystem));
 
-    autoAlignButton.whileTrue(new PipelineAutoAlign(limelight, m_drivetrainSubsystem));
+    //autoAlignButton.whileTrue(new PipelineAutoAlign(limelight, m_drivetrainSubsystem));
 
+    //cube
     //Intake Command
 
     //Claw Command
@@ -224,18 +229,27 @@ public class RobotContainer {
     //Tower-Position Command
     towerConeMidPosition.whileTrue(
       new ParallelCommandGroup(
-      new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_claw, m_CubeShooter),
+      new PivotEncoder(m_tower, Tower.TargetLevel.ConeMid, m_CubeShooter),
       new TelescopeStringPot(Tower.TargetLevel.ConeMid, m_telescope)
       ));
     towerConeHighPosition.whileTrue(
       new ParallelCommandGroup(
-        new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_claw, m_CubeShooter),
+        new PivotEncoder(m_tower, Tower.TargetLevel.ConeHigh, m_CubeShooter),
         new TelescopeStringPot(Tower.TargetLevel.ConeHigh, m_telescope)
     ));
-    towerConeFrontPickUpPosition.whileTrue(new PivotEncoder(m_tower, Tower.TargetLevel.PickUpFront, m_claw, m_CubeShooter));
+    towerConeChutePosition.whileTrue(
+      new ParallelCommandGroup(
+        new PivotEncoder(m_tower, Tower.TargetLevel.Chute, m_CubeShooter),
+        new TelescopeStringPot(Tower.TargetLevel.Chute, m_telescope)
+    )); 
+    towerSubstationPosition.whileTrue(
+      new ParallelCommandGroup(
+        new PivotEncoder(m_tower, Tower.TargetLevel.Substation, m_CubeShooter),
+        new TelescopeStringPot(Tower.TargetLevel.Substation, m_telescope)
+    ));
     stowedPosition.whileTrue(
       new ParallelCommandGroup(
-        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_claw, m_CubeShooter),
+        new PivotEncoder(m_tower, Tower.TargetLevel.Retracted, m_CubeShooter),
         new TelescopeStringPot(Tower.TargetLevel.Retracted, m_telescope)
       ));
   }

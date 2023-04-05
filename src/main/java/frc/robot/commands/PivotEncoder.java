@@ -19,20 +19,19 @@ public class PivotEncoder extends CommandBase {
 
   Tower m_Tower;
   boolean finished;
-  PIDController controller = new PIDController(2.6, 0, 0);
+  PIDController controller = new PIDController(2.9, 0, 0.1);
+  PIDController controllerR = new PIDController(2.6, 0, 0);
   PIDController cubeController = new PIDController(0.01, 0, 0);
 
   double setpoint;
-  Claw m_claw;
   CubeShooter cubeShooter;
   double HingeEncoderValue;
-  public PivotEncoder(Tower Tower, Tower.TargetLevel State, Claw claw, CubeShooter cubeShooter) {
+  public PivotEncoder(Tower Tower, Tower.TargetLevel State, CubeShooter cubeShooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_Tower = Tower;
-    m_claw = claw;
     this.cubeShooter = cubeShooter;
-    addRequirements(Tower, claw, cubeShooter);
+    addRequirements(Tower, cubeShooter);
   }
 
   // Called when the command is initially scheduled.
@@ -43,14 +42,9 @@ public class PivotEncoder extends CommandBase {
     else if(state == Tower.TargetLevel.ConeMid)setpoint = Constants.PIVOT_CONE_MID_SETPOINT;
     else if(state == Tower.TargetLevel.CubeHigh)setpoint = Constants.PIVOT_CUBE_HIGH_SETPOINT;
     else if(state == Tower.TargetLevel.CubeMid)setpoint = Constants.PIVOT_CUBE_MID_SETPOINT;
-    else if(state == Tower.TargetLevel.PickUpFront)setpoint = Constants.CONE_PICKUP_FRONT;
+    else if(state == Tower.TargetLevel.Chute)setpoint = Constants.PIVOT_CONE_CHUTE_SETPOINT;
+    else if(state == Tower.TargetLevel.Substation)setpoint = Constants.PIVOT_CONE_SUBSTATION;
     else setpoint = Constants.PIVOT_RETRACTED_SETPOINT;
-
-    if (setpoint != Constants.PIVOT_RETRACTED_SETPOINT){
-      //m_claw.runSlow();
-    } else {
-      m_claw.setCubeMode();
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,7 +62,11 @@ public class PivotEncoder extends CommandBase {
     }
 
     if ( currentAngle - setpoint > 0.01 || currentAngle - setpoint < -0.01){
-    m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
+      if (setpoint == Constants.PIVOT_RETRACTED_SETPOINT){
+        m_Tower.runSpeed(controllerR.calculate(currentAngle, setpoint));
+      }else {
+        m_Tower.runSpeed(controller.calculate(currentAngle, setpoint));
+        }
   }
     else{
       finished = true;
@@ -80,7 +78,6 @@ public class PivotEncoder extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("finished");
     m_Tower.off();
-    m_claw.stopClaw();
     cubeShooter.HingeOff();
   }
 

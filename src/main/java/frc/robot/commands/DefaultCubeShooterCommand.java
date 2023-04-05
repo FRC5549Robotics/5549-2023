@@ -19,6 +19,7 @@ public class DefaultCubeShooterCommand extends CommandBase {
   double TowerEncoderValue;
   double HingeEncoderValue;
   PIDController controller = new PIDController(0.02, 0, 0);
+  PIDController controller2 = new PIDController(0.03, 0, 0);
 
   public DefaultCubeShooterCommand(CubeShooter cubeShooter, XboxController m_Controller, XboxController m_Controller2) {
     m_controller = m_Controller;
@@ -42,17 +43,18 @@ public class DefaultCubeShooterCommand extends CommandBase {
     //Intake the cube speed: -0.125
 
     //Outtake speed High
-    if(Constants.coneMode = true)
+    if(!Constants.coneMode)
     {
       work();
     }
     else
     {
-      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_HIGH_SETPOINT));
+      m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 0.0));
 
     }
      
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
@@ -126,9 +128,9 @@ public class DefaultCubeShooterCommand extends CommandBase {
     else {
       m_CubeShooter.setSpeed(0);
        if (TowerEncoderValue < -0.2){
-            m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, Constants.CUBE_HINGE_RETRACTED_SETPOINT));
+            m_CubeShooter.RunHinge(controller2.calculate(HingeEncoderValue, Constants.CUBE_HINGE_RETRACTED_SETPOINT));
            } else {
-            m_CubeShooter.RunHinge(controller.calculate(HingeEncoderValue, 29.5));
+            m_CubeShooter.RunHinge(controller2.calculate(HingeEncoderValue, 29.5));
           }
      // m_CubeShooter.HingeOff();
     }
