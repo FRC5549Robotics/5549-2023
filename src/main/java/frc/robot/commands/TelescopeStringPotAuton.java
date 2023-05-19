@@ -32,7 +32,7 @@ public class TelescopeStringPotAuton extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(state == Tower.TargetLevel.ConeHigh)setpoint = -0.058;
+    if(state == Tower.TargetLevel.ConeHigh)setpoint = -0.054;
     else if(state == Tower.TargetLevel.Intake)setpoint = Constants.EXTEND_INTAKE_SETPOINT;
     else if(state == Tower.TargetLevel.ConeMid)setpoint = Constants.EXTEND_CONE_MID_SETPOINT;
     else if(state == Tower.TargetLevel.CubeHigh)setpoint = Constants.EXTEND_CUBE_HIGH_SETPOINT;

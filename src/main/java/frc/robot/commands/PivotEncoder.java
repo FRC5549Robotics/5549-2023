@@ -20,7 +20,7 @@ public class PivotEncoder extends CommandBase {
   Tower m_Tower;
   boolean finished;
   PIDController controller = new PIDController(2.9, 0, 0.1);
-  PIDController controllerR = new PIDController(2.6, 0, 0);
+  PIDController controllerR = new PIDController(2.3, 0, 0);
   PIDController cubeController = new PIDController(0.01, 0, 0);
 
   double setpoint;

@@ -53,7 +53,7 @@ public class Claw extends SubsystemBase {
   }
 
   public void dropItem(){
-    ClawMotor.set(-0.3);
+    ClawMotor.set(-0.5);
   }
   public void setClawSpeed(Double speed)
   {
@@ -117,6 +117,13 @@ public class Claw extends SubsystemBase {
     LED.setData(ledBuffer);
   }
 
+  public void LEDYellow(){
+    for (int i = 0; i<ledBuffer.getLength(); i++){
+      ledBuffer.setLED(i, kYellow1);
+    }
+    LED.setData(ledBuffer);
+  }
+
 
   public boolean getPneumaticState(){
     if(m_clawDoubleSolenoid.get() == DoubleSolenoid.Value.kForward){
@@ -136,12 +143,12 @@ public class Claw extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if(ultra.getRangeInches() > 2)
+    if(Constants.coneMode == true)
     {
-      LEDPurple();
+      LEDYellow();
     }
     else{
-      LEDGreen();
+      LEDPurple();
     }
 
     //SmartDashboard.putNumber("Claw Motor Voltage", ClawMotor.getVoltageCompensationNominalVoltage());

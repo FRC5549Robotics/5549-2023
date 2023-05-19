@@ -71,14 +71,14 @@ public final class Constants {
     public static final int MOTOR_TOWER1 = 16;
     public static final int MOTOR_TOWER2 = 15;
     public static final double PIVOT_SPEED = 0.5;
-    public static final double PIVOT_CONE_HIGH_SETPOINT = -0.580;
-    public static final double PIVOT_CONE_MID_SETPOINT = -0.216;
+    public static final double PIVOT_CONE_HIGH_SETPOINT = -0.540;
+    public static final double PIVOT_CONE_MID_SETPOINT = -0.175;
     public static final double PIVOT_RETRACTED_SETPOINT = -0.02;
     public static final double PIVOT_INTAKE_SETPOINT = 0;
     public static final double PIVOT_CUBE_HIGH_SETPOINT = 0;
     public static final double PIVOT_CUBE_MID_SETPOINT = -0.171;
-    public static final double PIVOT_CONE_CHUTE_SETPOINT = -0.132;
-    public static final double PIVOT_CONE_SUBSTATION = -0.2375;
+    public static final double PIVOT_CONE_CHUTE_SETPOINT = -0.092;
+    public static final double PIVOT_CONE_SUBSTATION = -0.211;
 
     //Telescope
     public static final int MOTOR_TELESCOPE_1 = 14;
@@ -88,9 +88,9 @@ public final class Constants {
     public static final double EXTEND_CUBE_MID_SETPOINT = 4000;
     public static final double EXTEND_PICKUP_FRONT = 0;
     public static final double EXTEND_INTAKE_SETPOINT = 0;
-    public static final double EXTEND_RETRACTED = 0;
+    public static final double EXTEND_RETRACTED = -0.0025;
     public static final double EXTEND_CONE_CHUTE = -0.00212;
-    public static final double EXTEND_CONE_SUBSTATION = -0.0240
+    public static final double EXTEND_CONE_SUBSTATION = -0.026
     ;
 
     //Claw  

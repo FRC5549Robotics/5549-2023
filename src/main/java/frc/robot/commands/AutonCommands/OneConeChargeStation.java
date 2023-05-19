@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunClawBackwards;
 import frc.robot.commands.TelescopeStringPotAuton;
-import frc.robot.commands.WaitCommand;
 import frc.robot.commands.AutoStable;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
@@ -25,6 +24,7 @@ import frc.robot.subsystems.Telescope;
 import frc.robot.subsystems.Tower;
 import frc.robot.commands.PivotEncoder;
 import frc.robot.commands.PivotEncoderAuton;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AutoStable;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -59,17 +59,22 @@ public class OneConeChargeStation extends SequentialCommandGroup {
       new ParallelCommandGroup(
       new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeHigh, m_claw, CubeShooter),
       //new ExtendMedium(m_telescope, rumController)
+      new SequentialCommandGroup(
+        new WaitCommand(1),
       new TelescopeStringPotAuton(Tower.TargetLevel.ConeHigh, telescope)
+      )
       ),
-      new RunClawBackwards(m_claw, 500.0),
+      new RunClawBackwards(m_claw, 1000.0),
       new ParallelCommandGroup(
-        m_DrivetrainSubsystem.followTrajectoryCommand(path1)
+        m_DrivetrainSubsystem.followTrajectoryCommand(path1),
         //new Retract(m_telescope)
+        new WaitCommand(2).deadlineWith(
+        new TelescopeStringPotAuton(Tower.TargetLevel.Retracted, telescope)
+        )
       ),
       new ParallelCommandGroup(
         new AutoStable(m_DrivetrainSubsystem),
-        new PivotEncoderAuton(tower, Tower.TargetLevel.ConeMid, claw, CubeShooter),
-        new TelescopeStringPotAuton(Tower.TargetLevel.Retracted, telescope)
+        new PivotEncoderAuton(tower, Tower.TargetLevel.ConeMid, claw, CubeShooter)
       )
     );
   }

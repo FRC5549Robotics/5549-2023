@@ -63,9 +63,11 @@ public class TwoConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeHigh, m_claw, CubeShooter),
         //new ExtendMedium(m_telescope, RumController)
+        new SequentialCommandGroup(
+          new WaitCommand(1),
         new TelescopeStringPotAuton(Tower.TargetLevel.ConeHigh, telescope)
-      ),
-      new RunClawBackwards(m_claw, 500),
+      )),
+      new RunClawBackwards(m_claw, 1000.0),
       new WaitCommand(4).deadlineWith(
         new ParallelCommandGroup(
         new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeMid, m_claw, CubeShooter),
