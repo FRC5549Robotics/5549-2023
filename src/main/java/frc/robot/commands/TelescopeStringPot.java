@@ -25,7 +25,7 @@ public class TelescopeStringPot extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     state = State;
     m_telescope = telescope;
-    controller = new PIDController(20, 0, 0);
+    controller = new PIDController(25, 0, 0);
     addRequirements(m_telescope);
   }
 
