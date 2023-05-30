@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Retract;
 import frc.robot.commands.RunClawBackwards;
 import frc.robot.commands.TelescopeStringPotAuton;
-import frc.robot.commands.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ExtendMedium;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CubeShooter;
@@ -55,9 +55,12 @@ public class OneConeAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(
       new PivotEncoderAuton(m_tower, Tower.TargetLevel.ConeHigh, m_claw, CubeShooter),
       //new ExtendMedium(m_telescope, rumController)
+      new SequentialCommandGroup(
+        new WaitCommand(1),
       new TelescopeStringPotAuton(Tower.TargetLevel.ConeHigh, telescope)
+      )
       ),
-      new RunClawBackwards(m_claw, 500.0),
+      new RunClawBackwards(m_claw, 1000.0),
       new ParallelCommandGroup(
         m_DrivetrainSubsystem.followTrajectoryCommand(path1),
         new PivotEncoderAuton(m_tower, Tower.TargetLevel.Retracted, m_claw, CubeShooter),
